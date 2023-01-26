@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.List;
 
 @Data//Геттер сеттер tostring equals
@@ -24,7 +24,7 @@ public class Bucket {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    User user;
+    UserM user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "buckets_product",

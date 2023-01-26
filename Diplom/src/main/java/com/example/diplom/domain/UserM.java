@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Data//Геттер сеттер tostring equals
 @NoArgsConstructor
@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 @Builder
 @Entity
 @Table(name = "users")
-public class User {
+public class UserM {
     private static final String SEQ_NAME = "user_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
