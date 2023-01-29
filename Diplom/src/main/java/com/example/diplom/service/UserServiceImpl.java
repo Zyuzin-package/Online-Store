@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -42,6 +43,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<UserDTO> getAll() {
+        return userRepository.findAll().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO toDTO(UserM userM) {
+        return UserDTO.builder()
+                .username(userM.getName())
+                .email(userM.getEmail())
+                .build();
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserM user = userRepository.findFirstByName(username);
         if (user == null) {
@@ -55,4 +70,6 @@ public class UserServiceImpl implements UserService{
                 user.getName(),user.getPassword(),roles
         );
     }
+
+
 }

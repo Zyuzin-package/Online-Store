@@ -91,3 +91,4 @@ alter table if exists public.orders_details add constraint FKgvp1k7a3ubdboj3yhna
 alter table if exists public.products_categories add constraint FKqt6m2o5dly3luqcm00f5t4h2p foreign key (category_id) references public.categories;
 alter table if exists public.products_categories add constraint FKtj1vdea8qwerbjqie4xldl1el foreign key (product_id) references public.products;
 alter table if exists public.users add constraint FK8l2qc4c6gihjdyoch727guci foreign key (bucket_id) references public.buckets;
+
