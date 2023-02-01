@@ -54,7 +54,9 @@ public class UserController {
             throw new RuntimeException("You are not authorize");
         }
         UserM user = userService.findByName(principal.getName());
-
+        System.out.println("GET return find: "+user
+            + "Principal: " + principal
+        );
         UserDTO dto = UserDTO.builder()
                 .username(user.getName())
                 .email(user.getEmail())
@@ -65,8 +67,14 @@ public class UserController {
 
     @PostMapping("/profile")
     public String updateProfileUser(UserDTO dto, Model model, Principal principal) {
-        if (principal == null|| !Objects.equals(principal.getName(),dto.getUsername())) {
+        if (principal == null) {
             throw new RuntimeException("You are not authorize");
+        }
+        if(!Objects.equals(principal.getName(),dto.getUsername())){
+            System.out.println("DTO name: "+ dto.getUsername() +
+                    "\nPricipal name: "+ principal.getName());
+            userService.updateProfileName(dto, principal.getName());
+            System.out.println("DTO: "+ dto);
         }
         if (dto.getPassword() == null
                 && !dto.getPassword().isEmpty()

@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean save(UserDTO userDTO) {
-        if(!Objects.equals(userDTO.getPassword(),userDTO.getMatchPassword())){
-        throw new RuntimeException("Password is no equals");
+        if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchPassword())) {
+            throw new RuntimeException("Password is no equals");
         }
         UserM user = UserM.builder()
                 .name(userDTO.getUsername())
@@ -58,23 +58,30 @@ public class UserServiceImpl implements UserService{
     public void updateProfile(UserDTO dto) {
         UserM savedUser = userRepository.findFirstByName(dto.getUsername());
 
-        if(savedUser == null){
+        if (savedUser == null) {
             throw new RuntimeException("User with name " + dto.getUsername() + " not found");
         }
         boolean isChanged = false;
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()){;
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
-            isChanged= true;
+            isChanged = true;
         }
-        if(!Objects.equals(dto.getEmail(), savedUser.getEmail())){
+        if (!Objects.equals(dto.getEmail(), savedUser.getEmail())) {
             savedUser.setEmail(dto.getEmail());
-            isChanged= true;
+            isChanged = true;
         }
-        if(isChanged){
+        if (isChanged) {
             userRepository.save(savedUser);
         }
     }
 
+    public void updateProfileName(UserDTO userDTO, String name) {
+        UserM savedUser = userRepository.findFirstByName(name);
+        Long temp = savedUser.getId();
+        String dtoName = userDTO.getUsername();
+        System.out.println("savedUser id: "+ savedUser.getId()+"|" + temp+"DTO name: " + userDTO.getUsername());
+        userRepository.updateUserByName(dtoName,temp);
+    }
 
     private UserDTO toDTO(UserM userM) {
         return UserDTO.builder()
@@ -94,7 +101,7 @@ public class UserServiceImpl implements UserService{
         roles.add(new SimpleGrantedAuthority(user.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(),user.getPassword(),roles
+                user.getName(), user.getPassword(), roles
         );
     }
 
