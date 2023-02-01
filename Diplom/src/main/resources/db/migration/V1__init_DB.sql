@@ -77,7 +77,6 @@ create table public.users
     name      varchar(255),
     password  varchar(255),
     role      varchar(255),
-    bucket_id bigint,
     primary key (id)
 );
 alter table if exists public.orders_details add constraint UK_kk6y3pyhjt6kajomtjbhsoajo unique (details_id);
@@ -90,5 +89,3 @@ alter table if exists public.orders_details add constraint FKs0r9x49croribb4j6ta
 alter table if exists public.orders_details add constraint FKgvp1k7a3ubdboj3yhnawd5m1p foreign key (details_id) references public.orders_details;
 alter table if exists public.products_categories add constraint FKqt6m2o5dly3luqcm00f5t4h2p foreign key (category_id) references public.categories;
 alter table if exists public.products_categories add constraint FKtj1vdea8qwerbjqie4xldl1el foreign key (product_id) references public.products;
-alter table if exists public.users add constraint FK8l2qc4c6gihjdyoch727guci foreign key (bucket_id) references public.buckets;
-

@@ -3,6 +3,7 @@ package com.example.diplom.controllers;
 
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.ProductService;
+import com.example.diplom.service.SessionObjectHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +19,17 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final SessionObjectHolder sessionObjectHolder;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder) {
         this.productService = productService;
+        this.sessionObjectHolder = sessionObjectHolder;
     }
 
     @GetMapping
     public String list(Model model){
+        sessionObjectHolder.addClick();
         List<ProductDTO> list = productService.getAll();
         model.addAttribute("products",list);
         return "products";
@@ -33,6 +37,7 @@ public class ProductController {
 
     @GetMapping("/{id}/bucket")
     public String addBucket(@PathVariable Long id, Principal principal){
+        sessionObjectHolder.addClick();
         if(principal == null){
             return "redirect:/products";
         }
