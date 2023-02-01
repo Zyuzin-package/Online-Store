@@ -15,10 +15,12 @@
         <td>
             Price
         </td>
+        <td></td>
     </tr>
     <tr th:each="product : ${products}">
         <td th:text="${product.title}">Test</td>
         <td th:text="${product.price}">9999999</td>
+        <td><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
     </tr>
 </table>
 </body>

@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void save(UserM userM) {
+        userRepository.save(userM);
+    }
+
+    @Override
     public List<UserDTO> getAll() {
         return userRepository.findAll().stream()
                 .map(this::toDTO)
@@ -73,14 +78,6 @@ public class UserServiceImpl implements UserService {
         if (isChanged) {
             userRepository.save(savedUser);
         }
-    }
-
-    public void updateProfileName(UserDTO userDTO, String name) {
-        UserM savedUser = userRepository.findFirstByName(name);
-        Long temp = savedUser.getId();
-        String dtoName = userDTO.getUsername();
-        System.out.println("savedUser id: "+ savedUser.getId()+"|" + temp+"DTO name: " + userDTO.getUsername());
-        userRepository.updateUserByName(dtoName,temp);
     }
 
     private UserDTO toDTO(UserM userM) {

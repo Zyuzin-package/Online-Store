@@ -17,8 +17,4 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<UserM,Long> {
     @Transactional
     UserM findFirstByName(String name);
-    @Transactional
-    @Modifying
-    @Query(value ="UPDATE public.users SET name = :name WHERE id = :id", nativeQuery = true)
-    void updateUserByName(@Param("name")String name, @Param("id")long id);
 }

@@ -53,13 +53,11 @@ public class UserController {
         if (principal == null) {
             throw new RuntimeException("You are not authorize");
         }
-        UserM user = userService.findByName(principal.getName());
-        System.out.println("GET return find: "+user
-            + "Principal: " + principal
-        );
+        UserM userM = userService.findByName(principal.getName());
+
         UserDTO dto = UserDTO.builder()
-                .username(user.getName())
-                .email(user.getEmail())
+                .username(userM.getName())
+                .email(userM.getEmail())
                 .build();
         model.addAttribute("user", dto);
         return "profile";
@@ -67,17 +65,12 @@ public class UserController {
 
     @PostMapping("/profile")
     public String updateProfileUser(UserDTO dto, Model model, Principal principal) {
-        if (principal == null) {
-            throw new RuntimeException("You are not authorize");
+        if (principal == null || !Objects.equals(principal.getName(), dto.getUsername())) {
+            throw new RuntimeException("You can't change name");
         }
-        if(!Objects.equals(principal.getName(),dto.getUsername())){
-            System.out.println("DTO name: "+ dto.getUsername() +
-                    "\nPricipal name: "+ principal.getName());
-            userService.updateProfileName(dto, principal.getName());
-            System.out.println("DTO: "+ dto);
-        }
-        if (dto.getPassword() == null
+        if (dto.getPassword() != null
                 && !dto.getPassword().isEmpty()
+                && !Objects.equals(dto.getPassword(), dto.getMatchPassword())
         ) {
             model.addAttribute("user", dto);
             return "profile";
