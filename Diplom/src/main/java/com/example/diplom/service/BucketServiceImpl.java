@@ -56,6 +56,34 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    public void removeProduct(Bucket bucket, Long productId) {
+        if (bucket == null) {
+            throw new RuntimeException("You bucket is empty");
+        }
+
+        List<Product> products = bucket.getProducts();
+        for (Product p : products) {
+            if (p.getId().equals(productId)) {
+                products.remove(p);
+                break;
+            }
+        }
+        bucket.setProducts(products);
+        bucketRepository.save(bucket);
+    }
+
+    @Override
+    public void clearBucket(Bucket bucket, String name) {
+        if (bucket == null) {
+            throw new RuntimeException("You bucket is empty");
+        }
+        List<Product> products = bucket.getProducts();
+        products.clear();
+        bucket.setProducts(products);
+        bucketRepository.save(bucket);
+    }
+
+    @Override
     public void save(Bucket bucket) {
         bucketRepository.save(bucket);
     }
@@ -63,7 +91,7 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public BucketDTO getBucketByUser(String name) {
         UserM user = userService.findByName(name);
-        if(user == null || user.getBucket()==null){
+        if (user == null || user.getBucket() == null) {
             return new BucketDTO();
         }
 
@@ -71,19 +99,19 @@ public class BucketServiceImpl implements BucketService {
         Map<Long, BucketDetailDTO> mapByProductId = new HashMap<>();
 
         List<Product> products = user.getBucket().getProducts();
-        for (Product p : products){
+        for (Product p : products) {
             BucketDetailDTO detail = mapByProductId.get(p.getId());
-            if (detail == null){
+            if (detail == null) {
                 mapByProductId.put(p.getId(), new BucketDetailDTO(p));
             } else {
                 detail.setAmount(detail.getAmount().add(new BigDecimal(1.0)));
                 detail.setSum(detail.getSum() + Double.valueOf(p.getPrice().toString()));
             }
         }
-
         bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
         bucketDTO.aggregate();
 
         return bucketDTO;
     }
+
 }

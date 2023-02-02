@@ -47,4 +47,6 @@ public class ProductServiceImpl  implements ProductService{
             bucketService.addProduct(bucket , Collections.singletonList(productId));
         }
     }
+
+
 }

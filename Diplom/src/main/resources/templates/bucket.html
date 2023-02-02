@@ -22,7 +22,12 @@
         <td th:text="${detail.amount}"> </td>
         <td th:text="${detail.price}"> </td>
         <td th:text="${detail.sum}"> </td>
-        <td><a href="#">Remove</a> </td>
+        <td><a th:href="@{/bucket/{id}/remove(id=${detail.productId})}">Remove</a> </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            <a th:href="@{/bucket/clear}">Clear bucket</a>
+        </td>
     </tr>
 </table>
 </body>

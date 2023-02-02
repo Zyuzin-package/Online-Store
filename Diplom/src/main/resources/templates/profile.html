@@ -13,7 +13,8 @@
     <table border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" th:field="*{username}"></td>
+            <!--<input type="text" th:field="*{username}"> -->
+            <td th:text="*{username}"></td>
         </tr>
         <tr>
             <td>Email</td>
