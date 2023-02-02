@@ -18,11 +18,19 @@
         <td></td>
     </tr>
     <tr th:each="detail : ${bucket.bucketDetails}">
-        <td th:text="${detail.title}"> </td>
-        <td th:text="${detail.amount}"> </td>
-        <td th:text="${detail.price}"> </td>
-        <td th:text="${detail.sum}"> </td>
-        <td><a th:href="@{/bucket/{id}/remove(id=${detail.productId})}">Remove</a> </td>
+        <td th:text="${detail.title}"></td>
+        <td>
+            <table>
+                <tr>
+                    <td><a th:href="@{/bucket/{id}/increase(id=${detail.productId})}">+</a></td>
+                    <td><b th:text="${detail.amount}"></b></td>
+                    <td><a th:href="@{/bucket/{id}/decrease(id=${detail.productId})}">-</a></td>
+                </tr>
+            </table>
+        </td>
+        <td th:text="${detail.price}"></td>
+        <td th:text="${detail.sum}"></td>
+        <td><a th:href="@{/bucket/{id}/remove(id=${detail.productId})}">Remove</a></td>
     </tr>
     <tr>
         <td colspan="5">

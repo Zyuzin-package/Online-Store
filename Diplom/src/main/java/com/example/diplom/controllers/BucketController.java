@@ -40,8 +40,7 @@ public class BucketController {
         if (userM == null) {
             throw new RuntimeException("User - " + principal.getName() + " not found");
         }
-        bucketService.removeProduct(userM.getBucket(),id);
-        BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
+        BucketDTO bucketDTO = bucketService.removeProduct(userM.getBucket(),id,principal.getName());
         model.addAttribute("bucket", bucketDTO);
 
         return "redirect:/bucket";
@@ -55,6 +54,22 @@ public class BucketController {
         }
         bucketService.clearBucket(userM.getBucket(),principal.getName());
 
+        BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
+        model.addAttribute("bucket", bucketDTO);
+        return "redirect:/bucket";
+    }
+
+    @GetMapping("/bucket/{id}/increase")
+    public String increase(Model model, Principal principal, @PathVariable Long id){
+
+        bucketService.amountIncrease(userService.findByName(principal.getName()).getBucket(),id);
+        BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
+        model.addAttribute("bucket", bucketDTO);
+        return "redirect:/bucket";
+    }
+    @GetMapping("/bucket/{id}/decrease")
+    public String decrease(Model model, Principal principal, @PathVariable Long id){
+        bucketService.amountDecrease(userService.findByName(principal.getName()).getBucket(),id);
         BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
         model.addAttribute("bucket", bucketDTO);
         return "redirect:/bucket";

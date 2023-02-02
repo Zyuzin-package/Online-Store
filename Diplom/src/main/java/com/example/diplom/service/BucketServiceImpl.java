@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,20 +53,31 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public void removeProduct(Bucket bucket, Long productId) {
-        if (bucket == null) {
-            throw new RuntimeException("You bucket is empty");
+    public BucketDTO removeProduct(Bucket bucket, Long productId, String name) {
+        BucketDTO bucketDTO = getBucketByUser(name);
+
+        List<BucketDetailDTO> bucketDetails = bucketDTO.getBucketDetails();
+        for (BucketDetailDTO b : bucketDetails) {
+            if (Objects.equals(b.getProductId(), productId)) {
+                bucketDetails.remove(b);
+                break;
+            }
         }
+        bucketDTO.setBucketDetails(bucketDetails);
+        bucketDTO.aggregate();
+
 
         List<Product> products = bucket.getProducts();
         for (Product p : products) {
-            if (p.getId().equals(productId)) {
-                products.remove(p);
+            if (Objects.equals(p.getId(), productId)) {
+                String productName = p.getTitle();
+                products.removeIf(p2 -> p2.getTitle().equals(productName));
                 break;
             }
         }
         bucket.setProducts(products);
-        bucketRepository.save(bucket);
+        save(bucket);
+        return bucketDTO;
     }
 
     @Override
@@ -82,6 +90,30 @@ public class BucketServiceImpl implements BucketService {
         bucket.setProducts(products);
         bucketRepository.save(bucket);
     }
+
+    @Override
+    public void amountIncrease(Bucket bucket, Long productId) {
+        addProduct(bucket, List.of(productId));
+    }
+
+    @Override
+    public void amountDecrease(Bucket bucket, Long productId) {
+        if (bucket == null) {
+            throw new RuntimeException("You bucket is empty");
+        }
+
+        List<Product> products = bucket.getProducts();
+        for (Product p : products) {
+            if (p.getId().equals(productId)) {
+                products.remove(p);
+                break;
+            }
+        }
+
+        bucket.setProducts(products);
+        bucketRepository.save(bucket);
+    }
+
 
     @Override
     public void save(Bucket bucket) {
