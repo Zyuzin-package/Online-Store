@@ -65,9 +65,6 @@ public class UserController {
 
     @PostMapping("/profile")
     public String updateProfileUser(UserDTO dto, Model model, Principal principal) {
-        if (principal == null || !Objects.equals(principal.getName(), dto.getUsername())) {
-            throw new RuntimeException("You can't change name");
-        }
         if (dto.getPassword() != null
                 && !dto.getPassword().isEmpty()
                 && !Objects.equals(dto.getPassword(), dto.getMatchPassword())
@@ -75,6 +72,7 @@ public class UserController {
             model.addAttribute("user", dto);
             return "profile";
         }
+        dto.setUsername(principal.getName());
         userService.updateProfile(dto);
         return "redirect:/users/profile";
     }
