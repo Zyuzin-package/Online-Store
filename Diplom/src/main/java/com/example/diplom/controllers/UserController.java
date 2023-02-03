@@ -4,9 +4,7 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
 import com.example.diplom.service.UserService;
 
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

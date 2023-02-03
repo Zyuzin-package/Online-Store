@@ -1,6 +1,7 @@
 package com.example.diplom.controllers;
 
 
+import com.example.diplom.domain.Product;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.SessionObjectHolder;
@@ -29,21 +30,41 @@ public class ProductController {
     }
 
     @GetMapping
-    public String list(Model model){
+    public String list(Model model) {
         sessionObjectHolder.addClick();
         List<ProductDTO> list = productService.getAll();
-        model.addAttribute("products",list);
+        model.addAttribute("products", list);
         return "products";
     }
 
     @GetMapping("/{id}/bucket")
-    public String addBucket(@PathVariable Long id, Principal principal){
+    public String addBucket(@PathVariable Long id, Principal principal) {
         sessionObjectHolder.addClick();
-        if(principal == null){
+        if (principal == null) {
             return "redirect:/products";
         }
         productService.addToUserBucket(id, principal.getName());
         return "redirect:/products";
     }
 
+    @GetMapping("/new")
+    public String newProduct(Model model) {
+        model.addAttribute("product", new ProductDTO());
+        return "productCreate";
+    }
+
+    @PostMapping("/new")
+    public String createNewProduct(Model model, ProductDTO productDTO) {
+        if (productService.save(productDTO)) {
+            return "redirect:/products";
+        } else {
+            model.addAttribute("product", productDTO);
+            return "productCreate";
+        }
+    }
+    @GetMapping("/{id}/remove")
+    public String removeProduct(@PathVariable Long id){
+
+        return "redirect:/products";
+    }
 }
