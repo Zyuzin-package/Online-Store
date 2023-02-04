@@ -114,7 +114,6 @@ public class BucketServiceImpl implements BucketService {
         bucketRepository.save(bucket);
     }
 
-
     @Override
     public void save(Bucket bucket) {
         bucketRepository.save(bucket);

@@ -64,7 +64,7 @@ public class ProductController {
     }
     @GetMapping("/{id}/remove")
     public String removeProduct(@PathVariable Long id){
-
+        productService.remove(id);
         return "redirect:/products";
     }
 }

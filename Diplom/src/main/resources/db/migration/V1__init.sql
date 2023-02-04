@@ -71,21 +71,22 @@ create table public.products_categories
 DROP TABLE IF EXISTS public.users CASCADE;
 create table public.users
 (
-    id        bigint  not null,
-    archive   boolean not null,
-    email     varchar(255),
-    name      varchar(255),
-    password  varchar(255),
-    role      varchar(255),
+    id       bigint  not null,
+    archive  boolean not null,
+    email    varchar(255),
+    name     varchar(255),
+    password varchar(255),
+    role     varchar(255),
     primary key (id)
 );
-alter table if exists public.orders_details add constraint UK_kk6y3pyhjt6kajomtjbhsoajo unique (details_id);
-alter table if exists public.buckets add constraint FKnl0ltaj67xhydcrfbq8401nvj foreign key (user_id) references public.users;
-alter table if exists public.buckets_product add constraint FKic6ur6tnwvwrxpomniehbv383 foreign key (product_id) references public.products;
-alter table if exists public.buckets_product add constraint FKje1rq0ugm3ggvsstdi47ep6we foreign key (bucket_id) references public.buckets;
-alter table if exists public.orders add constraint FK32ql8ubntj5uh44ph9659tiih foreign key (user_id) references public.users;
-alter table if exists public.orders_details add constraint FK5o977kj2vptwo70fu7w7so9fe foreign key (order_id) references public.orders;
-alter table if exists public.orders_details add constraint FKs0r9x49croribb4j6tah648gt foreign key (product_id) references public.products;
-alter table if exists public.orders_details add constraint FKgvp1k7a3ubdboj3yhnawd5m1p foreign key (details_id) references public.orders_details;
-alter table if exists public.products_categories add constraint FKqt6m2o5dly3luqcm00f5t4h2p foreign key (category_id) references public.categories;
-alter table if exists public.products_categories add constraint FKtj1vdea8qwerbjqie4xldl1el foreign key (product_id) references public.products;
+
+alter table if exists public.orders_details add constraint order_details unique (details_id);
+alter table if exists public.buckets add constraint bucket_to_user foreign key (user_id) references public.users;
+alter table if exists public.buckets_product add constraint bucket_product_to_product foreign key (product_id) references public.products;
+alter table if exists public.buckets_product add constraint bucket_to_product foreign key (bucket_id) references public.buckets;
+alter table if exists public.orders add constraint order_to_user foreign key (user_id) references public.users;
+alter table if exists public.orders_details add constraint order_details_to_order foreign key (order_id) references public.orders;
+alter table if exists public.orders_details add constraint order_details_to_product foreign key (product_id) references public.products;
+alter table if exists public.orders_details add constraint order_details_id_to_details_id foreign key (details_id) references public.orders_details;
+alter table if exists public.products_categories add constraint categories_to_categories_id foreign key (category_id) references public.categories;
+alter table if exists public.products_categories add constraint categories_to_product_id foreign key (product_id) references public.products;

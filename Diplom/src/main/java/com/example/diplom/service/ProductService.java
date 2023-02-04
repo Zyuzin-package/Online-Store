@@ -1,5 +1,6 @@
 package com.example.diplom.service;
 
+import com.example.diplom.domain.Product;
 import com.example.diplom.dto.ProductDTO;
 
 import java.util.List;
@@ -10,4 +11,6 @@ public interface ProductService {
 
     boolean save(ProductDTO productDTO);
     void remove(Long productId);
+
+    Product findProductById(Long productId);
 }

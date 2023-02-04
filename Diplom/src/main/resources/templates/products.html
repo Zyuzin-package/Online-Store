@@ -16,17 +16,20 @@
             Price
         </td>
         <td></td>
-        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-            <a th:href="@{/products/{id}/remove}">Remove</a>
-        </td>
+        <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
     </tr>
     <tr th:each="product : ${products}">
         <td th:text="${product.title}">Test</td>
         <td th:text="${product.price}">9999999</td>
-        <td colspan="4"><a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
+        <td colspan="4">
+            <a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
+        </td>
+        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+            <a th:href="@{/products/{id}/remove(id=${product.id})}">Remove</a>
+        </td>
     </tr>
     <tr sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-        <td colspan="4">
+        <td colspan="5">
             <a th:href="@{/products/new}">Add new product</a>
         </td>
     </tr>
