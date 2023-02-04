@@ -2,8 +2,10 @@ package com.example.diplom.service;
 
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
+import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
+import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,13 @@ public class ProductServiceImpl implements ProductService {
     private final UserService userService;
     private final BucketService bucketService;
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -75,6 +79,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findProductById(Long productId) {
         return productRepository.findFirstById(productId);
+    }
+
+    @Override
+    public List<ProductDTO> getProductsByCategory(String category) {
+        CategoryDTO categoryByName = categoryService.getCategoryByName(category);
+        return mapper.fromProductList(categoryByName.getProducts());
     }
 
 

@@ -13,4 +13,6 @@ public interface ProductService {
     void remove(Long productId);
 
     Product findProductById(Long productId);
+
+    List<ProductDTO> getProductsByCategory(String category);
 }

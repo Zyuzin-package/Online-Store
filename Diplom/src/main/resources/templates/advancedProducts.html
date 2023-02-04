@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Product list</title>
+    <title>Advanced product list</title>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/categories :: #category-menu}"></div>
 
-<table border="1" align="center">
+<table border="1" align="center" >
     <tr>
         <td>
             Title
@@ -34,14 +35,7 @@
             <a th:href="@{/products/new}">Add new product</a>
         </td>
     </tr>
-<!--    <tr sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">-->
-<!--        <td>-->
-<!--            <select th:field="*{category}">-->
-<!--                <option th:value="${category.title}" th:text="${category.title}">-->
-<!--                </option>-->
-<!--            </select>-->
-<!--        </td>-->
-<!--    </tr>-->
 </table>
+
 </body>
 </html>

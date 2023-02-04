@@ -24,7 +24,6 @@ public class DiplomApplication {
         // Start the migration
         flyway.migrate();
 
-
         PasswordEncoder encoder = context.getBean(PasswordEncoder.class);
         System.out.println(encoder.encode("pass"));
     }
