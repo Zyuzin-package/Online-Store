@@ -8,9 +8,9 @@ VALUES (1, 450.0, 'Meat1'),
        (6, 58.0, 'Spice2');
 
 INSERT INTO categories (id, title)
-VALUES (1, 'Meat'),
-       (2, 'Cheese'),
-       (3, 'Spice');
+VALUES (1, 'meat'),
+       (2, 'cheese'),
+       (3, 'spice');
 -- INSERT INTO  products (id, price, title)
 -- VALUES (1,450.0,'Cheese'),
 --        (2, 45.0,'Beer'),

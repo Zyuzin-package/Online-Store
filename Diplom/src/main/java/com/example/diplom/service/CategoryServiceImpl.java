@@ -27,10 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByName(String title) {
-
-        Category category = categoryRepository.findFirstByTitle(title);
-        CategoryDTO categoryDTO = mapper.fromCategory(category);
-        return categoryDTO;
+        Category category = categoryRepository.findByTitle(title);
+        return mapper.fromCategory(category);
     }
 
 

@@ -30,7 +30,7 @@ public class AdvancedProductController {
     public String categoriesList(Model model) {
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
         model.addAttribute("categories", categoryDTOS);
-        return "redirect:/advanced/products/cheese";
+        return "advancedProducts";
     }
 
     @GetMapping("/{categories}")

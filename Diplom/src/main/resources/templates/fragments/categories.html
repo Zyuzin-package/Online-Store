@@ -8,8 +8,8 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
 <table id="category-menu" border="1" align="center">
-  <tr th:each="category : ${categories}">
-    <td>
+  <tr>
+    <td th:each="category : ${categories}">
       <a th:href="@{/advanced/products/{category}(category=${category.title})}">
         <b th:text="${category.title}"></b>
       </a>
