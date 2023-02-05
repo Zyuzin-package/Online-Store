@@ -1,5 +1,6 @@
 package com.example.diplom.controllers;
 
+import com.example.diplom.domain.Category;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.CategoryService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 public class AdvancedProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
+
+    private String categoryName;
 
     @Autowired
     public AdvancedProductController(ProductService productService, CategoryService categoryService) {
@@ -37,8 +41,35 @@ public class AdvancedProductController {
     public String outProductsByCategory(@PathVariable String categories, Model model) {
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
         List<ProductDTO> productDTOList = productService.getProductsByCategory(categories);
+        categoryName = categories;
         model.addAttribute("categories", categoryDTOS);
         model.addAttribute("products", productDTOList);
         return "advancedProducts";
+    }
+
+    @PostMapping("/new")
+    public String createNewProduct(Model model, ProductDTO productDTO) {
+        if (productService.save(productDTO)) {
+            return "redirect:/advanced/products";
+        } else {
+            model.addAttribute("product", productDTO);
+            return "productCreate";
+        }
+    }
+
+    @GetMapping("/{id}/remove")
+    public String removeProduct(@PathVariable Long id) {
+        try {
+            productService.remove(id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException e){
+
+        }
+        return "redirect:/advanced/products/"+categoryName;
+    }
+
+    @GetMapping("/new")
+    public String newProduct(Model model) {
+        model.addAttribute("product", new ProductDTO());
+        return "productCreate";
     }
 }

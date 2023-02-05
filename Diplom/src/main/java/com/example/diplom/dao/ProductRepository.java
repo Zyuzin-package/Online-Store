@@ -1,5 +1,6 @@
 package com.example.diplom.dao;
 
+import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Transactional
     List<Product> findProductIdByCategoriesId(Long categories_id);
+
+    @Transactional
+    void deleteProductIdById(Long productId);
+
+
 }

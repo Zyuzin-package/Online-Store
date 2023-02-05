@@ -31,5 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
         return mapper.fromCategory(category);
     }
 
+    @Override
+    public void removeFromProductsCategories(Long productId) {
+//        categoryRepository.deleteProductIdById(productId);
+    }
 
 }
