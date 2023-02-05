@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>Add product</title>
+    <meta charset="UTF-8">
+    <title>Add product</title>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<form th:action="@{/products/new}" th:object ="${product}" method="post">
-  <table border ='1'>
-    <tr>
-      <td>Name</td>
-      <td>
-        <input type="text"  th:field="*{title}">
-      </td>
-    </tr>
-    <tr>
-      <td>Price</td>
-      <td>
-        <input type="text" th:field="*{price}">
-      </td>
-    </tr>
-
-  </table>
-  <button type="submit">Create</button>
+<form th:action="@{/advanced/products/new}" th:object="${product}" method="post">
+    <table border='1'>
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" th:field="*{title}">
+            </td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>
+                <input type="text" th:field="*{price}">
+            </td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>
+                <select th:name="categories" id="categories" name="categories">
+                    <option th:each="category : ${categories}"
+                            th:text="${category.title}"
+                            th:value="${category.title}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Create</button>
 </form>
 </body>
 </html>

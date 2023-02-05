@@ -19,5 +19,5 @@ public interface ProductService {
 
     List<ProductDTO> getProductsByCategory(String category);
 
-
+    void addCategoryToProduct(String categoryName, Long productId);
 }

@@ -8,9 +8,16 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.mapper.ProductMapper;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +29,13 @@ public class ProductServiceImpl implements ProductService {
     private final BucketService bucketService;
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+
+//    private  SessionFactory sessionFactory;
+
+//    @Autowired
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
 
     public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService) {
         this.userService = userService;
@@ -91,6 +105,16 @@ public class ProductServiceImpl implements ProductService {
         CategoryDTO categoryByName = categoryService.getCategoryByName(category);
         List<Product> products = productRepository.findProductIdByCategoriesId(categoryByName.getId());
         return mapper.fromProductList(products);
+    }
+
+    @Override
+    public void addCategoryToProduct(String categoryName, Long productId) {
+//        CategoryDTO category = categoryService.getCategoryByName(categoryName);
+//        Session session = sessionFactory.openSession();
+//        session.createSQLQuery("INSERT INTO products_categories (product_id, category_id) values (:productId,:categoryId)")
+//                .setParameter("productId",productId)
+//                .setParameter("categoryId",category.getId());
+//        session.close();
     }
 
 

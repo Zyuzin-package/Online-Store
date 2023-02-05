@@ -4,6 +4,8 @@ import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -8,10 +8,7 @@ import com.example.diplom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,8 +45,11 @@ public class AdvancedProductController {
     }
 
     @PostMapping("/new")
-    public String createNewProduct(Model model, ProductDTO productDTO) {
+    public String createNewProduct(Model model, ProductDTO productDTO,
+                                   @RequestParam(name = "categories") String category) {
+
         if (productService.save(productDTO)) {
+            productService.addCategoryToProduct(category, productDTO.getId());
             return "redirect:/advanced/products";
         } else {
             model.addAttribute("product", productDTO);
@@ -61,15 +61,16 @@ public class AdvancedProductController {
     public String removeProduct(@PathVariable Long id) {
         try {
             productService.remove(id);
-        } catch (org.springframework.dao.EmptyResultDataAccessException e){
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
 
         }
-        return "redirect:/advanced/products/"+categoryName;
+        return "redirect:/advanced/products/" + categoryName;
     }
 
     @GetMapping("/new")
     public String newProduct(Model model) {
         model.addAttribute("product", new ProductDTO());
+        model.addAttribute("categories", categoryService.getAll());
         return "productCreate";
     }
 }
