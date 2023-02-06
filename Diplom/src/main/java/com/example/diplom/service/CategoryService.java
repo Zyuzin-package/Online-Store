@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface CategoryService {
     List<CategoryDTO> getAll();
-    void removeFromProductsCategories(Long productId);
     CategoryDTO getCategoryByName(String title);
 
 }

@@ -15,5 +15,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Transactional
     Category findByTitle(String title);
 
-//    void insertIntoProductsCategories(Long productId, Long categoryId);
 }

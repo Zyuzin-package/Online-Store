@@ -1,4 +1,4 @@
-package com.example.diplom.service;
+package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
@@ -8,6 +8,10 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.mapper.ProductMapper;
+import com.example.diplom.service.BucketService;
+import com.example.diplom.service.CategoryService;
+import com.example.diplom.service.ProductService;
+import com.example.diplom.service.UserService;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
