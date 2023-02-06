@@ -1,4 +1,4 @@
-package com.example.diplom.service;
+package com.example.diplom.serviceImp;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;

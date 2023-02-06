@@ -1,10 +1,9 @@
 package com.example.diplom.controllers;
 
 
-import com.example.diplom.domain.Product;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.ProductService;
-import com.example.diplom.service.SessionObjectHolder;
+import com.example.diplom.serviceImp.SessionObjectHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

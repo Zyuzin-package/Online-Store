@@ -1,9 +1,10 @@
-package com.example.diplom.service;
+package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.UserRepository;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
+import com.example.diplom.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

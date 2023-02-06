@@ -1,10 +1,11 @@
-package com.example.diplom.service;
+package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.CategoryRepository;
 import com.example.diplom.domain.Category;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.mapper.CategoryMapper;
 import com.example.diplom.mapper.ProductMapper;
+import com.example.diplom.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,5 @@ public class CategoryServiceImpl implements CategoryService {
         return mapper.fromCategory(category);
     }
 
-    @Override
-    public void removeFromProductsCategories(Long productId) {
-//        categoryRepository.deleteProductIdById(productId);
-    }
 
 }

@@ -1,7 +1,7 @@
 package com.example.diplom.controllers;
 
 
-import com.example.diplom.service.SessionObjectHolder;
+import com.example.diplom.serviceImp.SessionObjectHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
