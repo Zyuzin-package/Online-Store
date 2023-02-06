@@ -49,12 +49,19 @@ public class AdvancedProductController {
                                    @RequestParam(name = "categories") String category) {
 
         if (productService.save(productDTO)) {
-            productService.addCategoryToProduct(category, productDTO.getId());
+            productService.addCategoryToProduct(category, productDTO);
             return "redirect:/advanced/products";
         } else {
             model.addAttribute("product", productDTO);
             return "productCreate";
         }
+    }
+
+    @GetMapping("/new")
+    public String newProduct(Model model) {
+        model.addAttribute("product", new ProductDTO());
+        model.addAttribute("categories", categoryService.getAll());
+        return "productCreate";
     }
 
     @GetMapping("/{id}/remove")
@@ -67,10 +74,5 @@ public class AdvancedProductController {
         return "redirect:/advanced/products/" + categoryName;
     }
 
-    @GetMapping("/new")
-    public String newProduct(Model model) {
-        model.addAttribute("product", new ProductDTO());
-        model.addAttribute("categories", categoryService.getAll());
-        return "productCreate";
-    }
+
 }

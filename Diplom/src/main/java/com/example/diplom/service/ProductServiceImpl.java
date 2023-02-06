@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
 
 //    private  SessionFactory sessionFactory;
-
+//
 //    @Autowired
 //    public void setSessionFactory(SessionFactory sessionFactory) {
 //        this.sessionFactory = sessionFactory;
@@ -93,8 +93,6 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-
-
     @Override
     public Product findProductById(Long productId) {
         return productRepository.findFirstById(productId);
@@ -108,14 +106,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addCategoryToProduct(String categoryName, Long productId) {
-//        CategoryDTO category = categoryService.getCategoryByName(categoryName);
-//        Session session = sessionFactory.openSession();
-//        session.createSQLQuery("INSERT INTO products_categories (product_id, category_id) values (:productId,:categoryId)")
-//                .setParameter("productId",productId)
-//                .setParameter("categoryId",category.getId());
-//        session.close();
+    public void addCategoryToProduct(String categoryName, ProductDTO product) {
+        productRepository.addCategoryToProduct(productRepository.findByTitle(product.getTitle()).getId(),
+                categoryService.getCategoryByName(categoryName).getId());
     }
-
 
 }
