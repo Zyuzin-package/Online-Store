@@ -80,4 +80,30 @@ public class AdvancedProductController {
         productService.addToUserBucket(id, principal.getName());
         return "redirect:/advanced/products/" + categoryName;
     }
+
+    @GetMapping("/category/new")
+    public String newCategoryPage(Model model){
+        model.addAttribute("category",new CategoryDTO());
+        return "categoryCreate";
+    }
+
+    @PostMapping("/category/new")
+    public String createNewCategory(CategoryDTO categoryDTO){
+        productService.saveCategory(categoryDTO);
+        return "redirect:/advanced/products";
+    }
+    @GetMapping("/{title}/details")
+    public String productDetails(Model model, @PathVariable String title){
+         ProductDTO dto = productService.getProductByName(title);
+        model.addAttribute("product",dto);
+        return "productDetails";
+    }
+    @GetMapping("/{name}/edit")
+    public String editProductPage(Model model,@PathVariable String name){
+        ProductDTO dto = productService.getProductByName(name);
+        System.out.println(dto);
+        model.addAttribute("product",dto);
+        model.addAttribute("categories", categoryService.getAll());
+        return "productCreate";
+    }
 }

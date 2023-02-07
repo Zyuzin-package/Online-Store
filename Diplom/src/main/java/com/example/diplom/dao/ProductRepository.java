@@ -26,4 +26,10 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "insert into products_categories (category_id,product_id) VALUES (:category_id,:product_id)", nativeQuery = true)
     @Transactional
     void addCategoryToProduct(@Param("product_id")Long productId, @Param("category_id")Long categoryId);
+
+    @Modifying
+    @Query(value = "update products set", nativeQuery = true)
+    @Transactional
+    void updateProductById(Product product);
+
 }

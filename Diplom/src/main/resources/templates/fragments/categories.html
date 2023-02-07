@@ -14,6 +14,11 @@
         <b th:text="${category.title}"></b>
       </a>
     </td>
+    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+      <a th:href="@{/advanced/products/category/new}">
+        Add new category
+      </a>
+    </td>
   </tr>
 </table>
 

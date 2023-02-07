@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Product details</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<form th:action="@{/advanced/products/update/details}" th:object="${product}" method="post">
+    <table border="1" align="center">
+        <tr>
+            <td>
+                Title
+            </td>
+            <td>
+                Image
+            </td>
+            <td>
+                Description
+            </td>
+            <td>
+                Price
+            </td>
+            <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
+            <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
+
+        </tr>
+        <tr>
+            <td th:text="${product.title}">Test</td>
+            <td th:text="${product.image}">img</td>
+            <td th:text="${product.description}">description</td>
+            <td th:text="${product.price}">9999999</td>
+
+            <td colspan="4">
+                <a th:href="@{/advanced/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+                <a th:href="@{/advanced/products/{name}/edit(name=${product.title})}">Edit</a>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

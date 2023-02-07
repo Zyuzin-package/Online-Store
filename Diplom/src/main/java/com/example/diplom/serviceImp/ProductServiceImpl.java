@@ -1,5 +1,6 @@
 package com.example.diplom.serviceImp;
 
+import com.example.diplom.dao.CategoryRepository;
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Category;
@@ -12,34 +13,31 @@ import com.example.diplom.service.BucketService;
 import com.example.diplom.service.CategoryService;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.UserService;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.jpa.HibernateQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import java.sql.PreparedStatement;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper mapper = ProductMapper.MAPPER;
     private final UserService userService;
     private final BucketService bucketService;
-    private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService, CategoryRepository categoryRepository) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -68,18 +66,49 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean save(ProductDTO productDTO) {
-        try {
-            Product product = Product.builder()
-                    .price(productDTO.getPrice())
-                    .categories(new ArrayList<>()) //TODO: Заменить!
-                    .title(productDTO.getTitle())
-                    .build();
-            System.out.println("Domain : " + product);
-            productRepository.save(product);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
+        Product savedProduct = productRepository.findByTitle(productDTO.getTitle());
+        if (savedProduct == null) {
+            try {
+                Product newProduct = Product.builder()
+                        .price(productDTO.getPrice())
+                        .categories(new ArrayList<>()) //TODO: Заменить!
+                        .title(productDTO.getTitle())
+                        .description(productDTO.getDescription())
+                        .image(productDTO.getImage())
+                        .build();
+                System.out.println("Domain : " + newProduct);
+                productRepository.save(newProduct);
+                return true;
+            } catch (RuntimeException e) {
+                return false;
+            }
         }
+        else {
+            boolean isChanged = false;
+            if(!Objects.equals(productDTO.getTitle(),savedProduct.getTitle())){
+                savedProduct.setTitle(productDTO.getTitle());
+                isChanged=true;
+            }
+            if(productDTO.getPrice() !=null
+                    && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
+                    && Objects.equals(productDTO.getPrice(),savedProduct.getPrice())){
+                savedProduct.setPrice(productDTO.getPrice());
+                isChanged=true;
+            }
+            if(!Objects.equals(productDTO.getDescription(),savedProduct.getDescription())){
+                savedProduct.setDescription(productDTO.getDescription());
+                isChanged=true;
+            }
+
+            if(!Objects.equals(productDTO.getImage(),savedProduct.getImage())){
+                savedProduct.setImage(productDTO.getImage());
+                isChanged=true;
+            }
+            if(isChanged){
+                productRepository.save(savedProduct);
+            }
+        }
+        return true;
     }
 
     @Override
@@ -107,6 +136,22 @@ public class ProductServiceImpl implements ProductService {
     public void addCategoryToProduct(String categoryName, ProductDTO product) {
         productRepository.addCategoryToProduct(productRepository.findByTitle(product.getTitle()).getId(),
                 categoryService.getCategoryByName(categoryName).getId());
+    }
+
+    @Override
+    public boolean saveCategory(CategoryDTO categoryDTO) {
+        //TODO: При добавлении категории - старая должна удаляться
+        Category category = Category.builder()
+                .title(categoryDTO.getTitle())
+                .build();
+        categoryRepository.save(category);
+        return true;
+    }
+
+    @Override
+    public ProductDTO getProductByName(String name) {
+        ProductDTO dto = new ProductDTO(productRepository.findByTitle(name));
+        return dto;
     }
 
 }

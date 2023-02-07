@@ -2,6 +2,7 @@ package com.example.diplom.service;
 
 import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
+import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface ProductService {
     List<ProductDTO> getProductsByCategory(String category);
 
     void addCategoryToProduct(String categoryName,ProductDTO product);
+
+    boolean saveCategory(CategoryDTO categoryDTO);
+
+    ProductDTO getProductByName(String name);
 }

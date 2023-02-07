@@ -21,7 +21,9 @@
         <td></td>
     </tr>
     <tr th:each="product : ${products}">
-        <td th:text="${product.title}">Test</td>
+        <td>
+            <a th:href="@{/advanced/products/{title}/details(title=${product.title})}" th:text="${product.title}"></a>
+        </td>
         <td th:text="${product.price}">9999999</td>
         <td colspan="4">
             <a th:href="@{/advanced/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
