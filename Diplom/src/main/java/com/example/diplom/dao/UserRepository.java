@@ -17,4 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<UserM,Long> {
     @Transactional
     UserM findFirstByName(String name);
+
+    @Transactional
+    UserM findFirstById(Long id);
+    @Modifying
+    @Query(value = "update users SET role=:role where id=:id", nativeQuery = true)
+    @Transactional
+    void updateRole(@Param("role")String role,@Param("id")Long id);
 }

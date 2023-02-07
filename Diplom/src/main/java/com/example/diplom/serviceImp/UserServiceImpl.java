@@ -4,6 +4,8 @@ import com.example.diplom.dao.UserRepository;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
+import com.example.diplom.mapper.ProductMapper;
+import com.example.diplom.mapper.UserMapper;
 import com.example.diplom.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper mapper = UserMapper.MAPPER;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -81,10 +84,21 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public String getRoleByUserId(Long id) {
+        return userRepository.findFirstById(id).getRole().toString();
+    }
+
+    @Override
+    public void updateRole(UserDTO userDTO, String role) {
+        userRepository.updateRole(role, findByName(userDTO.getUsername()).getId());
+    }
+
     private UserDTO toDTO(UserM userM) {
         return UserDTO.builder()
                 .username(userM.getName())
                 .email(userM.getEmail())
+                .role(userM.getRole().name())
                 .build();
     }
 

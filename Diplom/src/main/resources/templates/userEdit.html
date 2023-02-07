@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>add user</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+
+<form th:action="@{/users/edit}" th:object ="${user}" method="post">
+  <table border ='1'>
+    <tr>
+      <td>Name</td>
+      <td>
+        <input  type="text" th:field="*{username}">
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <input  type="email"  th:field="*{email}">
+      </td>
+    </tr>
+    <tr>
+      <td>Role</td>
+      <td>
+        <select th:name="roles" id="roles" name="roles">
+          <option th:each="role : ${roles}"
+                  th:text="${role}"
+                  th:value="${role}"
+                  th:selected="${role==user.role}"
+          >
+          </option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <button type="submit">Save</button>
+</form>
+
+</body>
+</html>

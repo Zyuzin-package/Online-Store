@@ -6,17 +6,24 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
-<table border="1">
-    <tr>
-        <td>Name</td>
-        <td>Email</td>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.username}">TestName</td>
-        <td th:text="${user.email}">TestEmail</td>
-    </tr>
-</table>
+<form th:action="@{/users/update}" th:object="${users}" method="post">
+    <table border="1">
+        <tr>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Role</td>
+            <td></td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}">TestName</td>
+            <td th:text="${user.email}">TestEmail</td>
+            <td th:text="${user.role}">TestRole</td>
+            <td>
+                <a th:href="@{/users/{name}/edit(name=${user.username})}">Edit</a>
+            </td>
+        </tr>
+    </table>
+</form>
 <a th:href="@{/users/new}">Add new user</a>
 </body>
 </html>

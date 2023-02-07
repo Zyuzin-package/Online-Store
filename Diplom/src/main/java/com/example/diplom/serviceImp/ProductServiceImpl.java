@@ -34,12 +34,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-//    private  SessionFactory sessionFactory;
-//
-//    @Autowired
-//    public void setSessionFactory(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
 
     public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService) {
         this.userService = userService;
