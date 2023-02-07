@@ -28,6 +28,8 @@ public class UserController {
         this.userService = userService;
     }
 
+    private String username;
+
     @GetMapping
     public String userList(Model model) {
         List<String> roles = Stream.of(Role.values())
@@ -35,22 +37,6 @@ public class UserController {
         model.addAttribute("roles", roles);
         model.addAttribute("users", userService.getAll());
         return "userList";
-    }
-
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new UserDTO());
-        return "user";
-    }
-
-    @PostMapping("/new")
-    public String saveUser(UserDTO userDTO, Model model) {
-        if (userService.save(userDTO)) {
-            return "redirect:/users";
-        } else {
-            model.addAttribute("user", userDTO);
-            return "user";
-        }
     }
 
     @GetMapping("/profile")
@@ -83,7 +69,6 @@ public class UserController {
         return "redirect:/users/profile";
     }
 
-
     @GetMapping("/{name}/edit")
     public String updateUsersPage(@PathVariable String name, Model model) {
         UserM userM = userService.findByName(name);
@@ -92,7 +77,7 @@ public class UserController {
                 .email(userM.getEmail())
                 .role(userM.getRole().name())
                 .build();
-
+        username = name;
         List<String> roles = Stream.of(Role.values())
                 .map(Enum::name).toList();
         model.addAttribute("roles", roles);
@@ -101,9 +86,8 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String updateRole(UserDTO userDTO,
-                             @RequestParam(name = "roles") String role) {
-        userService.updateRole(userDTO,role);
+    public String updateRole(@RequestParam(name = "roles") String role) {
+        userService.updateRole(username,role);
         return "redirect:/users";
     }
 }

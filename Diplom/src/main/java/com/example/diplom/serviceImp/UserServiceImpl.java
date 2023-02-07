@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateRole(UserDTO userDTO, String role) {
-        userRepository.updateRole(role, findByName(userDTO.getUsername()).getId());
+    public void updateRole(String username, String role) {
+        userRepository.updateRole(role, findByName(username).getId());
     }
 
     private UserDTO toDTO(UserM userM) {

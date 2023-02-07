@@ -13,19 +13,19 @@
     <tr>
       <td>Name</td>
       <td>
-        <input  type="text" th:field="*{username}">
+        <label th:text="*{username}"></label>
       </td>
     </tr>
     <tr>
       <td>Email</td>
       <td>
-        <input  type="email"  th:field="*{email}">
+        <label th:text="*{email}" ></label>
       </td>
     </tr>
     <tr>
       <td>Role</td>
       <td>
-        <select th:name="roles" id="roles" name="roles">
+        <select th:name="roles"  id="roles" name="roles">
           <option th:each="role : ${roles}"
                   th:text="${role}"
                   th:value="${role}"
@@ -36,7 +36,7 @@
       </td>
     </tr>
   </table>
-  <button type="submit">Save</button>
+ <button type="submit">Save</button>
 </form>
 
 </body>

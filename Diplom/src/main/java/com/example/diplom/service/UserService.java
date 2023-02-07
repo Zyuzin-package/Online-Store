@@ -20,5 +20,5 @@ public interface UserService extends UserDetailsService {
     void updateProfile(UserDTO userDTO);
 
     String getRoleByUserId(Long id);
-    void updateRole(UserDTO userDTO, String role);
+    void updateRole(String username, String role);
 }
