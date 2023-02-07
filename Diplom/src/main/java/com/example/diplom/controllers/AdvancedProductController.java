@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -74,5 +75,9 @@ public class AdvancedProductController {
         return "redirect:/advanced/products/" + categoryName;
     }
 
-
+    @GetMapping("/{id}/bucket")
+    public String addBucket(@PathVariable Long id, Principal principal) {
+        productService.addToUserBucket(id, principal.getName());
+        return "redirect:/advanced/products/" + categoryName;
+    }
 }

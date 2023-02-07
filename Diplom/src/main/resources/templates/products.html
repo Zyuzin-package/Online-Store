@@ -23,7 +23,7 @@
         <td th:text="${product.title}">Test</td>
         <td th:text="${product.price}">9999999</td>
         <td colspan="4">
-            <a th:href="@{/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
+            <a th:href="@{/advanced/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
         </td>
         <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
             <a th:href="@{/products/{id}/remove(id=${product.id})}">Remove</a>
