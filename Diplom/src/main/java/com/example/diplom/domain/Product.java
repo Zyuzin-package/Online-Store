@@ -27,6 +27,9 @@ public class Product {
     private String title;
     private BigDecimal price;
 
+    private String image;
+    private String description;
+
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),

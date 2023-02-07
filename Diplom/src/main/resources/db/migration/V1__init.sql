@@ -58,6 +58,8 @@ create table public.products
     id    bigint not null,
     price numeric(38, 2),
     title varchar(255),
+    description varchar(255),
+    image varchar(255),
     primary key (id)
 );
 
@@ -72,7 +74,6 @@ DROP TABLE IF EXISTS public.users CASCADE;
 create table public.users
 (
     id       bigint  not null,
-    archive  boolean not null,
     email    varchar(255),
     name     varchar(255),
     password varchar(255),
