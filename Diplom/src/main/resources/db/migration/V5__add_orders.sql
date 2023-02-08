@@ -1,0 +1,2 @@
+INSERT INTO orders (id,address, created, status, sum, updated, user_id)
+VALUES (1,'Samara',TO_TIMESTAMP('2014-07-02 06:14:00.742000000', 'YYYY-MM-DD HH24:MI:SS.FF'),'NEW',215,TO_TIMESTAMP('2014-07-02 07:14:00.742000000', 'YYYY-MM-DD HH24:MI:SS.FF'),1)

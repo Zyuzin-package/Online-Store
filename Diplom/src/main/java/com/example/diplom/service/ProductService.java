@@ -20,9 +20,10 @@ public interface ProductService {
 
     List<ProductDTO> getProductsByCategory(String category);
 
-    void addCategoryToProduct(String categoryName,ProductDTO product);
+    void addCategoryToProduct(String categoryName, ProductDTO product);
 
     boolean saveCategory(CategoryDTO categoryDTO);
 
     ProductDTO getProductByName(String name);
+    List<ProductDTO> getProductsByBucketId(Long bucketId);
 }

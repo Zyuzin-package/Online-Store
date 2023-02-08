@@ -145,22 +145,29 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean saveCategory(CategoryDTO categoryDTO) {
-        //TODO: При добавлении категории - старая должна удаляться
-//        List<Product> products = categoryDTO.getProducts();
-//        for (Product p : products) {
-//            productRepository.removeCategoryByProduct(p.getId());
-//        }
-        Category category = Category.builder()
-                .title(categoryDTO.getTitle())
-                .build();
-        categoryRepository.save(category);
-        return true;
+        if (categoryService.getCategoryByName(categoryDTO.getTitle()) != null) {
+            Category category = Category.builder()
+                    .title(categoryDTO.getTitle())
+                    .build();
+            categoryRepository.save(category);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public ProductDTO getProductByName(String name) {
-        ProductDTO dto = new ProductDTO(productRepository.findByTitle(name));
-        return dto;
+        return new ProductDTO(productRepository.findByTitle(name));
+    }
+
+    @Override
+    public List<ProductDTO> getProductsByBucketId(Long bucketId) {
+        List<Long> productsIds = productRepository.getProductIdsByBucketId(bucketId);
+        List<Product> products = new ArrayList<>();
+        for (Long l : productsIds){
+            products.add(findProductById(l));
+        }
+        return mapper.fromProductList(products);
     }
 
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<table border="1" align="center">
+    <tr>
+        <td>Number</td>
+        <td>Address</td>
+        <td>Created</td>
+        <td>Updated</td>
+        <td>Status</td>
+        <td>Sum</td>
+    </tr>
+    <tr th:each="order : ${orders}">
+        <td>
+            <a th:href="@{/order/{id}(id=${order.id})}" th:text="${order.id}"></a>
+        </td>
+        <td th:text="${order.address}"></td>
+        <td th:text="${order.created}"></td>
+        <td th:text="${order.updated}"></td>
+        <td th:text="${order.status}"></td>
+        <td th:text="${order.address}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

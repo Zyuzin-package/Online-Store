@@ -43,9 +43,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "delete from products_categories where category_id = :id", nativeQuery = true)
     @Transactional
     void removeProductByCategory(@Param("id") Long category_id);
-//    @Modifying
-//    @Query(value = "update products set", nativeQuery = true
-//    @Transactional
-//    void updateProductById(Product product);
 
+    @Modifying
+    @Query(value = "select product_id from buckets_product where bucket_id=:id", nativeQuery = true)
+    @Transactional
+    List<Long> getProductIdsByBucketId(@Param("id")Long id);
 }
