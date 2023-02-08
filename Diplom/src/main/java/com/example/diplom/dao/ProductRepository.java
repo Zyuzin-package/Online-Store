@@ -11,25 +11,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     Product findFirstById(Long productId);
 
 
     Product findByTitle(String title);
+
     @Transactional
     List<Product> findProductIdByCategoriesId(Long categories_id);
 
+    @Modifying
+    @Query(value = "SELECT product_id from products_categories where category_id=:categoryId", nativeQuery = true)
+    @Transactional
+    Category test(@Param("categoryId") Long categoryId);
+
     @Transactional
     void deleteProductIdById(Long productId);
+
     @Modifying
     @Query(value = "insert into products_categories (category_id,product_id) VALUES (:category_id,:product_id)", nativeQuery = true)
     @Transactional
-    void addCategoryToProduct(@Param("product_id")Long productId, @Param("category_id")Long categoryId);
+    void addCategoryToProduct(@Param("product_id") Long productId, @Param("category_id") Long categoryId);
 
     @Modifying
-    @Query(value = "update products set", nativeQuery = true)
+    @Query(value = "delete from products_categories where product_id=:product_id", nativeQuery = true)
     @Transactional
-    void updateProductById(Product product);
+    void removeCategoryByProduct(@Param("product_id") Long product_id);
+
+    @Modifying
+    @Query(value = "delete from products_categories where category_id = :id", nativeQuery = true)
+    @Transactional
+    void removeProductByCategory(@Param("id") Long category_id);
+//    @Modifying
+//    @Query(value = "update products set", nativeQuery = true
+//    @Transactional
+//    void updateProductById(Product product);
 
 }

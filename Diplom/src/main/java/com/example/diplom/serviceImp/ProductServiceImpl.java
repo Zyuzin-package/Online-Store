@@ -82,29 +82,28 @@ public class ProductServiceImpl implements ProductService {
             } catch (RuntimeException e) {
                 return false;
             }
-        }
-        else {
+        } else {
             boolean isChanged = false;
-            if(!Objects.equals(productDTO.getTitle(),savedProduct.getTitle())){
+            if (!Objects.equals(productDTO.getTitle(), savedProduct.getTitle())) {
                 savedProduct.setTitle(productDTO.getTitle());
-                isChanged=true;
+                isChanged = true;
             }
-            if(productDTO.getPrice() !=null
+            if (productDTO.getPrice() != null
                     && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
-                    && Objects.equals(productDTO.getPrice(),savedProduct.getPrice())){
+                    && Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
                 savedProduct.setPrice(productDTO.getPrice());
-                isChanged=true;
+                isChanged = true;
             }
-            if(!Objects.equals(productDTO.getDescription(),savedProduct.getDescription())){
+            if (!Objects.equals(productDTO.getDescription(), savedProduct.getDescription())) {
                 savedProduct.setDescription(productDTO.getDescription());
-                isChanged=true;
+                isChanged = true;
             }
 
-            if(!Objects.equals(productDTO.getImage(),savedProduct.getImage())){
+            if (!Objects.equals(productDTO.getImage(), savedProduct.getImage())) {
                 savedProduct.setImage(productDTO.getImage());
-                isChanged=true;
+                isChanged = true;
             }
-            if(isChanged){
+            if (isChanged) {
                 productRepository.save(savedProduct);
             }
         }
@@ -134,13 +133,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addCategoryToProduct(String categoryName, ProductDTO product) {
-        productRepository.addCategoryToProduct(productRepository.findByTitle(product.getTitle()).getId(),
+        CategoryDTO category = categoryService.getCategoryByName(categoryName);
+        ProductDTO product1 = getProductByName(product.getTitle());
+        if (category != null && product1 != null) {
+            productRepository.removeCategoryByProduct(product1.getId());
+        }
+        productRepository.addCategoryToProduct(
+                productRepository.findByTitle(product.getTitle()).getId(),
                 categoryService.getCategoryByName(categoryName).getId());
     }
 
     @Override
     public boolean saveCategory(CategoryDTO categoryDTO) {
         //TODO: При добавлении категории - старая должна удаляться
+//        List<Product> products = categoryDTO.getProducts();
+//        for (Product p : products) {
+//            productRepository.removeCategoryByProduct(p.getId());
+//        }
         Category category = Category.builder()
                 .title(categoryDTO.getTitle())
                 .build();
