@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserM findById(Long id) {
+        return userRepository.findFirstById(id);
+    }
+
+    @Override
     public void updateProfile(UserDTO dto) {
         UserM savedUser = userRepository.findFirstByName(dto.getUsername());
 

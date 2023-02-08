@@ -123,6 +123,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public BucketDTO getBucketByUser(String name) {
+        System.out.println("BUCKET NAME: "+name);
         UserM user = userService.findByName(name);
         if (user == null || user.getBucket() == null) {
             return new BucketDTO();

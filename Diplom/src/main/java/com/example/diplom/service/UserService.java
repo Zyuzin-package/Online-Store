@@ -16,6 +16,7 @@ public interface UserService extends UserDetailsService {
     List<UserDTO> getAll();
 
     UserM findByName(String name);
+    UserM findById(Long id);
 
     void updateProfile(UserDTO userDTO);
 

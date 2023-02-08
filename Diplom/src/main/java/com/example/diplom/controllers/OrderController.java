@@ -1,7 +1,10 @@
 package com.example.diplom.controllers;
 
+import com.example.diplom.domain.Order;
+import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.OrderDTO;
 import com.example.diplom.service.OrderService;
+import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -16,6 +20,7 @@ import java.util.List;
 public class OrderController {
 
     OrderService orderService;
+    UserService userService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
@@ -40,8 +45,9 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String saveOrder(Model model,OrderDTO orderDTO ){
-        orderService.save(orderDTO);
+    public String saveOrder(Model model, OrderDTO orderDTO, Principal principal){
+        orderDTO.setUserId(userService.findByName(principal.getName()).getId());
+//        orderService.save(orderDTO);
         return "redirect:/order/orders";
     }
 }
