@@ -135,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
     public void addCategoryToProduct(String categoryName, ProductDTO product) {
         CategoryDTO category = categoryService.getCategoryByName(categoryName);
         ProductDTO product1 = getProductByName(product.getTitle());
-        if (category != null && product1 != null) {
+        if (category != null) {
             productRepository.removeCategoryByProduct(product1.getId());
         }
         productRepository.addCategoryToProduct(
@@ -145,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean saveCategory(CategoryDTO categoryDTO) {
-        if (categoryService.getCategoryByName(categoryDTO.getTitle()) != null) {
+        if (categoryService.getCategoryByName(categoryDTO.getTitle()) == null) {
             Category category = Category.builder()
                     .title(categoryDTO.getTitle())
                     .build();

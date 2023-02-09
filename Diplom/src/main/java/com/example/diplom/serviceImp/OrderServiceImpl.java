@@ -22,10 +22,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper mapper = OrderMapper.MAPPER;
-    private final OrderRepository orderRepository ;
+    private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final OrderDetailsService orderDetailsService;
     private final BucketService bucketService;
@@ -44,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
         return mapper.fromOrderList(orderRepository.findAll());
     }
 
-   // @Override
+    // @Override
     public boolean save(OrderDTO orderDTO) {
         UserM userM = userService.findById(orderDTO.getUserId());
         Order order = Order.builder()
@@ -56,11 +57,11 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.NEW)
                 .details(new ArrayList<>())
                 .build();
-       Order savedOrder= orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
 
-        for (BucketDetailDTO details: bucketDTO.getBucketDetails()){
+        for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
             newOrderDetails.setOrder(savedOrder);
             newOrderDetails.setAmount(details.getAmount());
