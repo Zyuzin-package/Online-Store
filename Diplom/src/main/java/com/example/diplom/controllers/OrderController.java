@@ -22,32 +22,35 @@ public class OrderController {
     OrderService orderService;
     UserService userService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping("/orders")
-    public String getOrders(Model model){
+    public String getOrders(Model model) {
         List<OrderDTO> orders = orderService.getAll();
-        model.addAttribute("orders",orders);
+        model.addAttribute("orders", orders);
         return "orders";
     }
 
     @GetMapping("/{id}")
-    public String getCurrentOrders(Model model, @PathVariable Long id){
+    public String getCurrentOrders(Model model, @PathVariable Long id) {
         return null;
 //        return "orderDetail";
     }
+
     @GetMapping("/new")
-    public String createOrder(Model model ){
-        model.addAttribute("order",new OrderDTO());
+    public String createOrder(Model model) {
+        model.addAttribute("order", new OrderDTO());
         return "createOrder";
     }
 
     @PostMapping("/new")
-    public String saveOrder(Model model, OrderDTO orderDTO, Principal principal){
+    public String saveOrder(Model model, OrderDTO orderDTO, Principal principal) {
+        System.out.println("Principal name: " + principal.getName());
         orderDTO.setUserId(userService.findByName(principal.getName()).getId());
-//        orderService.save(orderDTO);
+        orderService.save(orderDTO);
         return "redirect:/order/orders";
     }
 }

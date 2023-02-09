@@ -32,4 +32,5 @@ public class OrderDetails {
     private BigDecimal amount;
     private BigDecimal price;
 
+    private Long details_id;
 }

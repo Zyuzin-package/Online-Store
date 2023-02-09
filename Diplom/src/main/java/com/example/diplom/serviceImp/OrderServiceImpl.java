@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -61,14 +62,20 @@ public class OrderServiceImpl implements OrderService {
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
 
+        Long a =new Random().nextLong();
+
+
         for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
+            newOrderDetails.setId(a);
+            newOrderDetails.setDetails_id(a);
             newOrderDetails.setOrder(savedOrder);
             newOrderDetails.setAmount(details.getAmount());
             newOrderDetails.setPrice(details.getPrice());
             Product product = productRepository.findFirstById(details.getProductId());
             newOrderDetails.setProduct(product);
-            orderDetailsService.save(newOrderDetails);
+
+            orderDetailsService.save(newOrderDetails,details);
         }
 
         return false;
