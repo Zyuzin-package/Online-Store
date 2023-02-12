@@ -52,31 +52,38 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.builder()
                 .user(userM)
                 .address(orderDTO.getAddress())
-                .created(LocalDateTime.now())
                 .sum(orderDTO.getSum())
-                .updated(orderDTO.getUpdated())
                 .status(OrderStatus.NEW)
-                .details(new ArrayList<>())
+//                .details(new ArrayList<>())
                 .build();
         Order savedOrder = orderRepository.save(order);
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
 
-        Long a =new Random().nextLong();
-
-
+//        Long a = new Random().nextLong();
+//        if(a<=0){
+//            a=a*-1;
+//        }
+        List<OrderDetails> orderDetails = new ArrayList<>();
         for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
-            newOrderDetails.setId(a);
-            newOrderDetails.setDetails_id(a);
+//            newOrderDetails.setId(a);
+//            newOrderDetails.setDetails_id(a);
             newOrderDetails.setOrder(savedOrder);
             newOrderDetails.setAmount(details.getAmount());
             newOrderDetails.setPrice(details.getPrice());
             Product product = productRepository.findFirstById(details.getProductId());
             newOrderDetails.setProduct(product);
+            //orderDetailsService.save(newOrderDetails,details);
+            orderDetails.add(newOrderDetails);
 
-            orderDetailsService.save(newOrderDetails,details);
+
+            orderDetailsService.save(newOrderDetails,null);
         }
+
+//        savedOrder.setDetails(orderDetails);
+//
+//        orderRepository.save(savedOrder);
 
         return false;
     }

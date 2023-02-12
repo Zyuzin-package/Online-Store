@@ -22,15 +22,14 @@ public class OrderDetails {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
     private BigDecimal amount;
     private BigDecimal price;
-
-    private Long details_id;
+//    private Long details_id;
 }

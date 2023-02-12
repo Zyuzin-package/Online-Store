@@ -38,8 +38,8 @@ public class Order {
     private BigDecimal sum;
     private String address;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderDetails> details;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<OrderDetails> details;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

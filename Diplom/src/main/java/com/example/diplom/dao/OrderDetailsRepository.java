@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
 
-    List<OrderDetails> findAllByOrderId(Long orderId);
+    List<OrderDetails> findAllById(Long orderId);
     @Modifying
     @Query(value = "INSERT INTO orders_details (id,amount, price, order_id, product_id, details_id) VALUES (:orderDetails,:details_id)", nativeQuery = true)
     @Transactional

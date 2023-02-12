@@ -28,7 +28,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     @Override
     public List<OrderDetailsDTO> findOrdersDetailsByOrderId(Long orderId) {
-        List<OrderDetails> orderDetails = orderDetailsRepository.findAllByOrderId(orderId);
+        List<OrderDetails> orderDetails = orderDetailsRepository.findAllById(orderId);
         return mapper.fromOrderDetailsList(orderDetails);
     }
 
