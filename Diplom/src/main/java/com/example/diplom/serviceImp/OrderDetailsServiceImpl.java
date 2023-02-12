@@ -33,13 +33,14 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     }
 
     @Override
-    public boolean save(OrderDetails orderDetails,BucketDetailDTO bucketDetailDTO) {
-//        orderDetailsRepository.saveOrderDetails(
-//                orderDetails,
-//                orderDetails.getProduct().getId()
-//        );
+    public boolean save(OrderDetails orderDetails) {
         orderDetailsRepository.save(orderDetails);
         return true;
+    }
+
+    @Override
+    public List<OrderDetailsDTO> getAllDetails() {
+        return mapper.fromOrderDetailsList(orderDetailsRepository.findAll());
     }
 
 

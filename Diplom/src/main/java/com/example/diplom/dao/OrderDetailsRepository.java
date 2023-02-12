@@ -12,13 +12,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
-
-    List<OrderDetails> findAllById(Long orderId);
     @Modifying
-    @Query(value = "INSERT INTO orders_details (id,amount, price, order_id, product_id, details_id) VALUES (:orderDetails,:details_id)", nativeQuery = true)
+    @Query(value = "Select * from orders_details where order_id=:id", nativeQuery = true)
     @Transactional
-    void saveOrderDetails(
-            @Param("orderDetails") OrderDetails orderDetails,
-            @Param("details_id")Long details_id
-            );
+    List<OrderDetails> findAllById(@Param("id")Long orderId);
+    @Modifying
+    @Query(value = "INSERT INTO orders_details (id,amount, price, order_id, product_id) VALUES (:orderDetails)", nativeQuery = true)
+    @Transactional
+    void saveOrderDetails(@Param("orderDetails") OrderDetails orderDetails);
 }

@@ -15,17 +15,20 @@
         <td>Updated</td>
         <td>Status</td>
         <td>Sum</td>
+        <td>Details</td>
     </tr>
     <tr th:each="order : ${orders}">
-        <td>
-            <a th:href="@{/order/{id}(id=${order.id})}" th:text="${order.id}"></a>
-        </td>
+        <td th:text="${order.id}"></td>
         <td th:text="${order.address}"></td>
         <td th:text="${order.created}"></td>
         <td th:text="${order.updated}"></td>
         <td th:text="${order.status}"></td>
         <td th:text="${order.address}"></td>
+        <td>  <a th:href="@{/order/{id}(id=${order.id})}">Details</a></td>
     </tr>
+
+
+
 </table>
 
 </body>

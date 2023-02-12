@@ -25,7 +25,6 @@ public class OrderDTO {
     private Long userId;
     private BigDecimal sum;
     private String address;
-//    private List<Long> detailsIds;
     private String status;
 
     public OrderDTO(Order order) {
@@ -35,11 +34,7 @@ public class OrderDTO {
         this.userId = order.getUser().getId();
         this.sum = order.getSum();
         this.address = order.getAddress();
-//        List<Long> detailsIds = new ArrayList<>();
-//        for (OrderDetails orderDetails : order.getDetails()) {
-//            detailsIds.add(orderDetails.getId());
-//        }
-//        this.detailsIds = detailsIds;
+
         this.status = order.getStatus().name();
     }
 }

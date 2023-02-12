@@ -170,4 +170,8 @@ public class ProductServiceImpl implements ProductService {
         return mapper.fromProductList(products);
     }
 
+    @Override
+    public List<ProductDTO> getProductsByUserIds(Long id){
+        return mapper.fromProductList(productRepository.getProductsByUserIds(id));
+    }
 }

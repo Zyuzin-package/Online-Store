@@ -26,4 +26,6 @@ public interface ProductService {
 
     ProductDTO getProductByName(String name);
     List<ProductDTO> getProductsByBucketId(Long bucketId);
+
+    List<ProductDTO> getProductsByUserIds(Long id);
 }

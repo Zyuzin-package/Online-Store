@@ -1,9 +1,13 @@
 package com.example.diplom.controllers;
 
 import com.example.diplom.domain.Order;
+import com.example.diplom.domain.OrderDetails;
 import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.OrderDTO;
+import com.example.diplom.dto.OrderDetailsDTO;
+import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.OrderService;
+import com.example.diplom.service.ProductService;
 import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +25,12 @@ public class OrderController {
 
     OrderService orderService;
     UserService userService;
+    ProductService productService;
 
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService, UserService userService, ProductService productService) {
         this.orderService = orderService;
         this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping("/orders")
@@ -36,8 +42,13 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String getCurrentOrders(Model model, @PathVariable Long id) {
-        return null;
-//        return "orderDetail";
+        OrderDTO order = orderService.findOrderById(id);
+        List<OrderDetailsDTO> orderDetailsDTOS = orderService.getDetailsByOrderId(id);
+        List<ProductDTO> productDTOList = productService.getProductsByUserIds(id);
+        model.addAttribute("order", order);
+        model.addAttribute("details", orderDetailsDTOS);
+        model.addAttribute("products",productDTOList);
+        return "orderDetails";
     }
 
     @GetMapping("/new")
@@ -47,8 +58,7 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String saveOrder(Model model, OrderDTO orderDTO, Principal principal) {
-        System.out.println("Principal name: " + principal.getName());
+    public String saveOrder(OrderDTO orderDTO, Principal principal) {
         orderDTO.setUserId(userService.findByName(principal.getName()).getId());
         orderService.save(orderDTO);
         return "redirect:/order/orders";

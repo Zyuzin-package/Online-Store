@@ -15,16 +15,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     Product findFirstById(Long productId);
 
-
     Product findByTitle(String title);
 
     @Transactional
     List<Product> findProductIdByCategoriesId(Long categories_id);
 
-    @Modifying
-    @Query(value = "SELECT product_id from products_categories where category_id=:categoryId", nativeQuery = true)
-    @Transactional
-    Category test(@Param("categoryId") Long categoryId);
+
 
     @Transactional
     void deleteProductIdById(Long productId);
@@ -52,4 +48,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select product_id from buckets_product where bucket_id = (select bucket_id from buckets where user_id=:id)", nativeQuery = true)
     @Transactional
     List<Long> getProductIdsByUserId(@Param("id")Long id);
+
+    @Modifying
+    @Query(value = "select from products where products.id=(select product_id from orders_details where order_id=:id)", nativeQuery = true)
+    @Transactional
+    List<Product> getProductsByUserIds(@Param("id")Long id);
 }

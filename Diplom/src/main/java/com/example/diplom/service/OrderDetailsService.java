@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public interface OrderDetailsService {
     List<OrderDetailsDTO> findOrdersDetailsByOrderId(Long orderId);
-    boolean save(OrderDetails orderDetails, BucketDetailDTO bucketDetailDTO);
+    boolean save(OrderDetails orderDetails);
+    List<OrderDetailsDTO> getAllDetails();
 
 }

@@ -6,18 +6,43 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<!--model.addAttribute("order", order);-->
+<!--model.addAttribute("details", orderDetailsDTOS);-->
+<!--model.addAttribute("products",productDTOList);-->
 <table border="1" align="center">
     <tr>
+        <td>Number</td>
+        <td>Address</td>
+        <td>Created</td>
+        <td>Updated</td>
+        <td>Status</td>
+        <td>Sum</td>
+    </tr>
+    <tr>
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.address}"></td>
+        <td th:text="${order.created}"></td>
+        <td th:text="${order.updated}"></td>
+        <td th:text="${order.status}"></td>
+        <td th:text="${order.address}"></td>
+    </tr>
+    <tr th:each="product : ${products}">
         <td>
-            Product
+            Title
         </td>
         <td>
-            Amount
+            Image
+        </td>
+        <td>
+            Description
         </td>
         <td>
             Price
         </td>
+        <td th:text="${product.title}">Test</td>
+        <td th:text="${product.image}">img</td>
+        <td th:text="${product.description}">description</td>
+        <td th:text="${product.price}">9999999</td>
     </tr>
 </table>
 
