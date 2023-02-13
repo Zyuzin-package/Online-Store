@@ -23,18 +23,16 @@ public class OrderDTO {
     private LocalDateTime created;
     private LocalDateTime updated;
     private Long userId;
-    private BigDecimal sum;
+    private double sum;
     private String address;
     private String status;
 
-    public OrderDTO(Order order) {
-        this.id = order.getId();
-        this.created = order.getCreated();
-        this.updated = order.getUpdated();
-        this.userId = order.getUser().getId();
-        this.sum = order.getSum();
-        this.address = order.getAddress();
+    private List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
 
-        this.status = order.getStatus().name();
+    public void aggregate(){
+        this.sum = orderDetailsDTOList.stream()
+                .map(OrderDetailsDTO::getSum)
+                .mapToDouble(Double::doubleValue)
+                .sum();
     }
 }

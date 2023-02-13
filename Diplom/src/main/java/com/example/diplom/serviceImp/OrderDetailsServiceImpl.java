@@ -11,25 +11,34 @@ import com.example.diplom.dto.OrderDetailsDTO;
 import com.example.diplom.mapper.OrderDetailsMapper;
 import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.OrderDetailsService;
+import com.example.diplom.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     private final OrderDetailsMapper mapper = OrderDetailsMapper.MAPPER;
     private final OrderDetailsRepository orderDetailsRepository;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public OrderDetailsServiceImpl(OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository) {
+    public OrderDetailsServiceImpl(OrderDetailsRepository orderDetailsRepository, ProductService productService) {
         this.orderDetailsRepository = orderDetailsRepository;
-        this.productRepository = productRepository;
+        this.productService = productService;
     }
 
     @Override
     public List<OrderDetailsDTO> findOrdersDetailsByOrderId(Long orderId) {
-        List<OrderDetails> orderDetails = orderDetailsRepository.findAllById(orderId);
-        return mapper.fromOrderDetailsList(orderDetails);
+        List<OrderDetails> details = orderDetailsRepository.findAllById(orderId);
+        List<OrderDetailsDTO> orderDetails = mapper.fromOrderDetailsList(details);
+        for (int i = 0; i<=details.size()-1;i++) {
+        orderDetails.get(i).setOrderId(orderId);
+        orderDetails.get(i).setProductName(details.get(i).getProduct().getTitle());
+        orderDetails.get(i).setProductId(details.get(i).getProduct().getId());
+        }
+
+        return orderDetails;
     }
 
     @Override

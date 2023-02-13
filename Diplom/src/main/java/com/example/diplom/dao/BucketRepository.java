@@ -14,4 +14,8 @@ public interface BucketRepository extends JpaRepository<Bucket, Long> {
     @Query(value = "Select from users left join buckets b on users.id = b.user_id where b.id =:id", nativeQuery = true)
     @Transactional
     UserM getBucketId(@Param("id") Long bucketId);
+    @Modifying
+    @Query(value = "DELETE from buckets_product where  buckets_product.product_id=:productId and buckets_product.bucket_id=(Select id from users where users.name=:username)", nativeQuery = true)
+    @Transactional
+    void removeProductByUsername(@Param("productId") Long productId,@Param("username") String username);
 }

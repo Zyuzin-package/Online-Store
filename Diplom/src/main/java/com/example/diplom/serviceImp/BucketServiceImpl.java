@@ -83,6 +83,11 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
+    public void removeProductByUsername(Long productId, String username) {
+        bucketRepository.removeProductByUsername(productId,username);
+    }
+
+    @Override
     public void clearBucket(Bucket bucket, String name) {
         if (bucket == null) {
             throw new RuntimeException("You bucket is empty");
@@ -123,7 +128,6 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public BucketDTO getBucketByUser(String name) {
-        System.out.println("BUCKET NAME: "+name);
         UserM user = userService.findByName(name);
         if (user == null || user.getBucket() == null) {
             return new BucketDTO();
@@ -144,7 +148,7 @@ public class BucketServiceImpl implements BucketService {
         }
         bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));
         bucketDTO.aggregate();
-
+        bucketDTO.setUserId(user.getId());
         return bucketDTO;
     }
 

@@ -12,6 +12,7 @@ public interface BucketService {
     void save(Bucket bucket);
     BucketDTO getBucketByUser(String name);
     BucketDTO removeProduct(Bucket bucket, Long productId,String name);
+     void removeProductByUsername(Long productId, String username);
     void clearBucket(Bucket bucket,String name);
 
     void amountIncrease(Bucket bucket,Long productId);

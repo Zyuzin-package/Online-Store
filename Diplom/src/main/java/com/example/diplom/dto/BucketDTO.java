@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class BucketDTO {
+    private Long id;
+    private Long userId;
     private int amountProducts;
     private Double sum;
     private List<BucketDetailDTO> bucketDetails = new ArrayList<>();

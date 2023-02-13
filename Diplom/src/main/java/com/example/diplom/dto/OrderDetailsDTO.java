@@ -16,14 +16,10 @@ public class OrderDetailsDTO {
     private Long id;
     private Long orderId;
     private Long productId;
+    private String productName;
     private BigDecimal amount;
     private BigDecimal price;
+    private double sum;
 
-    public OrderDetailsDTO(OrderDetails orderDetails) {
-        this.id = orderDetails.getId();
-        this.orderId = orderDetails.getOrder().getId();
-        this.productId = orderDetails.getProduct().getId();
-        this.amount = orderDetails.getAmount();
-        this.price = orderDetails.getPrice();
-    }
+
 }

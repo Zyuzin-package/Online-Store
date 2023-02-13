@@ -1,22 +1,15 @@
 package com.example.diplom.serviceImp;
 
-import com.example.diplom.dao.BucketRepository;
 import com.example.diplom.dao.OrderRepository;
-import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.*;
 import com.example.diplom.dto.*;
 import com.example.diplom.mapper.OrderMapper;
-import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -44,27 +37,41 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDetailsDTO> getAllDetails() {
         return orderDetailsService.getAllDetails();
     }
+
     public boolean save(OrderDTO orderDTO) {
         UserM userM = userService.findById(orderDTO.getUserId());
         Order order = Order.builder()
                 .user(userM)
                 .address(orderDTO.getAddress())
-                .sum(orderDTO.getSum())
+                .sum(BigDecimal.valueOf(orderDTO.getSum()))
                 .status(OrderStatus.NEW)
+                .orderDetailsList(new ArrayList<>())
                 .build();
-        Order savedOrder = orderRepository.save(order);
+       Order savedOrder = orderRepository.save(order);
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
+        System.out.println("\n\nBUCKET DTO: "+bucketDTO);
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
+        BigDecimal sum = new BigDecimal(0);
 
         for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
-            newOrderDetails.setOrder(savedOrder);
             newOrderDetails.setAmount(details.getAmount());
             newOrderDetails.setPrice(details.getPrice());
             Product product = productService.findProductById(details.getProductId());
             newOrderDetails.setProduct(product);
             orderDetailsService.save(newOrderDetails);
+            orderDetailsList.add(newOrderDetails);
+            sum = sum.add(details.getPrice());
+            bucketService.removeProductByUsername(product.getId(),userM.getName());
         }
+
+        savedOrder.setOrderDetailsList(orderDetailsList);
+        savedOrder.setSum(sum);
+
+
+
+        orderRepository.save(savedOrder);
 
         return true;
     }
@@ -74,10 +81,11 @@ public class OrderServiceImpl implements OrderService {
         return mapper.fromOrder(orderRepository.findFirstById(id));
     }
 
-    public List<OrderDetailsDTO> getDetailsByOrderId(Long id){
+    public List<OrderDetailsDTO> getDetailsByOrderId(Long id) {
         return orderDetailsService.findOrdersDetailsByOrderId(id);
     }
-    public List<ProductDTO> getProductsByOrderId(Long id){
+
+    public List<ProductDTO> getProductsByOrderId(Long id) {
         return productService.getProductsByUserIds(id);
     }
 }

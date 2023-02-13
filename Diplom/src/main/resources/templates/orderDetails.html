@@ -24,25 +24,27 @@
         <td th:text="${order.created}"></td>
         <td th:text="${order.updated}"></td>
         <td th:text="${order.status}"></td>
-        <td th:text="${order.address}"></td>
+        <td th:text="${order.sum}"></td>
     </tr>
-    <tr th:each="product : ${products}">
+</table>
+<table border="1" align="center">
+    <tr>
         <td>
             Title
         </td>
         <td>
-            Image
-        </td>
-        <td>
-            Description
+            Amount
         </td>
         <td>
             Price
         </td>
-        <td th:text="${product.title}">Test</td>
-        <td th:text="${product.image}">img</td>
-        <td th:text="${product.description}">description</td>
-        <td th:text="${product.price}">9999999</td>
+    </tr>
+    <tr th:each="detail : ${details}">
+        <td >
+            <a th:href="@{/advanced/products/{title}/details(title=${detail.productName})}" th:text="${detail.productName}"></a>
+        </td>
+        <td th:text="${detail.amount}">amount</td>
+        <td th:text="${detail.price}">9999999</td>
     </tr>
 </table>
 

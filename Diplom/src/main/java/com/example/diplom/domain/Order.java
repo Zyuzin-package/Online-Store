@@ -35,6 +35,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private UserM user;
 
+    @OneToMany
+    @JoinColumn(name="order_details_id")
+    private List<OrderDetails> orderDetailsList;
+
     private BigDecimal sum;
     private String address;
 

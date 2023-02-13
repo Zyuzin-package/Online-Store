@@ -50,7 +50,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Long> getProductIdsByUserId(@Param("id")Long id);
 
     @Modifying
-    @Query(value = "select from products where products.id=(select product_id from orders_details where order_id=:id)", nativeQuery = true)
+    @Query(value = "select * from products where products.id IN (select orders_details.product_id from orders_details where orders_details.order_details_id=:id)", nativeQuery = true)
     @Transactional
     List<Product> getProductsByUserIds(@Param("id")Long id);
 }

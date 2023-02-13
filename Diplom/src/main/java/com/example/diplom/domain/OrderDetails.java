@@ -23,9 +23,6 @@ public class OrderDetails {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-    @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
