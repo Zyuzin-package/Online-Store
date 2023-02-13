@@ -7,6 +7,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
+
 <form th:action="@{/order/orders/admin}" th:object="${orderDTO}" method="post">
     <table border="1" align="center">
         <tr>

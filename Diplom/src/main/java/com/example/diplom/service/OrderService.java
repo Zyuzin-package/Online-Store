@@ -18,4 +18,6 @@ public interface OrderService {
     void updateOrderStatus(String status, Long orderId);
 
     List<OrderDTO> getOrderByUserName(String username);
+
+    List<OrderDTO> getOrderByStatus(String status);
 }

@@ -75,8 +75,11 @@ public class OrderController {
 
     @GetMapping("/orders/admin")
     public String orderManagementPage(Model model, Principal principal) {
-
+        List<String> stats = Stream.of(OrderStatus.values())
+                .map(Enum::name).toList();
         List<OrderDTO> orderDTOS = orderService.getAll();
+
+        model.addAttribute("status", stats);
         model.addAttribute("orders", orderDTOS);
         return "orderManagement";
     }
@@ -93,9 +96,21 @@ public class OrderController {
         return "orderEditManagement";
     }
 
+    @GetMapping("/orders/admin/{status}")
+    public String getOrdersByStatus(@PathVariable String status, Model model) {
+        List<String> stats = Stream.of(OrderStatus.values())
+                .map(Enum::name).toList();
+        List<OrderDTO> dtos = orderService.getOrderByStatus(status);
+        model.addAttribute("orders", dtos);
+        model.addAttribute("status", stats);
+        return "orderManagement";
+    }
+
     @PostMapping("/orders/admin")
     public String orderManagementPageEdit(@RequestParam(name = "status") String status, Model model, Principal principal) {
         orderService.updateOrderStatus(status, orderId);
         return "redirect:/order/orders/admin";
     }
+
+
 }

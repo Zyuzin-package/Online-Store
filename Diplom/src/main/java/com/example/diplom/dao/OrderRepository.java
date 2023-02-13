@@ -2,6 +2,7 @@ package com.example.diplom.dao;
 
 import com.example.diplom.domain.Order;
 import com.example.diplom.domain.OrderDetails;
+import com.example.diplom.domain.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,6 @@ public interface OrderRepository extends JpaRepository<Order,Long > {
     @Query(value = "SELECT * from orders where orders.user_id = (select users.id from users where users.name=:username)", nativeQuery = true)
     @Transactional
     List<Order> getOrdersByUserName(@Param("username")String username);
+
+    List<Order> getOrdersByStatus(OrderStatus status);
 }

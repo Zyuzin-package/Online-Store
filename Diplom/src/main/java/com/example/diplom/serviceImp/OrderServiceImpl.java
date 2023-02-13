@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -98,5 +99,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrderByUserName(String username) {
         return mapper.fromOrderList(orderRepository.getOrdersByUserName(username));
+    }
+
+    @Override
+    public List<OrderDTO> getOrderByStatus(String status){
+        OrderStatus orderStatus = null;
+        for (OrderStatus stat : OrderStatus.values()){
+            if(stat.name().equals(status)){
+                orderStatus = stat;
+            }
+        }
+        return mapper.fromOrderList(orderRepository.getOrdersByStatus(orderStatus));
     }
 }

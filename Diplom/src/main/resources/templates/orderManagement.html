@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/orderStatus :: #status-menu}"></div>
 
 <form th:action="@{/order/orders/admin}" th:object="${order}" method="post">
     <table border="1" align="center">
