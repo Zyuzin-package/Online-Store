@@ -16,6 +16,7 @@
                     <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/users}">Users</a></td>
                     <td sec:authorize="isAuthenticated()"> <a th:href="@{/bucket}">Bucket</a></td>
                     <td sec:authorize="isAuthenticated()"><a th:href="@{/order/orders}">Orders</a></td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"> <a th:href="@{/order/orders/admin}">Order management</a></td>
                 </tr>
             </table>
         </td>

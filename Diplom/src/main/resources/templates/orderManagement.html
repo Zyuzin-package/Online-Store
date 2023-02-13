@@ -2,10 +2,12 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Order Details</title>
+    <title>Order management</title>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:action="@{/order/orders/admin}" th:object="${order}" method="post">
     <table border="1" align="center">
         <tr>
             <td>Number</td>
@@ -14,36 +16,18 @@
             <td>Updated</td>
             <td>Status</td>
             <td>Sum</td>
+            <td></td>
         </tr>
-        <tr>
+        <tr th:each="order : ${orders}">
             <td th:text="${order.id}"></td>
             <td th:text="${order.address}"></td>
             <td th:text="${order.created}"></td>
             <td th:text="${order.updated}"></td>
             <td th:text="${order.status}"></td>
             <td th:text="${order.sum}"></td>
+            <td> <a th:href="@{/order/orders/admin/edit/{id}(id=${order.id})}">Edit</a></td>
         </tr>
     </table>
-    <table border="1" align="center">
-        <tr>
-            <td>
-                Title
-            </td>
-            <td>
-                Amount
-            </td>
-            <td>
-                Price
-            </td>
-        </tr>
-        <tr th:each="detail : ${details}">
-            <td>
-                <a th:href="@{/advanced/products/{title}/details(title=${detail.productName})}"
-                   th:text="${detail.productName}"></a>
-            </td>
-            <td th:text="${detail.amount}">amount</td>
-            <td th:text="${detail.price}">9999999</td>
-        </tr>
-    </table>
+</form>
 </body>
 </html>

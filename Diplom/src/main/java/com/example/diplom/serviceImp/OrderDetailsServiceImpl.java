@@ -13,6 +13,7 @@ import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.OrderDetailsService;
 import com.example.diplom.service.ProductService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 

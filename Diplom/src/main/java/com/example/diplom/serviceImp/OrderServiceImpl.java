@@ -47,29 +47,33 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.NEW)
                 .orderDetailsList(new ArrayList<>())
                 .build();
-       Order savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
-        System.out.println("\n\nBUCKET DTO: "+bucketDTO);
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         BigDecimal sum = new BigDecimal(0);
 
         for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
             newOrderDetails.setAmount(details.getAmount());
-            newOrderDetails.setPrice(details.getPrice());
+
+            if (details.getAmount().doubleValue() > 1.0) {
+                newOrderDetails.setPrice(details.getPrice().multiply(details.getAmount()));
+            } else {
+                newOrderDetails.setPrice(details.getPrice());
+            }
+            sum = sum.add(newOrderDetails.getPrice());
+
             Product product = productService.findProductById(details.getProductId());
             newOrderDetails.setProduct(product);
             orderDetailsService.save(newOrderDetails);
             orderDetailsList.add(newOrderDetails);
-            sum = sum.add(details.getPrice());
-            bucketService.removeProductByUsername(product.getId(),userM.getName());
+
+            bucketService.removeProductByUsername(product.getId(), userM.getName());
         }
 
         savedOrder.setOrderDetailsList(orderDetailsList);
         savedOrder.setSum(sum);
-
-
 
         orderRepository.save(savedOrder);
 
@@ -81,11 +85,18 @@ public class OrderServiceImpl implements OrderService {
         return mapper.fromOrder(orderRepository.findFirstById(id));
     }
 
+    @Override
     public List<OrderDetailsDTO> getDetailsByOrderId(Long id) {
         return orderDetailsService.findOrdersDetailsByOrderId(id);
     }
 
-    public List<ProductDTO> getProductsByOrderId(Long id) {
-        return productService.getProductsByUserIds(id);
+    @Override
+    public void updateOrderStatus(String status, Long orderId) {
+        orderRepository.updateOrderStatus(orderId, status);
+    }
+
+    @Override
+    public List<OrderDTO> getOrderByUserName(String username) {
+        return mapper.fromOrderList(orderRepository.getOrdersByUserName(username));
     }
 }

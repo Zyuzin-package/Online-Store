@@ -21,5 +21,8 @@ public class OrderDetailsDTO {
     private BigDecimal price;
     private double sum;
 
+    public void aggregate() {
+        this.sum =  price.multiply(amount).doubleValue();
+    }
 
 }
