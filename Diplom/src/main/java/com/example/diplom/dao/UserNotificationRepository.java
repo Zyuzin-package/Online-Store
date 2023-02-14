@@ -16,8 +16,11 @@ public interface UserNotificationRepository extends JpaRepository<UserNotificati
     @Query(value = "Select * from user_notification where user_notification.user_id=:id", nativeQuery = true)
     @Transactional
     List<UserNotification> findNotificationByUserId(@Param("id") Long userId);
+
+    UserNotification findFirstById(Long id);
     @Modifying
     @Query(value = "DELETE from user_notification where id=:id", nativeQuery = true)
     @Transactional
     void deleteUserNotificationById(@Param("id")Long id);
+
 }

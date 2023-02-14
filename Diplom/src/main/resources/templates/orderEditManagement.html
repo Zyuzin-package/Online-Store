@@ -23,7 +23,6 @@
             <td th:text="*{address}"></td>
             <td th:text="*{created}"></td>
             <td th:text="*{updated}"></td>
-            <td th:text="*{status}"></td>
             <td>
                 <select  th:name="status" id="status" name="status">
                     <option th:each="stat : ${status}"
@@ -34,6 +33,7 @@
                     </option>
                 </select>
             </td>
+            <td th:text="*{sum}"></td>
         </tr>
         <tr>
             <td colspan="6" align="center">

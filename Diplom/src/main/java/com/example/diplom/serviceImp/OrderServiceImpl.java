@@ -21,12 +21,15 @@ public class OrderServiceImpl implements OrderService {
     private final BucketService bucketService;
     private final UserService userService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService) {
+    private final UserNotificationService userNotificationService;
+
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.orderDetailsService = orderDetailsService;
         this.bucketService = bucketService;
         this.userService = userService;
+        this.userNotificationService = userNotificationService;
     }
 
     @Override
@@ -76,8 +79,12 @@ public class OrderServiceImpl implements OrderService {
         savedOrder.setOrderDetailsList(orderDetailsList);
         savedOrder.setSum(sum);
 
-        orderRepository.save(savedOrder);
+        Order doneOrder = orderRepository.save(savedOrder);
 
+        Notification notification = Notification.NEW;
+        notification.setMessage("You order - " +doneOrder.getId()+ " was created");
+
+        userNotificationService.sendNotificationToUser(userM.getId(), Notification.NEW);
         return true;
     }
 
@@ -93,6 +100,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(String status, Long orderId) {
+        UserM userM = orderRepository.findFirstById(orderId).getUser();
+
+        Notification notification = Notification.valueOf(status);
+        notification.setMessage("You order - " + orderId + " was " + status.toLowerCase());
+        userNotificationService.sendNotificationToUser(userM.getId(), notification);
+
+
         orderRepository.updateOrderStatus(orderId, status);
     }
 
@@ -102,10 +116,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> getOrderByStatus(String status){
+    public List<OrderDTO> getOrderByStatus(String status) {
         OrderStatus orderStatus = null;
-        for (OrderStatus stat : OrderStatus.values()){
-            if(stat.name().equals(status)){
+        for (OrderStatus stat : OrderStatus.values()) {
+            if (stat.name().equals(status)) {
                 orderStatus = stat;
             }
         }

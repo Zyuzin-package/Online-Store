@@ -37,18 +37,36 @@ public class UserNotificationServiceImpl implements UserNotificationService {
             dtos.add(new UserNotificationDTO(u));
         }
 
-//        if (list.isEmpty() || list == null) {
-//            UserNotification userNotification = userNotificationRepository.save(UserNotification.builder()
-//                    .notification(Notification.NOTING)
-//                    .userM(userService.findById(id))
-//                    .build());
-//            dtos.add(new UserNotificationDTO(userNotification));
-//        }
         return dtos;
+    }
+
+    @Override
+    public UserNotificationDTO getNotificationsById(Long id) {
+        UserNotification userNotification =  userNotificationRepository.findFirstById(id);
+        return new UserNotificationDTO(userNotification);
     }
 
     @Override
     public void deleteNotificationByUserId(Long id) {
         userNotificationRepository.deleteUserNotificationById(id);
+    }
+
+    @Override
+    public void sendNotificationToUser(Long id, Notification notification) {
+        UserNotification userNotification = UserNotification.builder()
+                .notification(notification)
+                .userM(userService.findById(id))
+                .build();
+        userNotificationRepository.save(userNotification);
+    }
+
+    @Override
+    public void updateNotification(Long notificationId, Notification notification, Long userId){
+        UserNotification userNotification = UserNotification.builder()
+                .id(notificationId)
+                .notification(notification)
+                .userM(userService.findById(userId))
+                .build();
+        userNotificationRepository.save(userNotification);
     }
 }
