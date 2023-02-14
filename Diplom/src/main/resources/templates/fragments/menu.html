@@ -10,28 +10,44 @@
         <td align="center">
             <table>
                 <tr>
-                    <td>Menu: </td>
+                    <td>Menu:</td>
                     <td><a th:href="@{/}">Home</a></td>
                     <td><a th:href="@{/advanced/products/}">Products</a></td>
                     <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/users}">Users</a></td>
-                    <td sec:authorize="isAuthenticated()"> <a th:href="@{/bucket}">Bucket</a></td>
+                    <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Bucket</a></td>
                     <td sec:authorize="isAuthenticated()"><a th:href="@{/order/orders}">Orders</a></td>
-                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"> <a th:href="@{/order/orders/admin}">Order management</a></td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/order/orders/admin}">Order
+                        management</a></td>
                 </tr>
             </table>
         </td>
         <td align="right">
             <div sec:authorize="isAuthenticated()">
-                    <div>
-                        Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Error</span></a>
-                    </div>
-                    <div>
-                        <a th:href="@{/logout}">Logout</a>
-                    </div>
+                <table>
+                    <tr th:if="${#lists.isEmpty(notifications)}">
+                        <td>
+                            No notifications
+                        </td>
+                    </tr>
+                    <tr th:unless="${#lists.isEmpty(notifications)}" th:each="notification : ${notifications}">
+                        <td th:text="${notification.message}"></td>
+                        <td>
+                            <a th:href="@{/notification/remove/{id}/(id=${notification.id})}">X</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <div>
+                    Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Error</span></a>
+                </div>
+                <div>
+                    <a th:href="@{/logout}">Logout</a>
+                </div>
             </div>
             <div sec:authorize="!isAuthenticated()">
                 <div>
-                    Please <a th:href = "@{/login}">login</a> or <a th:href = "@{/registration}">register</a>
+                    Please <a th:href="@{/login}">login</a> or <a th:href="@{/registration}">register</a>
                 </div>
             </div>
         </td>

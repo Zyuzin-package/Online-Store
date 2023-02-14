@@ -10,6 +10,7 @@ import com.example.diplom.dto.OrderDetailsDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.OrderService;
 import com.example.diplom.service.ProductService;
+import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,6 @@ public class OrderController {
     OrderService orderService;
     UserService userService;
     ProductService productService;
-
     private Long orderId;
 
     public OrderController(OrderService orderService, UserService userService, ProductService productService) {
@@ -37,14 +37,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String getOrders(Model model, Principal principal) {
-        System.out.println(principal.getName());
         List<OrderDTO> orders = orderService.getOrderByUserName(principal.getName());
-        for (int i = 0; i <= orders.size() - 1; i++) {
-            if (orders.get(i).getStatus().equals(OrderStatus.COMPLETED.name())) {
-                orders.remove(orders.get(i));
-            }
-
-        }
         model.addAttribute("orders", orders);
         return "orders";
     }

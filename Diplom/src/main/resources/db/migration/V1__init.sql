@@ -11,6 +11,8 @@ create sequence public.order_details_seq start with 1 increment by 1;
 create sequence public.order_seq start with 1 increment by 1;
 create sequence public.product_seq start with 1 increment by 1;
 create sequence public.user_seq start with 1 increment by 1;
+create sequence public.user_notification_seq start 1 increment 1;
+
 
 DROP TABLE IF EXISTS public.buckets_product CASCADE;
 create table public.buckets_product
@@ -80,6 +82,8 @@ create table public.users
     role     varchar(255),
     primary key (id)
 );
+DROP TABLE IF EXISTS public.user_notification CASCADE;
+create table public.user_notification (id int8 not null, notification int4, user_id int8, primary key (id));
 
 alter table if exists public.orders_details add constraint order_details unique (details_id);
 alter table if exists public.buckets add constraint bucket_to_user foreign key (user_id) references public.users;
@@ -91,3 +95,4 @@ alter table if exists public.orders_details add constraint order_details_to_prod
 alter table if exists public.orders_details add constraint order_details_id_to_details_id foreign key (details_id) references public.orders_details;
 alter table if exists public.products_categories add constraint categories_to_categories_id foreign key (category_id) references public.categories;
 alter table if exists public.products_categories add constraint categories_to_product_id foreign key (product_id) references public.products;
+alter table if exists public.user_notification add constraint FKc2d7aih8weit50jlu4q57cvs foreign key (user_id) references public.users
