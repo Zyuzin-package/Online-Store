@@ -12,8 +12,8 @@ public enum Notification {
     APPROVED("Your order has been approved"),
     CANCELED("Your order has been cancelled"),
     PAID("Your order has been paid"),
-    COMPLETED("Your order has been completed");
-
+    COMPLETED("Your order has been completed"),
+    REVIEW("Please review this products: ");
     private String message;
 
 

@@ -21,13 +21,15 @@ import java.util.stream.Stream;
 @RequestMapping("/order/")
 public class OrderController {
    private final OrderService orderService;
-    UserService userService;
-    ProductService productService;
+    private final  UserService userService;
+    private final  ProductService productService;
     private Long orderId;
     private final UserNotificationService userNotificationService;
 
-    public OrderController(OrderService orderService, UserNotificationService userNotificationService) {
+    public OrderController(OrderService orderService, UserService userService, ProductService productService, UserNotificationService userNotificationService) {
         this.orderService = orderService;
+        this.userService = userService;
+        this.productService = productService;
         this.userNotificationService = userNotificationService;
     }
 
@@ -128,6 +130,7 @@ public class OrderController {
 
     @PostMapping("/orders/admin")
     public String orderManagementPageEdit(@RequestParam(name = "status") String status, Model model, Principal principal) {
+        System.out.println("\nPOST");
         orderService.updateOrderStatus(status, orderId);
         return "redirect:/order/orders/admin";
     }

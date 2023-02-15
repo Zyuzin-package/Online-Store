@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
         Order doneOrder = orderRepository.save(savedOrder);
 
         Notification notification = Notification.NEW;
-        notification.setMessage("You order - " +doneOrder.getId()+ " was created");
+        notification.setMessage("You order - " + doneOrder.getId() + " was created");
 
         userNotificationService.sendNotificationToUser(userM.getId(), Notification.NEW);
         return true;
@@ -100,12 +100,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(String status, Long orderId) {
-        UserM userM = orderRepository.findFirstById(orderId).getUser();
-
+        Order order = orderRepository.findFirstById(orderId);
+        UserM userM = order.getUser();
         Notification notification = Notification.valueOf(status);
         notification.setMessage("You order - " + orderId + " was " + status.toLowerCase());
         userNotificationService.sendNotificationToUser(userM.getId(), notification);
 
+        if (status.equals(Notification.COMPLETED.name())) {
+            Notification not = Notification.REVIEW;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (OrderDetails details : order.getOrderDetailsList()) {
+                stringBuilder.append(details.getProduct().getTitle()).append(", ");
+            }
+            not.setMessage("Please review this products: "+stringBuilder.toString());
+            userNotificationService.sendNotificationToUser(userM.getId(), not);
+        }
 
         orderRepository.updateOrderStatus(orderId, status);
     }
