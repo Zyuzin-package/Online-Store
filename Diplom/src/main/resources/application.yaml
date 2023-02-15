@@ -12,15 +12,16 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: root
-    #password: postgres
+#    password: root
+    password: postgres
   flyway:
     baseline-on-migrate: true
     baselineVersion: 0
     enabled: true
     url: jdbc:postgresql://localhost:5432/postgres
     user: postgres
-    password: root
+#    password: root
+    password: postgres
     check-location: true
 #logging:
 #  level:

@@ -25,7 +25,6 @@ public class MainController {
 
     UserNotificationService userNotificationService;
     UserService userService;
-
     public MainController(SessionObjectHolder sessionObjectHolder, UserNotificationService userNotificationService, UserService userService) {
         this.sessionObjectHolder = sessionObjectHolder;
         this.userNotificationService = userNotificationService;
@@ -35,10 +34,10 @@ public class MainController {
     @RequestMapping({"", "/"})
     public String index(Model model, HttpSession session, Principal principal) {
         if (principal != null) {
-            UserM userM = userService.findByName(principal.getName());
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserId(userM.getId());
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications",dtos);
         }
+
         if (session.getAttribute("myID") == null) {
             String uuid = UUID.randomUUID().toString();
             session.setAttribute("myID", uuid);

@@ -3,6 +3,8 @@ package com.example.diplom.controllers;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
+import com.example.diplom.dto.UserNotificationDTO;
+import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +24,23 @@ import java.util.stream.Stream;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final UserNotificationService userNotificationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserNotificationService userNotificationService) {
         this.userService = userService;
+        this.userNotificationService = userNotificationService;
     }
 
     private String username;
 
     @GetMapping
-    public String userList(Model model) {
+    public String userList(Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         List<String> roles = Stream.of(Role.values())
                 .map(Enum::name).toList();
         model.addAttribute("roles", roles);
@@ -41,6 +50,11 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profileUser(Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         if (principal == null) {
             throw new RuntimeException("You are not authorize");
         }
@@ -70,7 +84,12 @@ public class UserController {
     }
 
     @GetMapping("/{name}/edit")
-    public String updateUsersPage(@PathVariable String name, Model model) {
+    public String updateUsersPage(@PathVariable String name, Model model,Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         UserM userM = userService.findByName(name);
         UserDTO dto = UserDTO.builder()
                 .username(userM.getName())

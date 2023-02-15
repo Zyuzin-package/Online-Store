@@ -1,10 +1,14 @@
 package com.example.diplom.controllers;
 
 import com.example.diplom.domain.Category;
+import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
+import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.service.CategoryService;
 import com.example.diplom.service.ProductService;
+import com.example.diplom.service.UserNotificationService;
+import com.example.diplom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,23 +24,37 @@ public class AdvancedProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
+    private final UserNotificationService userNotificationService;
+    private final UserService userService;
     private String categoryName;
 
     @Autowired
-    public AdvancedProductController(ProductService productService, CategoryService categoryService) {
+    public AdvancedProductController(ProductService productService, CategoryService categoryService, UserNotificationService userNotificationService, UserService userService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.userNotificationService = userNotificationService;
+        this.userService = userService;
     }
 
     @GetMapping
-    public String categoriesList(Model model) {
+    public String categoriesList(Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
         model.addAttribute("categories", categoryDTOS);
         return "advancedProducts";
     }
 
     @GetMapping("/{categories}")
-    public String outProductsByCategory(@PathVariable String categories, Model model) {
+    public String outProductsByCategory(@PathVariable String categories, Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
         List<ProductDTO> productDTOList = productService.getProductsByCategory(categories);
         categoryName = categories;
@@ -47,7 +65,12 @@ public class AdvancedProductController {
 
     @PostMapping("/new")
     public String createNewProduct(Model model, ProductDTO productDTO,
-                                   @RequestParam(name = "categories") String category) {
+                                   @RequestParam(name = "categories") String category,Principal principal) {
+
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
 
         if (productService.save(productDTO)) {
             productService.addCategoryToProduct(category, productDTO);
@@ -59,7 +82,12 @@ public class AdvancedProductController {
     }
 
     @GetMapping("/new")
-    public String newProduct(Model model) {
+    public String newProduct(Model model,Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("categories", categoryService.getAll());
         return "productCreate";
@@ -72,6 +100,7 @@ public class AdvancedProductController {
         } catch (org.springframework.dao.EmptyResultDataAccessException e) {
 
         }
+
         return "redirect:/advanced/products/" + categoryName;
     }
 
@@ -82,7 +111,12 @@ public class AdvancedProductController {
     }
 
     @GetMapping("/category/new")
-    public String newCategoryPage(Model model){
+    public String newCategoryPage(Model model,Principal principal){
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         model.addAttribute("category",new CategoryDTO());
         return "categoryCreate";
     }
@@ -93,13 +127,23 @@ public class AdvancedProductController {
         return "redirect:/advanced/products";
     }
     @GetMapping("/{title}/details")
-    public String productDetails(Model model, @PathVariable String title){
+    public String productDetails(Model model, @PathVariable String title,Principal principal){
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
          ProductDTO dto = productService.getProductByName(title);
         model.addAttribute("product",dto);
         return "productDetails";
     }
     @GetMapping("/{name}/edit")
-    public String editProductPage(Model model,@PathVariable String name){
+    public String editProductPage(Model model,@PathVariable String name, Principal principal){
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         ProductDTO dto = productService.getProductByName(name);
         System.out.println(dto);
         model.addAttribute("product",dto);

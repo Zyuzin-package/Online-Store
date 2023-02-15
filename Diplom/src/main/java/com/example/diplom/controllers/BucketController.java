@@ -3,7 +3,9 @@ package com.example.diplom.controllers;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.BucketDTO;
+import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.service.BucketService;
+import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,19 +14,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class BucketController {
     private final BucketService bucketService;
     private final UserService userService;
 
-    public BucketController(BucketService bucketService, UserService userService) {
+    private final UserNotificationService userNotificationService;
+
+    public BucketController(BucketService bucketService, UserService userService, UserNotificationService userNotificationService) {
         this.bucketService = bucketService;
         this.userService = userService;
+        this.userNotificationService = userNotificationService;
     }
 
     @GetMapping("/bucket")
     public String aboutBucket(Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications",dtos);
+        }
+
         if (principal == null) {
             model.addAttribute("bucket", new BucketDTO());
         } else {
@@ -36,6 +47,7 @@ public class BucketController {
 
     @GetMapping("/bucket/{id}/remove")
     public String removeFromBucket(Model model, Principal principal, @PathVariable Long id) {
+
         UserM userM = userService.findByName(principal.getName());
         if (userM == null) {
             throw new RuntimeException("User - " + principal.getName() + " not found");

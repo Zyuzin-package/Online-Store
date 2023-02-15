@@ -24,6 +24,7 @@ public class UserNotificationServiceImpl implements UserNotificationService {
         this.userService = userService;
     }
 
+
     @Override
     public List<UserNotificationDTO> getAll() {
         return mapper.fromUserNotificationList(userNotificationRepository.findAll());
@@ -32,6 +33,17 @@ public class UserNotificationServiceImpl implements UserNotificationService {
     @Override
     public List<UserNotificationDTO> getNotificationsByUserId(Long id) {
         List<UserNotification> list = userNotificationRepository.findNotificationByUserId(id);
+        List<UserNotificationDTO> dtos = new ArrayList<>();
+        for (UserNotification u : list) {
+            dtos.add(new UserNotificationDTO(u));
+        }
+
+        return dtos;
+    }
+
+    @Override
+    public List<UserNotificationDTO> getNotificationsByUserName(String name) {
+        List<UserNotification> list = userNotificationRepository.findNotificationByUserName(name);
         List<UserNotificationDTO> dtos = new ArrayList<>();
         for (UserNotification u : list) {
             dtos.add(new UserNotificationDTO(u));
