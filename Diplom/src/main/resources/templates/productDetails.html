@@ -39,6 +39,35 @@
             </td>
         </tr>
     </table>
+    <table border="1" align="center">
+        <tr>
+            <td>User name</td>
+            <td>Review</td>
+            <td>Stars</td>
+        </tr>
+        <tr th:each="review : ${reviews}">
+            <td th:text="${review.userName}"></td>
+            <td th:text="${review.review}"></td>
+            <td th:text="${review.stars}"></td>
+        </tr>
+    </table>
+</form>
+<form th:action="@{/review/new/{id}(id=${product.id})}" th:object="${review}" method="get">
+    <table border ='1'>
+        <tr>
+            <td>Review</td>
+            <td>
+                <input type="text" th:field="*{review}">
+            </td>
+        </tr>
+        <tr>
+            <td>Stars</td>
+            <td>
+                <input type="number" max="5" th:field="*{stars}">
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Save</button>
 </form>
 </body>
 </html>

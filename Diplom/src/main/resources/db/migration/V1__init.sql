@@ -85,6 +85,10 @@ create table public.users
 DROP TABLE IF EXISTS public.user_notification CASCADE;
 create table public.user_notification (id int8 not null, notification int4, user_id int8, primary key (id));
 
+drop table if exists public.product_review cascade;
+create table public.product_review (id int8 not null, review varchar(1000), stars int4 not null, product_id int8, user_id int8, primary key (id));
+
+
 alter table if exists public.orders_details add constraint order_details unique (details_id);
 alter table if exists public.buckets add constraint bucket_to_user foreign key (user_id) references public.users;
 alter table if exists public.buckets_product add constraint bucket_product_to_product foreign key (product_id) references public.products;
@@ -95,4 +99,6 @@ alter table if exists public.orders_details add constraint order_details_to_prod
 alter table if exists public.orders_details add constraint order_details_id_to_details_id foreign key (details_id) references public.orders_details;
 alter table if exists public.products_categories add constraint categories_to_categories_id foreign key (category_id) references public.categories;
 alter table if exists public.products_categories add constraint categories_to_product_id foreign key (product_id) references public.products;
-alter table if exists public.user_notification add constraint FKc2d7aih8weit50jlu4q57cvs foreign key (user_id) references public.users
+alter table if exists public.user_notification add constraint FKc2d7aih8weit50jlu4q57cvs foreign key (user_id) references public.users;
+alter table if exists public.product_review add constraint FKlkf2n9dkjx32vcqqmds9v62 foreign key (product_id) references public.products;
+alter table if exists public.product_review add constraint FKib6mkfaqaj0beph37y4qxmu9x foreign key (user_id) references public.users;
