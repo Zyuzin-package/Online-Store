@@ -130,7 +130,6 @@ public class OrderController {
 
     @PostMapping("/orders/admin")
     public String orderManagementPageEdit(@RequestParam(name = "status") String status, Model model, Principal principal) {
-        System.out.println("\nPOST");
         orderService.updateOrderStatus(status, orderId);
         return "redirect:/order/orders/admin";
     }

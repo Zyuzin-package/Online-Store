@@ -23,22 +23,22 @@
         <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
         <td></td>
     </tr>
-    <tr th:each="product : ${products}">
+    <tr th:each="p : ${products}">
         <td>
-            <a th:href="@{/advanced/products/{title}/details(title=${product.title})}" th:text="${product.title}"></a>
+            <a th:href="@{/product/{title}(title=${p.title})}" th:text="${p.title}"></a>
         </td>
-        <td th:text="${product.image}">Image</td>
-        <td th:text="${product.price}">9999999</td>
-        <td colspan="4">
-            <a th:href="@{/advanced/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
+        <td th:text="${p.image}">Image</td>
+        <td th:text="${p.price}">9999999</td>
+        <td colspan="4" sec:authorize="isAuthenticated()">
+            <a th:href="@{/product/{id}/bucket(id=${p.id})}">Add to bucket</a>
         </td>
         <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-            <a th:href="@{/advanced/products/{id}/remove(id=${product.id})}">Remove</a>
+            <a th:href="@{/admin/product/{id}/remove(id=${p.id})}">Remove</a>
         </td>
     </tr>
     <tr sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
         <td colspan="5">
-            <a th:href="@{/advanced/products/new}">Add new product</a>
+            <a th:href="@{/admin/product/new}">Add new product</a>
         </td>
     </tr>
 </table>

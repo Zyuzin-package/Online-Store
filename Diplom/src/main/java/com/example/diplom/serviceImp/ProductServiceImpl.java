@@ -71,12 +71,11 @@ public class ProductServiceImpl implements ProductService {
             try {
                 Product newProduct = Product.builder()
                         .price(productDTO.getPrice())
-                        .categories(new ArrayList<>()) //TODO: Заменить!
+                        .categories(new ArrayList<>())
                         .title(productDTO.getTitle())
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-                System.out.println("Domain : " + newProduct);
                 productRepository.save(newProduct);
                 return true;
             } catch (RuntimeException e) {
@@ -90,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
             }
             if (productDTO.getPrice() != null
                     && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
-                    && Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
+                    && !Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
                 savedProduct.setPrice(productDTO.getPrice());
                 isChanged = true;
             }
@@ -121,8 +120,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findProductById(Long productId) {
-        Product product = productRepository.findFirstById(productId);
-        return product;
+        return productRepository.findFirstById(productId);
     }
 
     @Override

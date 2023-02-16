@@ -10,13 +10,8 @@
 <table id="category-menu" border="1" align="center">
   <tr>
     <td th:each="category : ${categories}">
-      <a th:href="@{/advanced/products/{category}(category=${category.title})}">
+      <a th:href="@{/category/{category}(category=${category.title})}">
         <b th:text="${category.title}"></b>
-      </a>
-    </td>
-    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-      <a th:href="@{/advanced/products/category/new}">
-        Add new category
       </a>
     </td>
   </tr>

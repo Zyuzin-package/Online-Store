@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<form th:action="@{/advanced/products/update/details}" th:object="${product}" method="post">
+<form th:action="@{/admin/product/edit/{name}(name=${product.title})}" th:object="${product}" method="post">
     <table border="1" align="center">
         <tr>
             <td>
@@ -32,10 +32,10 @@
             <td th:text="${product.price}">9999999</td>
 
             <td colspan="4">
-                <a th:href="@{/advanced/products/{id}/bucket(id=${product.id})}">Add to bucket</a>
+                <a th:href="@{/product/{id}/bucket(id=${product.id})}">Add to bucket</a>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-                <a th:href="@{/advanced/products/{name}/edit(name=${product.title})}">Edit</a>
+                <a th:href="@{/admin/product/edit/{name}(name=${product.title})}">Edit</a>
             </td>
         </tr>
     </table>

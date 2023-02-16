@@ -23,7 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDTO> getAll() {
-        return mapper.fromCategoryList(categoryRepository.findAll());
+        List<Category> categories = categoryRepository.findAll();
+        return mapper.fromCategoryList(categories);
     }
 
     @Override

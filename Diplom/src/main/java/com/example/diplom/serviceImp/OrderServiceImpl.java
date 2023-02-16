@@ -20,7 +20,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailsService orderDetailsService;
     private final BucketService bucketService;
     private final UserService userService;
-
     private final UserNotificationService userNotificationService;
 
     public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService) {
