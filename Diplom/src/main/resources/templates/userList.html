@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<form th:action="@{/users/update}" th:object="${users}" method="post">
+<form th:action="@{/admin/users/edit}" th:object="${users}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
@@ -19,7 +19,7 @@
             <td th:text="${user.email}">TestEmail</td>
             <td th:text="${user.role}">TestRole</td>
             <td>
-                <a th:href="@{/users/{name}/edit(name=${user.username})}">Edit</a>
+                <a th:href="@{/admin/users/{name}/edit(name=${user.username})}">Edit</a>
             </td>
         </tr>
     </table>

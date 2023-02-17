@@ -9,11 +9,10 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
 <h1>User profile</h1>
-<form th:action="@{/users/profile}" th:object="${user}" method="post">
+<form th:action="@{/my/main}" th:object="${user}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
-            <!--<input type="text" th:field="*{username}"> -->
             <td th:text="*{username}"></td>
         </tr>
         <tr>

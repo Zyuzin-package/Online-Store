@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/my")
 public class UserController {
     private final UserService userService;
     private final UserNotificationService userNotificationService;
@@ -32,23 +32,7 @@ public class UserController {
         this.userNotificationService = userNotificationService;
     }
 
-    private String username;
-
-    @GetMapping
-    public String userList(Model model, Principal principal) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
-        }
-
-        List<String> roles = Stream.of(Role.values())
-                .map(Enum::name).toList();
-        model.addAttribute("roles", roles);
-        model.addAttribute("users", userService.getAll());
-        return "userList";
-    }
-
-    @GetMapping("/profile")
+    @GetMapping("/main")
     public String profileUser(Model model, Principal principal) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
@@ -69,7 +53,7 @@ public class UserController {
         return "profile";
     }
 
-    @PostMapping("/profile")
+    @PostMapping("/main")
     public String updateProfileUser(UserDTO dto, Model model, Principal principal) {
         if (dto.getPassword() != null
                 && !dto.getPassword().isEmpty()
@@ -80,33 +64,9 @@ public class UserController {
         }
         dto.setUsername(principal.getName());
         userService.updateProfile(dto);
-        return "redirect:/users/profile";
+        return "redirect:/my/main";
     }
 
-    @GetMapping("/{name}/edit")
-    public String updateUsersPage(@PathVariable String name, Model model,Principal principal) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
-        }
 
-        UserM userM = userService.findByName(name);
-        UserDTO dto = UserDTO.builder()
-                .username(userM.getName())
-                .email(userM.getEmail())
-                .role(userM.getRole().name())
-                .build();
-        username = name;
-        List<String> roles = Stream.of(Role.values())
-                .map(Enum::name).toList();
-        model.addAttribute("roles", roles);
-        model.addAttribute("user", dto);
-        return "userEdit";
-    }
 
-    @PostMapping("/edit")
-    public String updateRole(@RequestParam(name = "roles") String role) {
-        userService.updateRole(username,role);
-        return "redirect:/users";
-    }
 }

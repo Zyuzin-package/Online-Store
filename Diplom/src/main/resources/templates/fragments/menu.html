@@ -13,7 +13,7 @@
                     <td>Menu:</td>
                     <td><a th:href="@{/}">Home</a></td>
                     <td><a th:href="@{/category}">Products</a></td>
-                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/users}">Users</a></td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/admin/users}">Users</a></td>
                     <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Bucket</a></td>
                     <td sec:authorize="isAuthenticated()"><a th:href="@{/order/orders}">Orders</a></td>
                     <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/order/orders/admin}">Order
@@ -39,7 +39,7 @@
             </div>
             <div sec:authorize="isAuthenticated()">
                 <div>
-                    Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Error</span></a>
+                    Hello, <a th:href="@{/my/main}"><span sec:authentication="principal.username">Error</span></a>
                 </div>
                 <div>
                     <a th:href="@{/logout}">Logout</a>
