@@ -22,19 +22,19 @@
         <td>
             <table>
                 <tr>
-                    <td><a th:href="@{/bucket/{id}/increase(id=${detail.productId})}">+</a></td>
+                    <td><a th:href="@{/my/bucket/{id}/increase(id=${detail.productId})}">+</a></td>
                     <td><b th:text="${detail.amount}"></b></td>
-                    <td><a th:href="@{/bucket/{id}/decrease(id=${detail.productId})}">-</a></td>
+                    <td><a th:href="@{/my/bucket/{id}/decrease(id=${detail.productId})}">-</a></td>
                 </tr>
             </table>
         </td>
         <td th:text="${detail.price}"></td>
         <td th:text="${detail.sum}"></td>
-        <td><a th:href="@{/bucket/{id}/remove(id=${detail.productId})}">Remove</a></td>
+        <td><a th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Remove</a></td>
     </tr>
     <tr>
         <td align="center" colspan="5">
-            <a th:href="@{/bucket/clear}">Clear bucket</a>
+            <a th:href="@{/my/bucket/clear}">Clear bucket</a>
         </td>
     </tr>
     <tr>

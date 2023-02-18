@@ -29,7 +29,7 @@ public class BucketController {
         this.userNotificationService = userNotificationService;
     }
 
-    @GetMapping("/bucket")
+    @GetMapping("/my/bucket")
     public String aboutBucket(Model model, Principal principal) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
@@ -45,7 +45,7 @@ public class BucketController {
         return "bucket";
     }
 
-    @GetMapping("/bucket/{id}/remove")
+    @GetMapping("/my/bucket/{id}/remove")
     public String removeFromBucket(Model model, Principal principal, @PathVariable Long id) {
 
         UserM userM = userService.findByName(principal.getName());
@@ -55,10 +55,10 @@ public class BucketController {
         BucketDTO bucketDTO = bucketService.removeProduct(userM.getBucket(),id,principal.getName());
         model.addAttribute("bucket", bucketDTO);
 
-        return "redirect:/bucket";
+        return "redirect:/my/bucket";
     }
 
-    @GetMapping("/bucket/clear")
+    @GetMapping("/my/bucket/clear")
     public String cleanBucket(Model model,Principal principal){
         UserM userM = userService.findByName(principal.getName());
         if (userM == null) {
@@ -68,22 +68,22 @@ public class BucketController {
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
         model.addAttribute("bucket", bucketDTO);
-        return "redirect:/bucket";
+        return "redirect:/my/bucket";
     }
 
-    @GetMapping("/bucket/{id}/increase")
+    @GetMapping("/my/bucket/{id}/increase")
     public String increase(Model model, Principal principal, @PathVariable Long id){
 
         bucketService.amountIncrease(userService.findByName(principal.getName()).getBucket(),id);
         BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
         model.addAttribute("bucket", bucketDTO);
-        return "redirect:/bucket";
+        return "redirect:/my/bucket";
     }
-    @GetMapping("/bucket/{id}/decrease")
+    @GetMapping("/my/bucket/{id}/decrease")
     public String decrease(Model model, Principal principal, @PathVariable Long id){
         bucketService.amountDecrease(userService.findByName(principal.getName()).getBucket(),id);
         BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
         model.addAttribute("bucket", bucketDTO);
-        return "redirect:/bucket";
+        return "redirect:/my/bucket";
     }
 }
