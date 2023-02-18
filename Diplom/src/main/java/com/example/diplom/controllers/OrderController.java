@@ -23,7 +23,7 @@ public class OrderController {
    private final OrderService orderService;
     private final  UserService userService;
     private final  ProductService productService;
-    private Long orderId;
+
     private final UserNotificationService userNotificationService;
 
     public OrderController(OrderService orderService, UserService userService, ProductService productService, UserNotificationService userNotificationService) {
@@ -78,61 +78,5 @@ public class OrderController {
         orderService.save(orderDTO);
         return "redirect:/order/orders";
     }
-
-    @GetMapping("/orders/admin")
-    public String orderManagementPage(Model model, Principal principal) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
-        }
-
-        List<String> stats = Stream.of(OrderStatus.values())
-                .map(Enum::name).toList();
-        List<OrderDTO> orderDTOS = orderService.getAll();
-
-        model.addAttribute("status", stats);
-        model.addAttribute("orders", orderDTOS);
-        return "orderManagement";
-    }
-
-    @GetMapping("/orders/admin/edit/{id}")
-    public String orderEditManagementPage(Model model, Principal principal, @PathVariable Long id) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
-        }
-
-
-        OrderDTO dto = orderService.findOrderById(id);
-
-        List<String> stats = Stream.of(OrderStatus.values())
-                .map(Enum::name).toList();
-        orderId = id;
-        model.addAttribute("orderDTO", dto);
-        model.addAttribute("status", stats);
-        return "orderEditManagement";
-    }
-
-    @GetMapping("/orders/admin/{status}")
-    public String getOrdersByStatus(@PathVariable String status, Model model, Principal principal) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
-        }
-
-        List<String> stats = Stream.of(OrderStatus.values())
-                .map(Enum::name).toList();
-        List<OrderDTO> dtos = orderService.getOrderByStatus(status);
-        model.addAttribute("orders", dtos);
-        model.addAttribute("status", stats);
-        return "orderManagement";
-    }
-
-    @PostMapping("/orders/admin")
-    public String orderManagementPageEdit(@RequestParam(name = "status") String status, Model model, Principal principal) {
-        orderService.updateOrderStatus(status, orderId);
-        return "redirect:/order/orders/admin";
-    }
-
 
 }

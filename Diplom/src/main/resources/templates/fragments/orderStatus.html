@@ -11,7 +11,7 @@
 <table id="status-menu" border="1" align="center">
     <tr>
         <td th:each="stats : ${status}">
-            <a th:href="@{/order/orders/admin/{st}(st=${stats})}">
+            <a th:href="@{/admin/users/orders/{st}(st=${stats})}">
                 <b th:text="${stats}"></b>
             </a>
         </td>

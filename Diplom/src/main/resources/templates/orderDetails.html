@@ -38,7 +38,7 @@
         </tr>
         <tr th:each="detail : ${details}">
             <td>
-                <a th:href="@{/advanced/products/{title}/details(title=${detail.productName})}"
+                <a th:href="@{/product/{title}/(title=${detail.productName})}"
                    th:text="${detail.productName}"></a>
             </td>
             <td th:text="${detail.amount}">amount</td>

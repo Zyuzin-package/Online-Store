@@ -1,15 +1,10 @@
 package com.example.diplom.controllers.admin;
 
+import com.example.diplom.domain.OrderStatus;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
-import com.example.diplom.dto.CategoryDTO;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.UserDTO;
-import com.example.diplom.dto.UserNotificationDTO;
-import com.example.diplom.service.CategoryService;
-import com.example.diplom.service.ProductService;
-import com.example.diplom.service.UserNotificationService;
-import com.example.diplom.service.UserService;
+import com.example.diplom.dto.*;
+import com.example.diplom.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,14 +22,17 @@ public class AdminController {
     private final UserNotificationService userNotificationService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final OrderService orderService;
     private String username;
+    private Long orderId;
 
     @Autowired
-    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService) {
+    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     /**
@@ -171,5 +169,62 @@ public class AdminController {
         model.addAttribute("user", dto);
         return "userEdit";
     }
+
+    /**
+     * Order
+     */
+    @PostMapping("/users/orders")
+    public String orderManagementPageEdit(@RequestParam(name = "status") String status, Model model, Principal principal) {
+        orderService.updateOrderStatus(status, orderId);
+        return "redirect:/admin/users/orders";
+    }
+
+    @GetMapping("/users/orders")
+    public String orderManagementPage(Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications", dtos);
+        }
+
+        List<String> stats = Stream.of(OrderStatus.values())
+                .map(Enum::name).toList();
+        List<OrderDTO> orderDTOS = orderService.getAll();
+
+        model.addAttribute("status", stats);
+        model.addAttribute("orders", orderDTOS);
+        return "orderManagement";
+    }
+
+    @GetMapping("/users/orders/{status}")
+    public String getOrdersByStatus(@PathVariable String status, Model model, Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications", dtos);
+        }
+
+        List<String> stats = Stream.of(OrderStatus.values())
+                .map(Enum::name).toList();
+        List<OrderDTO> dtos = orderService.getOrderByStatus(status);
+        model.addAttribute("orders", dtos);
+        model.addAttribute("status", stats);
+        return "orderManagement";
+    }
+
+    @GetMapping("/users/orders/edit/{id}")
+    public String orderEditManagementPage(Model model, Principal principal, @PathVariable Long id) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications", dtos);
+        }
+        OrderDTO dto = orderService.findOrderById(id);
+
+        List<String> stats = Stream.of(OrderStatus.values())
+                .map(Enum::name).toList();
+        orderId = id;
+        model.addAttribute("orderDTO", dto);
+        model.addAttribute("status", stats);
+        return "orderEditManagement";
+    }
+
 
 }
