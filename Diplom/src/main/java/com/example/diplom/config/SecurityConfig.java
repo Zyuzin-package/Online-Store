@@ -51,22 +51,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(),Role.MANAGER.name())
-                .antMatchers("/users/now").hasAuthority(Role.ADMIN.name())
-                .antMatchers("products/new").hasAnyAuthority(Role.ADMIN.name(),Role.MANAGER.name())
+                .antMatchers("/admin/**").authenticated()
+                .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
+                .antMatchers("/my/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .failureUrl("/login-error")
-                    .loginProcessingUrl("/auth")
-                    .permitAll()
+                 .formLogin()
+                 .loginPage("/login")
+                 .failureUrl("/login-error")
+                 .loginProcessingUrl("/auth")
+                 .defaultSuccessUrl("/", true)
+                 .permitAll()
                 .and()
-                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
+                    .rememberMe()
+                    .userDetailsService(userService)
                 .and()
-                    .csrf().disable();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .and()
+                .csrf().disable();
     }
 
 

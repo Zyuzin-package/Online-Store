@@ -7,9 +7,11 @@ import com.example.diplom.dto.UserDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.mapper.UserMapper;
 import com.example.diplom.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+//    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper mapper = UserMapper.MAPPER;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -109,6 +113,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UserM user = userRepository.findFirstByName(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with name: " + username);

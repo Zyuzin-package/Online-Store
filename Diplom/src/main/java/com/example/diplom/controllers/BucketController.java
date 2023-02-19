@@ -1,6 +1,5 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.UserNotificationDTO;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;

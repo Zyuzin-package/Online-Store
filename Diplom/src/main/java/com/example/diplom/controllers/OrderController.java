@@ -1,21 +1,22 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.Order;
-import com.example.diplom.domain.OrderDetails;
-import com.example.diplom.domain.OrderStatus;
-import com.example.diplom.domain.Role;
-import com.example.diplom.dto.*;
+import com.example.diplom.dto.OrderDTO;
+import com.example.diplom.dto.OrderDetailsDTO;
+import com.example.diplom.dto.ProductDTO;
+import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.service.OrderService;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/order/")
@@ -23,7 +24,6 @@ public class OrderController {
    private final OrderService orderService;
     private final  UserService userService;
     private final  ProductService productService;
-
     private final UserNotificationService userNotificationService;
 
     public OrderController(OrderService orderService, UserService userService, ProductService productService, UserNotificationService userNotificationService) {
