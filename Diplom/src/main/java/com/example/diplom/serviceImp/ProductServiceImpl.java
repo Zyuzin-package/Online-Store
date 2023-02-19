@@ -1,6 +1,7 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.CategoryRepository;
+import com.example.diplom.dao.DiscountRepository;
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Category;
@@ -9,10 +10,7 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.mapper.ProductMapper;
-import com.example.diplom.service.BucketService;
-import com.example.diplom.service.CategoryService;
-import com.example.diplom.service.ProductService;
-import com.example.diplom.service.UserService;
+import com.example.diplom.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +29,16 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final DiscountService discountService;
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, ProductRepository productRepository, CategoryService categoryService, CategoryRepository categoryRepository) {
+
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, CategoryRepository categoryRepository, DiscountService discountService) {
         this.userService = userService;
         this.bucketService = bucketService;
-        this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.discountService = discountService;
     }
 
     @Override
@@ -76,7 +77,9 @@ public class ProductServiceImpl implements ProductService {
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-                productRepository.save(newProduct);
+                Product product= productRepository.save(newProduct);
+                System.out.println("SAVE");
+                discountService.save(BigDecimal.valueOf(0),product.getId());
                 return true;
             } catch (RuntimeException e) {
                 return false;
@@ -104,8 +107,11 @@ public class ProductServiceImpl implements ProductService {
             }
             if (isChanged) {
                 productRepository.save(savedProduct);
+
             }
         }
+        System.out.println("EDIT");
+        discountService.save(BigDecimal.valueOf(0),savedProduct.getId());
         return true;
     }
 

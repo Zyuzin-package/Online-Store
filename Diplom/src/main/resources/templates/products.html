@@ -23,12 +23,13 @@
         <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
         <td></td>
     </tr>
-    <tr th:each="p : ${products}">
+    <tr th:each="p,itemStat : ${products}">
         <td>
             <a th:href="@{/product/{title}(title=${p.title})}" th:text="${p.title}"></a>
         </td>
         <td th:text="${p.image}">Image</td>
-        <td th:text="${p.price}">9999999</td>
+        <td th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}" th:text="${discounts[__${itemStat.index}__].discount_price}"></td>
+        <td th:unless="${discounts[__${itemStat.index}__].discount_price > 0.0}" th:text="${p.price}"></td>
         <td colspan="4" sec:authorize="isAuthenticated()">
             <a th:href="@{/product/{id}/bucket(id=${p.id})}">Add to bucket</a>
         </td>

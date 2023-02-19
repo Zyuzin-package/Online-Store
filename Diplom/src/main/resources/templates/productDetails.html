@@ -21,6 +21,9 @@
             <td>
                 Price
             </td>
+            <td th:if="${discount.discount_price > 0.0}">
+                Discount
+            </td>
             <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
             <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
 
@@ -30,7 +33,7 @@
             <td th:text="${product.image}">img</td>
             <td th:text="${product.description}">description</td>
             <td th:text="${product.price}">9999999</td>
-
+            <td th:if="${discount.discount_price > 0.0}" th:text="${discount.discount_price}"></td>
             <td colspan="4">
                 <a th:href="@{/product/{id}/bucket(id=${product.id})}">Add to bucket</a>
             </td>

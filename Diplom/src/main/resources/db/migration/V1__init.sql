@@ -12,7 +12,8 @@ create sequence public.order_seq start with 1 increment by 1;
 create sequence public.product_seq start with 1 increment by 1;
 create sequence public.user_seq start with 1 increment by 1;
 create sequence public.user_notification_seq start 1 increment 1;
-
+create sequence public.product_review_seq start 1 increment 1;
+create sequence public.discount_seq start 1 increment 1;
 
 DROP TABLE IF EXISTS public.buckets_product CASCADE;
 create table public.buckets_product
@@ -88,6 +89,8 @@ create table public.user_notification (id int8 not null, notification int4, user
 drop table if exists public.product_review cascade;
 create table public.product_review (id int8 not null, review varchar(1000), stars int4 not null, product_id int8, user_id int8, primary key (id));
 
+drop table if exists public.discount cascade;
+create table public.discount (id int8 not null, discount_price numeric(19, 2), product_id int8, primary key (id));
 
 alter table if exists public.orders_details add constraint order_details unique (details_id);
 alter table if exists public.buckets add constraint bucket_to_user foreign key (user_id) references public.users;
@@ -102,3 +105,4 @@ alter table if exists public.products_categories add constraint categories_to_pr
 alter table if exists public.user_notification add constraint FKc2d7aih8weit50jlu4q57cvs foreign key (user_id) references public.users;
 alter table if exists public.product_review add constraint FKlkf2n9dkjx32vcqqmds9v62 foreign key (product_id) references public.products;
 alter table if exists public.product_review add constraint FKib6mkfaqaj0beph37y4qxmu9x foreign key (user_id) references public.users;
+alter table if exists public.discount add constraint FKr4tq0e68q1e2id6odo428vawp foreign key (product_id) references public.products;

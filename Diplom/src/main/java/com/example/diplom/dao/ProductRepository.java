@@ -21,7 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductIdByCategoriesId(Long categories_id);
 
 
-
     @Transactional
     void deleteProductIdById(Long productId);
 
