@@ -73,6 +73,9 @@ public class AdminController {
                     return "productCreate";
                 }
             }
+            model.addAttribute("product", productDTO);
+            model.addAttribute("categories", categoryService.getAll());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
             return "redirect:/category";
         } else {
             //TODO: need add catch error

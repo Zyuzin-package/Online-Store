@@ -8,4 +8,6 @@ public interface ProductReviewService {
     List<ProductReviewDTO> getReviewsByProductTitle(String title);
 
     void saveReview(ProductReviewDTO productReviewDTO);
+
+    ProductReviewDTO getReviewByUserNameAndProductId(String name, Long productId);
 }

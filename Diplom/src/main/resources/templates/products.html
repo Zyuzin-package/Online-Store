@@ -19,9 +19,8 @@
         <td>
             Price
         </td>
-        <td></td>
-        <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
-        <td></td>
+        <td colspan="2" sec:authorize="isAuthenticated()"></td>
+        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
     </tr>
     <tr th:each="p,itemStat : ${products}">
         <td>

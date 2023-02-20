@@ -24,7 +24,11 @@ public class ProductReviewController {
 
     @GetMapping("/new/{id}")
     public String createNewReview(@RequestParam(name = "review") String review, @RequestParam(name = "stars") int stars, Principal principal, Model model, @PathVariable Long id, HttpServletRequest request) {
-        System.out.println("\n\n" + review + "|" + stars + "|" + id);
+        if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),id)!=null){
+            //TODO: need add catch error
+            return "redirect:"+request.getHeader("Referer");
+        }
+
         productReviewService.saveReview(
                 ProductReviewDTO.builder()
                 .review(review)

@@ -50,4 +50,18 @@ public class ProductReviewImp implements ProductReviewService {
         productReviewRepository.save(productReview);
 
     }
+
+    @Override
+    public ProductReviewDTO getReviewByUserNameAndProductId(String name, Long productId) {
+
+        List<ProductReview> productReviews = productReviewRepository.getReviewByUserNameAndProductId(name, productId);
+
+        ProductReview productReview = productReviews.get(0);
+        return ProductReviewDTO.builder()
+                .productId(productReview.getProduct().getId())
+                .review(productReview.getReview())
+                .stars(productReview.getStars())
+                .userName(productReview.getUserM().getName())
+                .id(productReview.getId()).build();
+    }
 }
