@@ -21,9 +21,6 @@
             <td>
                 Price
             </td>
-            <td th:if="${discount.discount_price > 0.0}">
-                Discount
-            </td>
             <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
             <td colspan="2" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
 
@@ -32,8 +29,13 @@
             <td th:text="${product.title}">Test</td>
             <td th:text="${product.image}">img</td>
             <td th:text="${product.description}">description</td>
-            <td th:text="${product.price}">9999999</td>
-            <td th:if="${discount.discount_price > 0.0}" th:text="${discount.discount_price}"></td>
+            <td th:if="${discount.discount_price > 0.0}">
+                <span>
+                   <s>[[${product.price}]]</s><br>
+                    [[${discount.discount_price}]]
+                </span>
+            </td>
+            <td th:unless="${discount.discount_price > 0.0}" th:text="${product.price}"></td>
             <td colspan="4">
                 <a th:href="@{/product/{id}/bucket(id=${product.id})}">Add to bucket</a>
             </td>
@@ -56,7 +58,7 @@
     </table>
 </form>
 <form th:action="@{/review/new/{id}(id=${product.id})}" th:object="${review}" method="get">
-    <table border ='1'>
+    <table border='1'>
         <tr>
             <td>Review</td>
             <td>

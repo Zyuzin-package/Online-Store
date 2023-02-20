@@ -110,7 +110,6 @@ public class ProductServiceImpl implements ProductService {
 
             }
         }
-        System.out.println("EDIT");
         discountService.save(BigDecimal.valueOf(0),savedProduct.getId());
         return true;
     }

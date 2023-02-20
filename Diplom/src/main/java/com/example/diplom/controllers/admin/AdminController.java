@@ -1,6 +1,5 @@
 package com.example.diplom.controllers.admin;
 
-import com.example.diplom.domain.Discount;
 import com.example.diplom.domain.OrderStatus;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
@@ -64,11 +63,23 @@ public class AdminController {
             if (discount.isEmpty() || discount.equals("") || Double.parseDouble(discount) <= 0) {
                 discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
-                discountService.save(BigDecimal.valueOf(Long.parseLong(discount)), productService.getProductByName(productDTO.getTitle()).getId());
+                if (BigDecimal.valueOf(Double.parseDouble(discount)).compareTo(productDTO.getPrice()) <= 0) {
+                    System.out.println("\nError discount < price");
+                    discountService.save(BigDecimal.valueOf(Long.parseLong(discount)), productService.getProductByName(productDTO.getTitle()).getId());
+                } else {
+                    System.out.println("\nError discount > price");
+                    model.addAttribute("product", productDTO);
+                    model.addAttribute("categories", categoryService.getAll());
+
+                    model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
+                    return "productCreate";
+                }
             }
             return "redirect:/category";
         } else {
             model.addAttribute("product", productDTO);
+            model.addAttribute("categories", categoryService.getAll());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
             return "productCreate";
         }
     }
