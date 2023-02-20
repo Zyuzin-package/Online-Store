@@ -64,19 +64,18 @@ public class AdminController {
                 discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
                 if (BigDecimal.valueOf(Double.parseDouble(discount)).compareTo(productDTO.getPrice()) <= 0) {
-                    System.out.println("\nError discount < price");
                     discountService.save(BigDecimal.valueOf(Long.parseLong(discount)), productService.getProductByName(productDTO.getTitle()).getId());
                 } else {
-                    System.out.println("\nError discount > price");
+                    //TODO: need add catch error
                     model.addAttribute("product", productDTO);
                     model.addAttribute("categories", categoryService.getAll());
-
                     model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
                     return "productCreate";
                 }
             }
             return "redirect:/category";
         } else {
+            //TODO: need add catch error
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
             model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());

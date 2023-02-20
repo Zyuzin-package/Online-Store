@@ -57,7 +57,7 @@
         </tr>
     </table>
 </form>
-<form th:action="@{/review/new/{id}(id=${product.id})}" th:object="${review}" method="get">
+<form sec:authorize="isAuthenticated()" th:action="@{/review/new/{id}(id=${product.id})}" th:object="${review}" method="get">
     <table border='1'>
         <tr>
             <td>Review</td>
