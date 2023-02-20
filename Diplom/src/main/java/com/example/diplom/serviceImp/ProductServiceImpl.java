@@ -1,7 +1,5 @@
 package com.example.diplom.serviceImp;
 
-import com.example.diplom.dao.CategoryRepository;
-import com.example.diplom.dao.DiscountRepository;
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Category;
@@ -28,16 +26,15 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
 
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+
     private final DiscountService discountService;
 
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, CategoryRepository categoryRepository, DiscountService discountService) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, DiscountService discountService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.categoryService = categoryService;
         this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
         this.discountService = discountService;
     }
 
@@ -153,17 +150,6 @@ public class ProductServiceImpl implements ProductService {
                 categoryService.getCategoryByName(categoryName).getId());
     }
 
-    @Override
-    public boolean saveCategory(CategoryDTO categoryDTO) {
-        if (categoryService.getCategoryByName(categoryDTO.getTitle()) == null) {
-            Category category = Category.builder()
-                    .title(categoryDTO.getTitle())
-                    .build();
-            categoryRepository.save(category);
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public ProductDTO getProductByName(String name) {
@@ -183,5 +169,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProductsByUserIds(Long id) {
         return mapper.fromProductList(productRepository.getProductsByUserIds(id));
+    }
+    @Override
+    public void removeProductsByCategoryName(String title){
+       List<ProductDTO> products =  getProductsByCategory(title);
+       for (ProductDTO productDTO : products){
+           productRepository.deleteById(productDTO.getId());
+       }
+        productRepository.removeFromProductsToCategoryByCategoryName(title);
     }
 }

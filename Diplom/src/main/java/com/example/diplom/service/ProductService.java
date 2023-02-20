@@ -22,10 +22,10 @@ public interface ProductService {
 
     void addCategoryToProduct(String categoryName, ProductDTO product);
 
-    boolean saveCategory(CategoryDTO categoryDTO);
-
     ProductDTO getProductByName(String name);
     List<ProductDTO> getProductsByBucketId(Long bucketId);
 
     List<ProductDTO> getProductsByUserIds(Long id);
+
+    void removeProductsByCategoryName(String title);
 }

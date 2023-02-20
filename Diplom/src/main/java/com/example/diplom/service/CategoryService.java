@@ -7,6 +7,11 @@ import java.util.List;
 
 public interface CategoryService {
     List<CategoryDTO> getAll();
+
+    boolean saveCategory(CategoryDTO categoryDTO);
+
+    void removeCategoryByName(String title);
+
     CategoryDTO getCategoryByName(String title);
 
 }

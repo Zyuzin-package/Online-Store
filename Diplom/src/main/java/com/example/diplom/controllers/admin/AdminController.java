@@ -40,7 +40,6 @@ public class AdminController {
 
     /**
      * Product
-     *
      * @param model
      * @param productDTO
      * @param category
@@ -60,7 +59,7 @@ public class AdminController {
 
         if (productService.save(productDTO)) {
             productService.addCategoryToProduct(category, productDTO);
-            if (discount.isEmpty() || discount.equals("") || Double.parseDouble(discount) <= 0) {
+            if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
                 discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
                 if (BigDecimal.valueOf(Double.parseDouble(discount)).compareTo(productDTO.getPrice()) <= 0) {
@@ -141,11 +140,17 @@ public class AdminController {
     }
 
     @PostMapping("/category/new")
-    public String createNewCategory(CategoryDTO categoryDTO) {
-        productService.saveCategory(categoryDTO);
+    public String createCategory(CategoryDTO categoryDTO) {
+        categoryService.saveCategory(categoryDTO);
         return "redirect:/product";
     }
 
+    @GetMapping("category/{title}/remove")
+    public String removeCategory (@PathVariable String title){
+        productService.removeProductsByCategoryName(title);
+        categoryService.removeCategoryByName(title);
+        return "redirect:/category";
+    }
     /**
      * User
      *

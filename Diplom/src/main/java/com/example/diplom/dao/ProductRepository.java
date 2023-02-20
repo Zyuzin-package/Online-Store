@@ -3,6 +3,8 @@ package com.example.diplom.dao;
 import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -52,4 +54,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select * from products where products.id IN (select orders_details.product_id from orders_details where orders_details.order_details_id=:id)", nativeQuery = true)
     @Transactional
     List<Product> getProductsByUserIds(@Param("id")Long id);
+
+    @Modifying
+    @Query(value = "DELETE from products where products.id=(Select products_categories.product_id from products_categories where products_categories.category_id= (Select categories.id from categories where categories.title=:name))", nativeQuery = true)
+    @Cascade(value = CascadeType.ALL)
+    @Transactional
+    void removeProductsByCategoryName(@Param("name")String name);
+    @Modifying
+    @Query(value = "DELETE from products_categories where category_id=(Select id from categories where title=:name)", nativeQuery = true)
+    @Transactional
+    void removeFromProductsToCategoryByCategoryName(@Param("name")String name);
 }
