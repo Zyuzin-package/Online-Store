@@ -69,6 +69,9 @@ public class ProductServiceImpl implements ProductService {
     public boolean save(ProductDTO productDTO) {
         Product savedProduct = productRepository.findByTitle(productDTO.getTitle());
         if (savedProduct == null) {
+            if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) <= 0) {
+                return false;
+            }
             try {
                 Product newProduct = Product.builder()
                         .price(productDTO.getPrice())
@@ -77,9 +80,8 @@ public class ProductServiceImpl implements ProductService {
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-                Product product= productRepository.save(newProduct);
-                System.out.println("SAVE");
-                discountService.save(BigDecimal.valueOf(0),product.getId());
+                Product product = productRepository.save(newProduct);
+                discountService.save(BigDecimal.valueOf(0), product.getId());
                 return true;
             } catch (RuntimeException e) {
                 return false;
@@ -93,6 +95,10 @@ public class ProductServiceImpl implements ProductService {
             if (productDTO.getPrice() != null
                     && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
                     && !Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
+
+                if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) <= 0) {
+                    return false;
+                }
                 savedProduct.setPrice(productDTO.getPrice());
                 isChanged = true;
             }
@@ -110,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
 
             }
         }
-        discountService.save(BigDecimal.valueOf(0),savedProduct.getId());
+        discountService.save(BigDecimal.valueOf(0), savedProduct.getId());
         return true;
     }
 
@@ -168,14 +174,14 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getProductsByBucketId(Long bucketId) {
         List<Long> productsIds = productRepository.getProductIdsByBucketId(bucketId);
         List<Product> products = new ArrayList<>();
-        for (Long l : productsIds){
+        for (Long l : productsIds) {
             products.add(findProductById(l));
         }
         return mapper.fromProductList(products);
     }
 
     @Override
-    public List<ProductDTO> getProductsByUserIds(Long id){
+    public List<ProductDTO> getProductsByUserIds(Long id) {
         return mapper.fromProductList(productRepository.getProductsByUserIds(id));
     }
 }

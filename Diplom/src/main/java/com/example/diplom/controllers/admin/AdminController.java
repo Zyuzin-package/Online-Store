@@ -103,10 +103,7 @@ public class AdminController {
     public String removeProduct(@PathVariable Long id, HttpServletRequest request) {
         try {
             productService.remove(id);
-        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-
-        }
-
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {}
         return "redirect:" + request.getHeader("Referer");
     }
 
@@ -116,7 +113,6 @@ public class AdminController {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
         }
-
 
         ProductDTO dto = productService.getProductByName(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
