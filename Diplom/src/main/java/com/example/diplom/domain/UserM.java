@@ -22,6 +22,9 @@ public class UserM {
     private String name;
     private String password;
     private String email;
+
+    private String activationCode;
+
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)

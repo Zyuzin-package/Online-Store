@@ -8,18 +8,19 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
 <p th:if="${loginError}" class="error">Wrong user or password</p>
-  <form th:action="@{/auth}" method="post">
+<p th:if="${message}" th:text="${message}"></p>
+  <form th:action="@{/authentication}" method="post">
     <table border ='1'>
       <tr>
         <td>Name</td>
         <td>
-          <input type="text" name="username">
+          <input type="text" th:name="username" name="username">
         </td>
       </tr>
       <tr>
         <td>Password</td>
         <td>
-          <input type="password" name="password">
+          <input type="password"  th:name="password"  name="password">
         </td>
       </tr>
       <tr>

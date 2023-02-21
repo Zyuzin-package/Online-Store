@@ -27,6 +27,22 @@ spring:
     password: root
 #    password: postgres
     check-location: true
-#logging:
-#  level:
-#    ROOT: DEBUG
+  mail:
+    host: smtp.yandex.ru
+    username: Kork2006@yandex.ru
+    password:
+    port: 465
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            auth: true
+            "mail.transport.protocol": smtp
+            "mail.smtp.auth": true
+            "mail.smtp.starttls.enable": true
+
+  #logging:
+  #  level:
+  #    ROOT: DEBUG

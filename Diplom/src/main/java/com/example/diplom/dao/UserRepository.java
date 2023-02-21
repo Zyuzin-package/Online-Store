@@ -24,4 +24,7 @@ public interface UserRepository extends JpaRepository<UserM,Long> {
     @Query(value = "update users SET role=:role where id=:id", nativeQuery = true)
     @Transactional
     void updateRole(@Param("role")String role,@Param("id")Long id);
+
+    UserM findByActivationCode(String code);
+
 }

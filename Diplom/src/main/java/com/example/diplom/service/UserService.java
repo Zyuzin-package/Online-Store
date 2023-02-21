@@ -1,6 +1,5 @@
 package com.example.diplom.service;
 
-import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,4 +21,6 @@ public interface UserService extends UserDetailsService {
 
     String getRoleByUserId(Long id);
     void updateRole(String username, String role);
+
+    UserDTO activateUser(String code);
 }

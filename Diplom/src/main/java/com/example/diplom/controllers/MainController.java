@@ -1,12 +1,16 @@
 package com.example.diplom.controllers;
 
+import com.example.diplom.domain.UserM;
+import com.example.diplom.dto.UserDTO;
 import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
@@ -16,6 +20,7 @@ public class MainController {
 
     UserNotificationService userNotificationService;
     UserService userService;
+
     public MainController(UserNotificationService userNotificationService, UserService userService) {
 
         this.userNotificationService = userNotificationService;
@@ -26,15 +31,34 @@ public class MainController {
     public String index(Model model, Principal principal) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications",dtos);
+            model.addAttribute("notifications", dtos);
         }
 
         return "index";
     }
 
     @RequestMapping({"/login"})
-    public String login() {
+    public String login(Model model) {
         return "login";
+    }
+
+    @RequestMapping({"/authentication"})
+    @PostMapping({"/authentication"})
+    public String authentication(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, Model model, HttpServletRequest request) {
+        UserM userM  = userService.findByName(username);
+        System.out.println("UserM"+userM);
+        if(userM.getActivationCode()==null) {
+            try {
+                request.login(username, password);
+                return "redirect:/";
+            } catch (ServletException e) {
+                System.out.println("Error while login \n" + e);
+                return "login";
+            }
+        } else {
+            model.addAttribute("loginError", true);
+            return "login";
+        }
     }
 
     @RequestMapping({"/login-error"})

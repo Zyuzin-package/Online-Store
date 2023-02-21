@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return auth;
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,15 +52,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").authenticated()
-                .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
-                .antMatchers("/my/**").authenticated()
+                .antMatchers("/activate/*").permitAll()
+                .antMatchers("/admin/****").authenticated()
+                .antMatchers("/admin/****").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
+                .antMatchers("/my/***").authenticated()
                 .anyRequest().permitAll()
                 .and()
                  .formLogin()
                  .loginPage("/login")
                  .failureUrl("/login-error")
-                 .loginProcessingUrl("/auth")
+//                 .loginProcessingUrl("/authentication")
                  .defaultSuccessUrl("/", true)
                  .permitAll()
                 .and()

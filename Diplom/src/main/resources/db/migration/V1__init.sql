@@ -74,15 +74,7 @@ create table public.products_categories
 );
 
 DROP TABLE IF EXISTS public.users CASCADE;
-create table public.users
-(
-    id       bigint  not null,
-    email    varchar(255),
-    name     varchar(255),
-    password varchar(255),
-    role     varchar(255),
-    primary key (id)
-);
+create table public.users (id int8 not null, activation_code varchar(255), email varchar(255), name varchar(255), password varchar(255), role varchar(255), primary key (id));
 DROP TABLE IF EXISTS public.user_notification CASCADE;
 create table public.user_notification (id int8 not null, notification int4, user_id int8, primary key (id));
 
