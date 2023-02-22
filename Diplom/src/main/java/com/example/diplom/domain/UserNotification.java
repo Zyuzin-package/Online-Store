@@ -20,10 +20,9 @@ public class UserNotification {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-
-    @Enumerated(EnumType.ORDINAL) // В базе хранится номер
-    private Notification notification;
-
+    private String message;
+    private String url;
+    private String urlText;
     @ManyToOne
     @JoinColumn(name = "user_id")
     UserM userM;

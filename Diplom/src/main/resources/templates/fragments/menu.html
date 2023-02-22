@@ -30,7 +30,10 @@
                         </td>
                     </tr>
                     <tr th:unless="${#lists.isEmpty(notifications)}" th:each="notification : ${notifications}">
-                        <td th:text="${notification.message}"></td>
+                        <td>
+                            <span th:text="${notification.message}"></span>
+                            <a th:if="${notification.url != null}" th:href="${notification.url}"></a>
+                        </td>
                         <td>
                             <a th:href="@{/notification/remove/{id}/(id=${notification.id})}">X</a>
                         </td>

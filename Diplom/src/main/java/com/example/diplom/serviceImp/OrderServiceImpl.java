@@ -80,10 +80,13 @@ public class OrderServiceImpl implements OrderService {
 
         Order doneOrder = orderRepository.save(savedOrder);
 
-        Notification notification = Notification.NEW;
-        notification.setMessage("You order - " + doneOrder.getId() + " was created");
+        userNotificationService.sendNotificationToUser(UserNotificationDTO.builder()
+                .userId(userM.getId())
+                .message("Order - " + doneOrder.getId() + " was created")
+                .url("")
+                .urlText("").build()
 
-        userNotificationService.sendNotificationToUser(userM.getId(), Notification.NEW);
+        );
         return true;
     }
 
@@ -101,19 +104,26 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrderStatus(String status, Long orderId) {
         Order order = orderRepository.findFirstById(orderId);
         UserM userM = order.getUser();
-        Notification notification = Notification.valueOf(status);
-        notification.setMessage("You order - " + orderId + " was " + status.toLowerCase());
-        userNotificationService.sendNotificationToUser(userM.getId(), notification);
+        userNotificationService.sendNotificationToUser(
+                UserNotificationDTO.builder()
+                        .userId(userM.getId())
+                        .message( "Order - " + orderId + " was " + status.toLowerCase())
+                        .url("")
+                        .urlText("").build());
 
-        if (status.equals(Notification.COMPLETED.name())) {
-            Notification not = Notification.REVIEW;
+        if (status.equals("COMPLETED")) {
             StringBuilder stringBuilder = new StringBuilder();
 
             for (OrderDetails details : order.getOrderDetailsList()) {
                 stringBuilder.append(details.getProduct().getTitle()).append(", ");
             }
-            not.setMessage("Please review this products: "+stringBuilder.toString());
-            userNotificationService.sendNotificationToUser(userM.getId(), not);
+
+            userNotificationService.sendNotificationToUser(
+                    UserNotificationDTO.builder()
+                            .userId(userM.getId())
+                            .message(   "Please review this products: " + stringBuilder)
+                            .url("")
+                            .urlText("").build());
         }
 
         orderRepository.updateOrderStatus(orderId, status);

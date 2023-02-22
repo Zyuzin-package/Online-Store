@@ -1,7 +1,6 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.UserNotificationRepository;
-import com.example.diplom.domain.Notification;
 import com.example.diplom.domain.UserNotification;
 import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.mapper.UserNotificationMapper;
@@ -64,19 +63,23 @@ public class UserNotificationServiceImpl implements UserNotificationService {
     }
 
     @Override
-    public void sendNotificationToUser(Long id, Notification notification) {
+    public void sendNotificationToUser(UserNotificationDTO userNotificationDTO){
         UserNotification userNotification = UserNotification.builder()
-                .notification(notification)
-                .userM(userService.findById(id))
+                .message(userNotificationDTO.getMessage())
+                .url(userNotificationDTO.getUrl())
+                .urlText(userNotificationDTO.getUrlText())
+                .userM(userService.findById(userNotificationDTO.getUserId()))
                 .build();
         userNotificationRepository.save(userNotification);
     }
 
     @Override
-    public void updateNotification(Long notificationId, Notification notification, Long userId){
+    public void updateNotification(Long notificationId, Long userId,UserNotificationDTO userNotificationDTO){
         UserNotification userNotification = UserNotification.builder()
                 .id(notificationId)
-                .notification(notification)
+                .message(userNotificationDTO.getMessage())
+                .url(userNotificationDTO.getUrl())
+                .urlText(userNotificationDTO.getUrlText())
                 .userM(userService.findById(userId))
                 .build();
         userNotificationRepository.save(userNotification);

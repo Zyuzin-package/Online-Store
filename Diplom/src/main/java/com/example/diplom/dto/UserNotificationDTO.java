@@ -15,11 +15,15 @@ import java.util.List;
 public class UserNotificationDTO {
     private Long id;
     private String message;
+    private String url;
+    private String urlText;
     private Long userId;
 
     public UserNotificationDTO(UserNotification userNotification) {
         this.id =userNotification.getId();
-        this.message = userNotification.getNotification().getMessage();
+        this.message = userNotification.getMessage();
+        this.url = userNotification.getUrl();
         this.userId = userNotification.getUserM().getId();
+        this.urlText = userNotification.getUrlText();
     }
 }

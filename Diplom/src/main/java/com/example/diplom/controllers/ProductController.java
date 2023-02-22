@@ -1,5 +1,6 @@
 package com.example.diplom.controllers;
 
+import com.example.diplom.domain.Product;
 import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,15 @@ public class ProductController {
     private final UserNotificationService userNotificationService;
     private final ProductReviewService productReviewService;
     private final DiscountService discountService;
+    private final UserService userService;
 
     @Autowired
-    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService) {
+    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService, UserService userService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.productReviewService = productReviewService;
         this.discountService = discountService;
+        this.userService = userService;
     }
 
     @GetMapping("/{id}/bucket")
@@ -35,6 +38,9 @@ public class ProductController {
             return "redirect:/login";
         }
         productService.addToUserBucket(id, principal.getName());
+        Product product = productService.findProductById(id);
+
+
         //TODO: Добавить уведомление о добавление в корзину продукта
         return "redirect:" + request.getHeader("Referer");
     }

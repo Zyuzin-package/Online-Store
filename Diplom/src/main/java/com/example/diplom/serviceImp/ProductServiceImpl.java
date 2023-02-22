@@ -6,6 +6,7 @@ import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
+import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,16 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
 
     private final ProductRepository productRepository;
-
+private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
 
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, DiscountService discountService) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.categoryService = categoryService;
         this.productRepository = productRepository;
+        this.userNotificationService = userNotificationService;
         this.discountService = discountService;
     }
 
@@ -59,6 +61,13 @@ public class ProductServiceImpl implements ProductService {
         } else {
             bucketService.addProduct(bucket, Collections.singletonList(productId));
         }
+
+        userNotificationService.sendNotificationToUser(UserNotificationDTO.builder()
+                .message("Product: "+ productRepository.findFirstById(productId).getTitle()+" was added to you bucket")
+                .url("")
+                .urlText("")
+                .userId(userM.getId())
+                .build());
     }
 
     @Override

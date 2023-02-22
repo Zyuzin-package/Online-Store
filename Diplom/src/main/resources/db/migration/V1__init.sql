@@ -76,7 +76,7 @@ create table public.products_categories
 DROP TABLE IF EXISTS public.users CASCADE;
 create table public.users (id int8 not null, activation_code varchar(255), email varchar(255), name varchar(255), password varchar(255), role varchar(255), primary key (id));
 DROP TABLE IF EXISTS public.user_notification CASCADE;
-create table public.user_notification (id int8 not null, notification int4, user_id int8, primary key (id));
+create table public.user_notification (id int8 not null, notification int4,message varchar(255), user_id int8, primary key (id));
 
 drop table if exists public.product_review cascade;
 create table public.product_review (id int8 not null, review varchar(1000), stars int4 not null, product_id int8, user_id int8, primary key (id));

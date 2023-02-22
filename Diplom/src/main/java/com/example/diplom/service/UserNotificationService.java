@@ -1,6 +1,5 @@
 package com.example.diplom.service;
 
-import com.example.diplom.domain.Notification;
 import com.example.diplom.dto.UserNotificationDTO;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface UserNotificationService {
 
     void deleteNotificationByUserId(Long id);
 
-    void sendNotificationToUser(Long id, Notification notification);
+    void sendNotificationToUser(UserNotificationDTO userNotificationDTO);
 
-    void updateNotification(Long notificationId, Notification notification, Long userId);
+    void updateNotification(Long notificationId, Long userId,UserNotificationDTO userNotificationDTO);
 }
