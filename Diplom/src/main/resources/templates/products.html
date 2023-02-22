@@ -28,7 +28,6 @@
         </td>
         <td th:if="${p.image != null}">
             <img th:src="@{${p.image}}">
-            <img th:src="${image}">
         </td>
         <td th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}">
             <span>

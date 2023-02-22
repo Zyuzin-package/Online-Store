@@ -30,4 +30,6 @@ public interface ProductService {
     void removeProductsByCategoryName(String title);
 
     boolean saveImage(MultipartFile file, String name, String path,String category);
+
+    boolean removeImage(String imageUrl);
 }

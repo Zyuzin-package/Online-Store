@@ -1,15 +1,13 @@
 package com.example.diplom.serviceImp;
 
-import com.example.diplom.DiplomApplication;
 import com.example.diplom.dao.UserRepository;
+import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.UserDTO;
 import com.example.diplom.mapper.UserMapper;
 import com.example.diplom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +52,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s \n" +
@@ -63,6 +62,12 @@ public class UserServiceImpl implements UserService {
             mailSender.send(user.getEmail(), "Activation code", message);
         }
         return true;
+    }
+
+    @Override
+    public void saveBucket(Bucket bucket, UserM userM) {
+        userM.setBucket(bucket);
+        userRepository.save(userM);
     }
 
     @Override

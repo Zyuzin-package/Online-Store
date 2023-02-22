@@ -65,10 +65,11 @@ public class AdminController {
 
         if (productService.save(productDTO,file,category)) {
             productService.addCategoryToProduct(category, productDTO);
+            try {
             if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
                 discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
-                if (BigDecimal.valueOf(Double.parseDouble(discount)).compareTo(productDTO.getPrice()) <= 0) {
+                if (BigDecimal.valueOf(Long.parseLong(discount)).compareTo(productDTO.getPrice()) <= 0) {
                     discountService.save(BigDecimal.valueOf(Long.parseLong(discount)), productService.getProductByName(productDTO.getTitle()).getId());
                 } else {
                     //TODO: need add catch error
@@ -78,7 +79,9 @@ public class AdminController {
                     return "productCreate";
                 }
             }
-//            model.addAttribute("image",new File("C:/DiplomImages/" + productDTO.getTitle()+".jpg"));
+            } catch (NumberFormatException e){
+                System.out.println("\n\n\nNFE");
+            }
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
             model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());

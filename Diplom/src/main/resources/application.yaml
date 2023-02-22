@@ -43,6 +43,6 @@ spring:
             "mail.smtp.auth": true
             "mail.smtp.starttls.enable": true
 
-  #logging:
-  #  level:
-  #    ROOT: DEBUG
+  logging:
+    level:
+      ROOT: DEBUG

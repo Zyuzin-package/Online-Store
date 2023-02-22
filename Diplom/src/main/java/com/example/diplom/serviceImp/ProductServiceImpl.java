@@ -55,8 +55,7 @@ public class ProductServiceImpl implements ProductService {
         if (bucket == null) {
             Bucket newBucket = bucketService.createBucket(userM, Collections.singletonList(productId));
             bucketService.save(newBucket);
-            userM.setBucket(newBucket);
-            userService.save(userM);
+            userService.saveBucket(newBucket,userM);
         } else {
             bucketService.addProduct(bucket, Collections.singletonList(productId));
         }
@@ -64,11 +63,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean save(ProductDTO productDTO, MultipartFile file, String category) {
-        System.out.println("StartSave");
         Product savedProduct = productRepository.findByTitle(productDTO.getTitle());
+
+        String imageName = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        String path = "/img/" + imageName + ".jpg";
+
         if (savedProduct == null) {
             if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) > 0) {
-                System.out.println("bigdecimal false");
                 return false;
             }
             try {
@@ -80,22 +81,17 @@ public class ProductServiceImpl implements ProductService {
                         .image(productDTO.getImage())
                         .build();
 
-                String name = UUID.randomUUID().toString().replace("-", "").substring(0,8);
-                String path = "/img/" + name + ".jpg";
-                System.out.println("End create domain product");
-                if (saveImage(file, name, path,category)) {
-                    newProduct.setImage("C:/DiplomImages/" + name+".jpg");
+
+                if (saveImage(file, imageName, path, category)) {
+                    newProduct.setImage(path);
 
                     Product product = productRepository.save(newProduct);
                     discountService.save(BigDecimal.valueOf(0), product.getId());
-
                     return true;
                 } else {
-                    System.out.println("\nERROR!");
                     return false;
                 }
             } catch (RuntimeException e) {
-                System.out.println("\nERROR RUNTIME!");
                 return false;
             }
         } else {
@@ -108,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
                     && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
                     && !Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
 
-                if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) <= 0) {
+                if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) > 0) {
                     return false;
                 }
                 savedProduct.setPrice(productDTO.getPrice());
@@ -119,14 +115,17 @@ public class ProductServiceImpl implements ProductService {
                 isChanged = true;
             }
 
-            if (!Objects.equals(productDTO.getImage(), savedProduct.getImage())) {
-                savedProduct.setImage(productDTO.getImage());
-                isChanged = true;
+            if (!file.isEmpty()) {
+                removeImage(savedProduct.getImage());
+                if (saveImage(file, imageName, path, category)) {
+                    isChanged = true;
+                    savedProduct.setImage(path);
+                }
             }
             if (isChanged) {
                 productRepository.save(savedProduct);
-
             }
+
         }
         discountService.save(BigDecimal.valueOf(0), savedProduct.getId());
         return true;
@@ -135,17 +134,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean remove(Long productId) {
         Product product = findProductById(productId);
-        productRepository.deleteProductIdById(productId);
-        productRepository.deleteById(product.getId());
-
-        String path = product.getImage();
-        path = "src/main/resources/static/" + path;
-
-        File file = new File(path);
-        if (!file.delete()) {
-            System.out.println("\n\nError delete");
+        if (!removeImage(product.getImage())) {
             return false;
         }
+        productRepository.deleteProductIdById(productId);
+        productRepository.deleteById(product.getId());
         return true;
     }
 
@@ -204,13 +197,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean saveImage(MultipartFile file, String name, String path,String category) {
+    public boolean saveImage(MultipartFile file, String name, String path, String category) {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
-//                        new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/" + path)));
-                new BufferedOutputStream(new FileOutputStream(new File("C:/DiplomImages/" + name+".jpg")));
+                        new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/" + path)));
                 stream.write(bytes);
                 stream.close();
 
@@ -225,5 +217,16 @@ public class ProductServiceImpl implements ProductService {
             System.out.println("File is empty");
             return false;
         }
+    }
+
+    @Override
+    public boolean removeImage(String imageUrl) {
+        String path = "src/main/resources/static/" + imageUrl;
+        File file = new File(path);
+        if (!file.delete()) {
+            System.out.println("\n\nError delete");
+            return false;
+        }
+        return true;
     }
 }

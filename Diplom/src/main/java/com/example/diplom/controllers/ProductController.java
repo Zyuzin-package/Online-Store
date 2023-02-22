@@ -35,6 +35,7 @@ public class ProductController {
             return "redirect:/login";
         }
         productService.addToUserBucket(id, principal.getName());
+        //TODO: Добавить уведомление о добавление в корзину продукта
         return "redirect:" + request.getHeader("Referer");
     }
 
@@ -48,7 +49,6 @@ public class ProductController {
         List<ProductReviewDTO> productReviewDTOS = productReviewService.getReviewsByProductTitle(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
 
-//        model.addAttribute("image",new File("C:/DiplomImages/" + title+".jpg"));
         model.addAttribute("product", dto);
         model.addAttribute("reviews", productReviewDTOS);
         model.addAttribute("review", new ProductReviewDTO());
