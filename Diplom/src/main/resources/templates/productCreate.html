@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<form th:action="@{/admin/product/new}" th:object="${product}" method="post">
+<form th:action="@{/admin/product/new}" th:object="${product}" enctype="multipart/form-data" method="post">
     <table border='1'>
         <tr>
             <td>Name</td>
@@ -19,6 +19,15 @@
             <td>Price</td>
             <td>
                 <input type="text" th:field="*{price}">
+            </td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td th:if="${product.image != null}">
+                <img th:src="@{${product.image}}">
+            </td>
+            <td>
+                <input type="file" th:name="file">
             </td>
         </tr>
         <tr>
@@ -41,7 +50,8 @@
         <tr>
             <td>Discount price</td>
             <td>
-                <input type="text" value="0" th:value="${discount.discount_price}" th:name="discount" id="discount" name="discount">
+                <input type="text" value="0" th:value="${discount.discount_price}" th:name="discount" id="discount"
+                       name="discount">
             </td>
         </tr>
     </table>

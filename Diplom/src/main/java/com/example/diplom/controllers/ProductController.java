@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class ProductController {
 
     @GetMapping("/{id}/bucket")
     public String addBucket(@PathVariable Long id, Principal principal, HttpServletRequest request) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         productService.addToUserBucket(id, principal.getName());
         return "redirect:" + request.getHeader("Referer");
     }
@@ -44,10 +48,11 @@ public class ProductController {
         List<ProductReviewDTO> productReviewDTOS = productReviewService.getReviewsByProductTitle(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
 
+//        model.addAttribute("image",new File("C:/DiplomImages/" + title+".jpg"));
         model.addAttribute("product", dto);
         model.addAttribute("reviews", productReviewDTOS);
         model.addAttribute("review", new ProductReviewDTO());
-        model.addAttribute("discount",discountDTO);
+        model.addAttribute("discount", discountDTO);
         return "productDetails";
     }
 

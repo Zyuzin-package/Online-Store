@@ -2,7 +2,6 @@ package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
@@ -11,12 +10,13 @@ import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -63,10 +63,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean save(ProductDTO productDTO) {
+    public boolean save(ProductDTO productDTO, MultipartFile file, String category) {
+        System.out.println("StartSave");
         Product savedProduct = productRepository.findByTitle(productDTO.getTitle());
         if (savedProduct == null) {
-            if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) <= 0) {
+            if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) > 0) {
+                System.out.println("bigdecimal false");
                 return false;
             }
             try {
@@ -77,10 +79,23 @@ public class ProductServiceImpl implements ProductService {
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-                Product product = productRepository.save(newProduct);
-                discountService.save(BigDecimal.valueOf(0), product.getId());
-                return true;
+
+                String name = UUID.randomUUID().toString().replace("-", "").substring(0,8);
+                String path = "/img/" + name + ".jpg";
+                System.out.println("End create domain product");
+                if (saveImage(file, name, path,category)) {
+                    newProduct.setImage("C:/DiplomImages/" + name+".jpg");
+
+                    Product product = productRepository.save(newProduct);
+                    discountService.save(BigDecimal.valueOf(0), product.getId());
+
+                    return true;
+                } else {
+                    System.out.println("\nERROR!");
+                    return false;
+                }
             } catch (RuntimeException e) {
+                System.out.println("\nERROR RUNTIME!");
                 return false;
             }
         } else {
@@ -118,12 +133,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Category remove(Long productId) {
+    public boolean remove(Long productId) {
         Product product = findProductById(productId);
         productRepository.deleteProductIdById(productId);
         productRepository.deleteById(product.getId());
 
-        return null;
+        String path = product.getImage();
+        path = "src/main/resources/static/" + path;
+
+        File file = new File(path);
+        if (!file.delete()) {
+            System.out.println("\n\nError delete");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -170,12 +193,37 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getProductsByUserIds(Long id) {
         return mapper.fromProductList(productRepository.getProductsByUserIds(id));
     }
+
     @Override
-    public void removeProductsByCategoryName(String title){
-       List<ProductDTO> products =  getProductsByCategory(title);
-       for (ProductDTO productDTO : products){
-           productRepository.deleteById(productDTO.getId());
-       }
+    public void removeProductsByCategoryName(String title) {
+        List<ProductDTO> products = getProductsByCategory(title);
+        for (ProductDTO productDTO : products) {
+            productRepository.deleteById(productDTO.getId());
+        }
         productRepository.removeFromProductsToCategoryByCategoryName(title);
+    }
+
+    @Override
+    public boolean saveImage(MultipartFile file, String name, String path,String category) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+//                        new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/" + path)));
+                new BufferedOutputStream(new FileOutputStream(new File("C:/DiplomImages/" + name+".jpg")));
+                stream.write(bytes);
+                stream.close();
+
+                System.out.println("Successful load file");
+                return true;
+            } catch (Exception e) {
+                System.out.println("Error load file" + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            System.out.println("File is empty");
+            return false;
+        }
     }
 }

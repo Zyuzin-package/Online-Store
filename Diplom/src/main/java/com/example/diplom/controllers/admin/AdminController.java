@@ -9,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Controller
@@ -50,14 +55,15 @@ public class AdminController {
     @PostMapping("/product/new")
     public String createNewProduct(Model model, ProductDTO productDTO,
                                    @RequestParam(name = "categories") String category, Principal principal, HttpServletRequest request,
-                                   @RequestParam(name = "discount") String discount
+                                   @RequestParam(name = "discount") String discount,
+                                   @RequestParam("file") MultipartFile file
     ) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
         }
 
-        if (productService.save(productDTO)) {
+        if (productService.save(productDTO,file,category)) {
             productService.addCategoryToProduct(category, productDTO);
             if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
                 discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
@@ -72,6 +78,7 @@ public class AdminController {
                     return "productCreate";
                 }
             }
+//            model.addAttribute("image",new File("C:/DiplomImages/" + productDTO.getTitle()+".jpg"));
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
             model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());

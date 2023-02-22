@@ -8,7 +8,7 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/categories :: #category-menu}"></div>
 
-<table border="1" align="center" >
+<table border="1" align="center">
     <tr>
         <td>
             Title
@@ -26,7 +26,10 @@
         <td>
             <a th:href="@{/product/{title}(title=${p.title})}" th:text="${p.title}"></a>
         </td>
-        <td th:text="${p.image}">Image</td>
+        <td th:if="${p.image != null}">
+            <img th:src="@{${p.image}}">
+            <img th:src="${image}">
+        </td>
         <td th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}">
             <span>
                <s>[[${p.price}]]</s><br>
@@ -34,7 +37,7 @@
             </span>
         </td>
         <td th:unless="${discounts[__${itemStat.index}__].discount_price > 0.0}" th:text="${p.price}"></td>
-        <td colspan="4" sec:authorize="isAuthenticated()">
+        <td colspan="4">
             <a th:href="@{/product/{id}/bucket(id=${p.id})}">Add to bucket</a>
         </td>
         <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">

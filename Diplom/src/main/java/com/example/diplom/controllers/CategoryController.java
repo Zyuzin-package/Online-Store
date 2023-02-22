@@ -46,7 +46,7 @@ public class CategoryController {
 
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
         model.addAttribute("categories", categoryDTOS);
-        return "products";
+        return "redirect:/category/"+categoryDTOS.get(0).getTitle();
     }
 
     @GetMapping("/{category}")

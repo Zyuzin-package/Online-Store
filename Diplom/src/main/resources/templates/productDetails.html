@@ -12,7 +12,7 @@
             <td>
                 Title
             </td>
-            <td>
+            <td th:if="${product.image != null}">
                 Image
             </td>
             <td>
@@ -27,7 +27,9 @@
         </tr>
         <tr>
             <td th:text="${product.title}">Test</td>
-            <td th:text="${product.image}">img</td>
+            <td th:if="${product.image != null}">
+                <img th:src="@{${product.image}}">
+            </td>
             <td th:text="${product.description}">description</td>
             <td th:if="${discount.discount_price > 0.0}">
                 <span>
