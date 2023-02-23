@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 public class BucketDetailDTO {
     private String title;
     private Long productId;
+    private String image;
+    private double discountPrice;
     private double price;
     private int amount;
     private double sum;
@@ -22,9 +24,14 @@ public class BucketDetailDTO {
     public BucketDetailDTO(Product product) {
         this.title = product.getTitle();
         this.productId = product.getId();
+        this.image = product.getImage();
         this.price = product.getPrice();
         this.amount = 1;
-        this.sum = product.getPrice();
+        if (product.getDiscount().getDiscount_price() > 0) {
+            this.sum = product.getDiscount().getDiscount_price();
+        } else {
+            this.sum = product.getPrice();
+        }
     }
 
     public String getTitle() {
@@ -65,5 +72,21 @@ public class BucketDetailDTO {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
     }
 }

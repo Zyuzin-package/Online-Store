@@ -61,11 +61,19 @@ public class OrderServiceImpl implements OrderService {
             newOrderDetails.setAmount(details.getAmount());
 
             if (details.getAmount() > 1) {
-                newOrderDetails.setPrice(details.getPrice()*details.getAmount());
+                if (details.getDiscountPrice() > 0) {
+                    newOrderDetails.setPrice(details.getDiscountPrice() * details.getAmount());
+                } else {
+                    newOrderDetails.setPrice(details.getPrice() * details.getAmount());
+                }
             } else {
-                newOrderDetails.setPrice(details.getPrice());
+                if (details.getDiscountPrice() > 0) {
+                    newOrderDetails.setPrice(details.getDiscountPrice());
+                } else {
+                    newOrderDetails.setPrice(details.getPrice());
+                }
             }
-            sum = sum+newOrderDetails.getPrice();
+            sum = sum + newOrderDetails.getPrice();
 
             Product product = productService.findProductById(details.getProductId());
             newOrderDetails.setProduct(product);
@@ -107,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
         userNotificationService.sendNotificationToUser(
                 UserNotificationDTO.builder()
                         .userId(userM.getId())
-                        .message( "Order - " + orderId + " was " + status.toLowerCase())
+                        .message("Order - " + orderId + " was " + status.toLowerCase())
                         .url("")
                         .urlText("").build());
 
@@ -121,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
             userNotificationService.sendNotificationToUser(
                     UserNotificationDTO.builder()
                             .userId(userM.getId())
-                            .message(   "Please review this products: " + stringBuilder)
+                            .message("Please review this products: " + stringBuilder)
                             .url("")
                             .urlText("").build());
         }

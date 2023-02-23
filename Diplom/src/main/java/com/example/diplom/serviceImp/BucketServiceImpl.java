@@ -3,12 +3,17 @@ package com.example.diplom.serviceImp;
 import com.example.diplom.dao.BucketRepository;
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
+import com.example.diplom.domain.Discount;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.BucketDetailDTO;
+import com.example.diplom.dto.DiscountDTO;
+import com.example.diplom.dto.ProductDTO;
+import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.BucketService;
 import com.example.diplom.service.UserService;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +26,14 @@ import java.util.stream.Collectors;
 public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
+    private final DiscountServiceImpl discountService;
     private final UserService userService;
+    private final ProductMapper mapper = ProductMapper.MAPPER;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService) {
+    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, DiscountServiceImpl discountService, UserService userService) {
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
+        this.discountService = discountService;
         this.userService = userService;
     }
 
@@ -137,13 +145,26 @@ public class BucketServiceImpl implements BucketService {
         Map<Long, BucketDetailDTO> mapByProductId = new HashMap<>();
 
         List<Product> products = user.getBucket().getProducts();
-        for (Product p : products) {
-            BucketDetailDTO detail = mapByProductId.get(p.getId());
+        List<DiscountDTO> discounts = discountService.findDiscountsByProducts(mapper.fromProductList(products));
+
+        products.sort(Comparator.comparing(Product::getId));
+        discounts.sort(Comparator.comparing(DiscountDTO::getProduct_id));
+
+        for (int i = 0; i <= products.size() - 1; i++) {
+            BucketDetailDTO detail = mapByProductId.get(products.get(i).getId());
             if (detail == null) {
-                mapByProductId.put(p.getId(), new BucketDetailDTO(p));
+                BucketDetailDTO bucketDetailDTO = new BucketDetailDTO(products.get(i));
+
+                bucketDetailDTO.setDiscountPrice(discounts.get(i).getDiscount_price());
+
+                mapByProductId.put(products.get(i).getId(), bucketDetailDTO);
             } else {
                 detail.setAmount(detail.getAmount() + 1);
-                detail.setSum(detail.getSum() + p.getPrice());
+                if (detail.getDiscountPrice() > 0) {
+                    detail.setSum(discounts.get(i).getDiscount_price() * detail.getAmount());
+                } else {
+                    detail.setSum(detail.getPrice() * detail.getAmount());
+                }
             }
         }
         bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));

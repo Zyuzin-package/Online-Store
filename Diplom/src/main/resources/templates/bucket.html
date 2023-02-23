@@ -12,6 +12,7 @@
 <table border="1" align="center">
     <tr>
         <td>Title</td>
+        <td>Image</td>
         <td>Amount</td>
         <td>Price</td>
         <td>Sum</td>
@@ -19,6 +20,9 @@
     </tr>
     <tr th:each="detail : ${bucket.bucketDetails}">
         <td th:text="${detail.title}"></td>
+        <td th:if="${detail.image != null}">
+            <img th:src="@{${detail.image}}">
+        </td>
         <td>
             <table>
                 <tr>
@@ -28,17 +32,24 @@
                 </tr>
             </table>
         </td>
-        <td th:text="${detail.price}"></td>
+<!--        <td th:text="${detail.price}"></td>-->
+        <td th:if="${detail.discountPrice > 0.0}">
+                <span>
+                   <s>[[${detail.price}]]</s><br>
+                    [[${detail.discountPrice}]]
+                </span>
+        </td>
+        <td th:unless="${detail.discountPrice > 0.0}" th:text="${detail.price}"></td>
         <td th:text="${detail.sum}"></td>
         <td><a th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Remove</a></td>
     </tr>
     <tr>
-        <td align="center" colspan="5">
+        <td align="center" colspan="6">
             <a th:href="@{/my/bucket/clear}">Clear bucket</a>
         </td>
     </tr>
     <tr>
-        <td align="center" colspan="5">
+        <td align="center" colspan="6">
             <a th:href="@{/order/new}">Create an order</a>
         </td>
     </tr>
