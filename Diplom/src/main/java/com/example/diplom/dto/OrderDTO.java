@@ -35,4 +35,68 @@ public class OrderDTO {
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<OrderDetailsDTO> getOrderDetailsDTOList() {
+        return orderDetailsDTOList;
+    }
+
+    public void setOrderDetailsDTOList(List<OrderDetailsDTO> orderDetailsDTOList) {
+        this.orderDetailsDTOList = orderDetailsDTOList;
+    }
 }

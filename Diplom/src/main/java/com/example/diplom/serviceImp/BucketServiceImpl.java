@@ -84,7 +84,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void removeProductByUsername(Long productId, String username) {
-        bucketRepository.removeProductByUsername(productId,username);
+        bucketRepository.removeProductByUsername(productId, username);
     }
 
     @Override
@@ -142,8 +142,8 @@ public class BucketServiceImpl implements BucketService {
             if (detail == null) {
                 mapByProductId.put(p.getId(), new BucketDetailDTO(p));
             } else {
-                detail.setAmount(detail.getAmount().add(new BigDecimal(1.0)));
-                detail.setSum(detail.getSum() + Double.valueOf(p.getPrice().toString()));
+                detail.setAmount(detail.getAmount() + 1);
+                detail.setSum(detail.getSum() + p.getPrice());
             }
         }
         bucketDTO.setBucketDetails(new ArrayList<>(mapByProductId.values()));

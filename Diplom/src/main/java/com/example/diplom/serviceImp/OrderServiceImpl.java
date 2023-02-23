@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.builder()
                 .user(userM)
                 .address(orderDTO.getAddress())
-                .sum(BigDecimal.valueOf(orderDTO.getSum()))
+                .sum(orderDTO.getSum())
                 .status(OrderStatus.NEW)
                 .orderDetailsList(new ArrayList<>())
                 .build();
@@ -54,18 +54,18 @@ public class OrderServiceImpl implements OrderService {
 
         BucketDTO bucketDTO = bucketService.getBucketByUser(userM.getName());
         List<OrderDetails> orderDetailsList = new ArrayList<>();
-        BigDecimal sum = new BigDecimal(0);
+        double sum = 0;
 
         for (BucketDetailDTO details : bucketDTO.getBucketDetails()) {
             OrderDetails newOrderDetails = new OrderDetails();
             newOrderDetails.setAmount(details.getAmount());
 
-            if (details.getAmount().doubleValue() > 1.0) {
-                newOrderDetails.setPrice(details.getPrice().multiply(details.getAmount()));
+            if (details.getAmount() > 1) {
+                newOrderDetails.setPrice(details.getPrice()*details.getAmount());
             } else {
                 newOrderDetails.setPrice(details.getPrice());
             }
-            sum = sum.add(newOrderDetails.getPrice());
+            sum = sum+newOrderDetails.getPrice();
 
             Product product = productService.findProductById(details.getProductId());
             newOrderDetails.setProduct(product);

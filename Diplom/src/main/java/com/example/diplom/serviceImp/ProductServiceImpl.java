@@ -78,9 +78,9 @@ private final UserNotificationService userNotificationService;
         String path = "/img/" + imageName + ".jpg";
 
         if (savedProduct == null) {
-            if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) > 0) {
-                return false;
-            }
+//            if (productDTO.getPrice() <= 0) {
+//                return false;TODO: Это должно быть лишним
+//            }
             try {
                 Product newProduct = Product.builder()
                         .price(productDTO.getPrice())
@@ -95,7 +95,7 @@ private final UserNotificationService userNotificationService;
                     newProduct.setImage(path);
 
                     Product product = productRepository.save(newProduct);
-                    discountService.save(BigDecimal.valueOf(0), product.getId());
+                    discountService.save(0, product.getId());
                     return true;
                 } else {
                     return false;
@@ -109,13 +109,9 @@ private final UserNotificationService userNotificationService;
                 savedProduct.setTitle(productDTO.getTitle());
                 isChanged = true;
             }
-            if (productDTO.getPrice() != null
-                    && !Objects.equals(productDTO.getPrice(), BigDecimal.ZERO)
+            if (productDTO.getPrice()!=0
                     && !Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
 
-                if (BigDecimal.ZERO.compareTo(productDTO.getPrice()) > 0) {
-                    return false;
-                }
                 savedProduct.setPrice(productDTO.getPrice());
                 isChanged = true;
             }
@@ -136,7 +132,7 @@ private final UserNotificationService userNotificationService;
             }
 
         }
-        discountService.save(BigDecimal.valueOf(0), savedProduct.getId());
+        discountService.save(0, savedProduct.getId());
         return true;
     }
 

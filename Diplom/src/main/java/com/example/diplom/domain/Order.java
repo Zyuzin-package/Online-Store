@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data//Геттер сеттер tostring equals
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -39,11 +38,73 @@ public class Order {
     @JoinColumn(name="order_details_id")
     private List<OrderDetails> orderDetailsList;
 
-    private BigDecimal sum;
+    private double sum;
     private String address;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    public UserM getUser() {
+        return user;
+    }
+
+    public void setUser(UserM user) {
+        this.user = user;
+    }
+
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
+    }
+
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }

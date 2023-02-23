@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,5 +24,45 @@ public class UserNotificationDTO {
         this.url = userNotification.getUrl();
         this.userId = userNotification.getUserM().getId();
         this.urlText = userNotification.getUrlText();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrlText() {
+        return urlText;
+    }
+
+    public void setUrlText(String urlText) {
+        this.urlText = urlText;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data//Геттер сеттер tostring equals
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,4 +29,60 @@ public class UserM {
     @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
     private Bucket bucket;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Bucket getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(Bucket bucket) {
+        this.bucket = bucket;
+    }
 }

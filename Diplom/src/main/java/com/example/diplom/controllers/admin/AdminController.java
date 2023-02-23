@@ -67,15 +67,15 @@ public class AdminController {
             productService.addCategoryToProduct(category, productDTO);
             try {
             if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
-                discountService.save(BigDecimal.ZERO, productService.getProductByName(productDTO.getTitle()).getId());
+                discountService.save(0, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
-                if (BigDecimal.valueOf(Long.parseLong(discount)).compareTo(productDTO.getPrice()) <= 0) {
-                    discountService.save(BigDecimal.valueOf(Long.parseLong(discount)), productService.getProductByName(productDTO.getTitle()).getId());
+                if (Double.parseDouble(discount)<productDTO.getPrice()) {
+                    discountService.save(Double.parseDouble(discount), productService.getProductByName(productDTO.getTitle()).getId());
                 } else {
                     //TODO: need add catch error
                     model.addAttribute("product", productDTO);
                     model.addAttribute("categories", categoryService.getAll());
-                    model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
+                    model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
                     return "productCreate";
                 }
             }
@@ -84,13 +84,13 @@ public class AdminController {
             }
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
-            model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
             return "redirect:/category";
         } else {
             //TODO: need add catch error
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
-            model.addAttribute("discount", DiscountDTO.builder().discount_price(BigDecimal.valueOf(Long.parseLong(discount))).build());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
             return "productCreate";
         }
     }

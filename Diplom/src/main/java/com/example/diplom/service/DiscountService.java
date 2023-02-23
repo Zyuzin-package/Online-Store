@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DiscountService {
     List<DiscountDTO> getAll();
-    boolean save(BigDecimal discount,Long productId);
+    boolean save(double discount,Long productId);
     void remove(Long discount);
     Discount findDiscountById(Long discountId);
     DiscountDTO findDiscountByProductId(Long productId);

@@ -25,7 +25,7 @@ public class Product {
     private Long id;
 
     private String title;
-    private BigDecimal price;
+    private double price;
 
     private String image;
     private String description;
@@ -55,11 +55,11 @@ public class Product {
         this.title = title;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -25,4 +25,44 @@ public class BucketDTO {
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public int getAmountProducts() {
+        return amountProducts;
+    }
+
+    public void setAmountProducts(int amountProducts) {
+        this.amountProducts = amountProducts;
+    }
+
+    public Double getSum() {
+        return sum;
+    }
+
+    public void setSum(Double sum) {
+        this.sum = sum;
+    }
+
+    public List<BucketDetailDTO> getBucketDetails() {
+        return bucketDetails;
+    }
+
+    public void setBucketDetails(List<BucketDetailDTO> bucketDetails) {
+        this.bucketDetails = bucketDetails;
+    }
 }

@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-
-@Data//Геттер сеттер tostring equals
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,6 +24,38 @@ public class OrderDetails {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private BigDecimal amount;
-    private BigDecimal price;
+    private int amount;
+    private double price;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data//Геттер сеттер tostring equals
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,4 +32,43 @@ public class ProductReview {
     private String review;
     private int stars;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public UserM getUserM() {
+        return userM;
+    }
+
+    public void setUserM(UserM userM) {
+        this.userM = userM;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
 }

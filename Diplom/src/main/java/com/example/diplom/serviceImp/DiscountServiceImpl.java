@@ -34,7 +34,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public boolean save(BigDecimal discount, Long productId) {
+    public boolean save(double discount, Long productId) {
         Discount savedDiscount = discountRepository.findFirstByProductId(productId);
         if (savedDiscount == null) {
             try {

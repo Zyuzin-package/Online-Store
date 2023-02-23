@@ -22,7 +22,7 @@ public class Discount {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
 
-    private BigDecimal discount_price;
+    private double discount_price;
 
     @OneToOne
     @JoinColumn(name = "product_id")
@@ -36,11 +36,11 @@ public class Discount {
         this.id = id;
     }
 
-    public BigDecimal getDiscount_price() {
+    public double getDiscount_price() {
         return discount_price;
     }
 
-    public void setDiscount_price(BigDecimal discount_price) {
+    public void setDiscount_price(double discount_price) {
         this.discount_price = discount_price;
     }
 

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data//Геттер сеттер tostring equals
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,4 +26,44 @@ public class UserNotification {
     @JoinColumn(name = "user_id")
     UserM userM;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrlText() {
+        return urlText;
+    }
+
+    public void setUrlText(String urlText) {
+        this.urlText = urlText;
+    }
+
+    public UserM getUserM() {
+        return userM;
+    }
+
+    public void setUserM(UserM userM) {
+        this.userM = userM;
+    }
 }

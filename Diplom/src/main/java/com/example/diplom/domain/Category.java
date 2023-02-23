@@ -1,13 +1,10 @@
 package com.example.diplom.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data//Геттер сеттер tostring equals
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -24,4 +21,20 @@ public class Category {
 
     private String title;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

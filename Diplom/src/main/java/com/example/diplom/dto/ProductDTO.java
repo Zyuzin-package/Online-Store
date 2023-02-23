@@ -5,14 +5,13 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ProductDTO {
    private Long id;
    private String title;
-   private BigDecimal price;
+   private double price;
    private String image;
    private String description;
 
@@ -22,5 +21,45 @@ public class ProductDTO {
       this.price = product.getPrice();
       this.image = product.getImage();
       this.description = product.getDescription();
+   }
+
+   public Long getId() {
+      return id;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
+   }
+
+   public String getTitle() {
+      return title;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+   public double getPrice() {
+      return price;
+   }
+
+   public void setPrice(double price) {
+      this.price = price;
+   }
+
+   public String getImage() {
+      return image;
+   }
+
+   public void setImage(String image) {
+      this.image = image;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
    }
 }
