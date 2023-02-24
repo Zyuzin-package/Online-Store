@@ -38,10 +38,7 @@ public class ProductController {
             return "redirect:/login";
         }
         productService.addToUserBucket(id, principal.getName());
-        Product product = productService.findProductById(id);
-
-
-        //TODO: Добавить уведомление о добавление в корзину продукта
+        productService.findProductById(id);
         return "redirect:" + request.getHeader("Referer");
     }
 

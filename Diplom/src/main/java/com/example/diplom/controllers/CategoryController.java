@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -45,8 +47,16 @@ public class CategoryController {
         }
 
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
-        model.addAttribute("categories", categoryDTOS);
-        return "redirect:/category/"+categoryDTOS.get(0).getTitle();
+
+        if (categoryDTOS != null) {
+            model.addAttribute("categories", categoryDTOS);
+            return "redirect:/category/" + categoryDTOS.get(0).getTitle();
+        } else {
+            model.addAttribute("categories", new ArrayList<CategoryDTO>());
+            model.addAttribute("products", new ArrayList<ProductDTO>());
+            model.addAttribute("discounts", new ArrayList<DiscountDTO>());
+            return "products";
+        }
     }
 
     @GetMapping("/{category}")
@@ -56,16 +66,19 @@ public class CategoryController {
             model.addAttribute("notifications", dtos);
         }
 
-        List<CategoryDTO> categoryDTOS = categoryService.getAll();
         List<ProductDTO> productDTOList = productService.getProductsByCategory(category);
         List<DiscountDTO> discountDTOList = discountService.findDiscountsByProducts(productDTOList);
 
-        productDTOList.sort(Comparator.comparing(ProductDTO::getId));
-        discountDTOList.sort(Comparator.comparing(DiscountDTO::getProduct_id));
-
-        model.addAttribute("categories", categoryDTOS);
-        model.addAttribute("products", productDTOList);
-        model.addAttribute("discounts",discountDTOList);
+        if (productDTOList != null && discountDTOList != null) {
+            productDTOList.sort(Comparator.comparing(ProductDTO::getId));
+            discountDTOList.sort(Comparator.comparing(DiscountDTO::getProduct_id));
+        }
+//        model.addAttribute("categories", categoryDTOS);
+//        model.addAttribute("products", productDTOList);
+//        model.addAttribute("discounts",discountDTOList);
+        model.addAttribute("categories", categoryService.getAll() != null ? categoryService.getAll() : new ArrayList<CategoryDTO>());
+        model.addAttribute("products", productDTOList != null ? productDTOList : new ArrayList<ProductDTO>());
+        model.addAttribute("discounts", discountDTOList != null ? discountDTOList : new ArrayList<DiscountDTO>());
         return "products";
     }
 

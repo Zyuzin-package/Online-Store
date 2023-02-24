@@ -15,6 +15,9 @@
             </a>
             <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/category/{title}/remove(title = ${category.title})}"><sup>X</sup></a>
         </td>
+        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+            <a  th:href="@{/admin/category/new}">Create new category</a>
+        </td>
     </tr>
 </table>
 

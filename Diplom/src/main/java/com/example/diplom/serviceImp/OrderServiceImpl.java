@@ -22,13 +22,16 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final UserNotificationService userNotificationService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService) {
+    private final MailSender mailSender;
+
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService, MailSender mailSender) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.orderDetailsService = orderDetailsService;
         this.bucketService = bucketService;
         this.userService = userService;
         this.userNotificationService = userNotificationService;
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -95,6 +98,11 @@ public class OrderServiceImpl implements OrderService {
                 .urlText("").build()
 
         );
+        StringBuilder temp = new StringBuilder();
+        for (OrderDetails o: orderDetailsList){
+            temp.append(o).append("\n");
+        }
+        mailSender.send(userM.getEmail(),"Kork-Market new order","You create new order with number " + doneOrder.getId() +" :\n"+temp);
         return true;
     }
 
@@ -133,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
                             .url("")
                             .urlText("").build());
         }
-
+        mailSender.send(userM.getEmail(),"Kork-Market update order status","You order with number " + order.getId() +" the order has changed its status, now the status is " + status);
         orderRepository.updateOrderStatus(orderId, status);
     }
 

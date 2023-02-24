@@ -45,6 +45,7 @@ public class AdminController {
 
     /**
      * Product
+     *
      * @param model
      * @param productDTO
      * @param category
@@ -63,13 +64,12 @@ public class AdminController {
             model.addAttribute("notifications", dtos);
         }
 
-        if (productService.save(productDTO,file,category)) {
+        if (productService.save(productDTO, file, category)) {
             productService.addCategoryToProduct(category, productDTO);
-            try {
             if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
                 discountService.save(0, productService.getProductByName(productDTO.getTitle()).getId());
             } else {
-                if (Double.parseDouble(discount)<productDTO.getPrice()) {
+                if (Double.parseDouble(discount) < productDTO.getPrice()) {
                     discountService.save(Double.parseDouble(discount), productService.getProductByName(productDTO.getTitle()).getId());
                 } else {
                     //TODO: need add catch error
@@ -78,9 +78,6 @@ public class AdminController {
                     model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
                     return "productCreate";
                 }
-            }
-            } catch (NumberFormatException e){
-                System.out.println("\n\n\nNFE");
             }
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
@@ -112,7 +109,8 @@ public class AdminController {
     public String removeProduct(@PathVariable Long id, HttpServletRequest request) {
         try {
             productService.remove(id);
-        } catch (org.springframework.dao.EmptyResultDataAccessException e) {}
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+        }
         return "redirect:" + request.getHeader("Referer");
     }
 
@@ -152,15 +150,16 @@ public class AdminController {
     @PostMapping("/category/new")
     public String createCategory(CategoryDTO categoryDTO) {
         categoryService.saveCategory(categoryDTO);
-        return "redirect:/product";
+        return "redirect:/category";
     }
 
     @GetMapping("category/{title}/remove")
-    public String removeCategory (@PathVariable String title){
+    public String removeCategory(@PathVariable String title) {
         productService.removeProductsByCategoryName(title);
         categoryService.removeCategoryByName(title);
         return "redirect:/category";
     }
+
     /**
      * User
      *

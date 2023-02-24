@@ -22,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> getAll() {
         List<Category> categories = categoryRepository.findAll();
+        if(categories.isEmpty()){
+            return null;
+        }
         return mapper.fromCategoryList(categories);
     }
     @Override

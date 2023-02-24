@@ -55,8 +55,11 @@ public class ProductReviewImp implements ProductReviewService {
     public ProductReviewDTO getReviewByUserNameAndProductId(String name, Long productId) {
 
         List<ProductReview> productReviews = productReviewRepository.getReviewByUserNameAndProductId(name, productId);
-
+        if(productReviews == null || productReviews.isEmpty()){
+            return null;
+        }
         ProductReview productReview = productReviews.get(0);
+
         return ProductReviewDTO.builder()
                 .productId(productReview.getProduct().getId())
                 .review(productReview.getReview())

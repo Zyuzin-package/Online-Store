@@ -22,7 +22,7 @@
         <td colspan="2" sec:authorize="isAuthenticated()"></td>
         <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
     </tr>
-    <tr th:each="p,itemStat : ${products}">
+    <tr th:unless="${#lists.isEmpty(products)}" th:each="p,itemStat : ${products}">
         <td>
             <a th:href="@{/product/{title}(title=${p.title})}" th:text="${p.title}"></a>
         </td>
