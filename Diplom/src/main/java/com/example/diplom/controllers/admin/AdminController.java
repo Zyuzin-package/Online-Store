@@ -5,6 +5,7 @@ import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -159,16 +160,24 @@ public class AdminController {
     }
 
     @PostMapping("/category/new")
-    public String createCategory(CategoryDTO categoryDTO) {
-        categoryService.saveCategory(categoryDTO);
-        return "redirect:/category";
+    public String createCategory(CategoryDTO categoryDTO, Model model) {
+        if (categoryService.saveCategory(categoryDTO)) {
+            return "redirect:/category";
+        } else {
+            model.addAttribute("errorMessage", "Error when save category");
+            return "error";
+        }
     }
 
     @GetMapping("category/{title}/remove")
-    public String removeCategory(@PathVariable String title) {
-        productService.removeProductsByCategoryName(title);
-        categoryService.removeCategoryByName(title);
-        return "redirect:/category";
+    public String removeCategory(@PathVariable String title, Model model) {
+        if (productService.removeProductsByCategoryName(title)
+                && categoryService.removeCategoryByName(title)) {
+            return "redirect:/category";
+        } else {
+            model.addAttribute("errorMessage", "Error while deleting");
+            return "error";
+        }
     }
 
     /**
@@ -193,8 +202,8 @@ public class AdminController {
     }
 
     @PostMapping("/users/edit")
-    public String updateRole(@RequestParam(name = "roles") String role, Principal principal,Model model) {
-        if(role.equals(Role.ADMIN.name()) && !userService.findByName(principal.getName()).getRole().name().equals(Role.ADMIN.name())){
+    public String updateRole(@RequestParam(name = "roles") String role, Principal principal, Model model) {
+        if (role.equals(Role.ADMIN.name()) && !userService.findByName(principal.getName()).getRole().name().equals(Role.ADMIN.name())) {
             model.addAttribute("errorMessage", "You do not have enough rights to change the user role to administrator");
             return "error";
         }

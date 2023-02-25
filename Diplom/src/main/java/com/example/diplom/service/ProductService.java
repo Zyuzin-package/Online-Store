@@ -29,7 +29,7 @@ public interface ProductService {
 
     List<ProductDTO> getProductsByUserIds(Long id);
 
-    void removeProductsByCategoryName(String title);
+    boolean removeProductsByCategoryName(String title);
 
     boolean saveImage(MultipartFile file, String name, String path,String category);
 

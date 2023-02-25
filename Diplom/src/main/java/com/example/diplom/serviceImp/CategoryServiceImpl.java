@@ -39,8 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
         return false;
     }
     @Override
-    public void removeCategoryByName(String title) {
-        categoryRepository.removeByTitle(title);
+    public boolean removeCategoryByName(String title) {
+        try {
+            categoryRepository.removeByTitle(title);
+            return true;
+        }catch (Throwable e){
+            return false;
+        }
     }
 
     @Override

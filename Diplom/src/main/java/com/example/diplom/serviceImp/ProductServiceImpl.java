@@ -5,7 +5,6 @@ import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
-import com.example.diplom.dto.DiscountDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.mapper.ProductMapper;
@@ -251,12 +250,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void removeProductsByCategoryName(String title) {
-        List<ProductDTO> products = getProductsByCategory(title);
-        for (ProductDTO productDTO : products) {
-            productRepository.deleteById(productDTO.getId());
+    public boolean removeProductsByCategoryName(String title) {
+        try {
+            List<ProductDTO> products = getProductsByCategory(title);
+            for (ProductDTO productDTO : products) {
+                productRepository.deleteById(productDTO.getId());
+            }
+            productRepository.removeFromProductsToCategoryByCategoryName(title);
+            return true;
+        } catch (Throwable e){
+            return false;
         }
-        productRepository.removeFromProductsToCategoryByCategoryName(title);
     }
 
     @Override
