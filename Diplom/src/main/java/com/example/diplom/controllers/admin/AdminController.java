@@ -75,7 +75,7 @@ public class AdminController {
             return "productCreate";
         }
 
-        if(Double.parseDouble(discount) >= productDTO.getPrice()){
+        if (Double.parseDouble(discount) >= productDTO.getPrice()) {
             model.addAttribute("message", "Discount must be less product price");
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
@@ -193,7 +193,12 @@ public class AdminController {
     }
 
     @PostMapping("/users/edit")
-    public String updateRole(@RequestParam(name = "roles") String role) {
+    public String updateRole(@RequestParam(name = "roles") String role, Principal principal,Model model) {
+        if(role.equals(Role.ADMIN.name()) && !userService.findByName(principal.getName()).getRole().name().equals(Role.ADMIN.name())){
+            model.addAttribute("errorMessage", "You do not have enough rights to change the user role to administrator");
+            return "error";
+        }
+
         userService.updateRole(username, role);
         return "redirect:/admin/users";
     }
