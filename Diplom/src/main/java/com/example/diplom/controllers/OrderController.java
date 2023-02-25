@@ -56,8 +56,8 @@ public class OrderController {
         OrderDTO order = orderService.findOrderById(id);
 
         if (order == null || (!Objects.equals(order.getUserId(), userService.findByName(principal.getName()).getId()))) {
-            model.addAttribute("message", "Order not found");
-            return "orderDetails";
+            model.addAttribute("errorMessage", "Order not found");
+            return "error";
         }
 
         List<OrderDetailsDTO> orderDetailsDTOS = orderService.getDetailsByOrderId(id);
@@ -80,10 +80,16 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String saveOrder(OrderDTO orderDTO, Principal principal) {
+    public String saveOrder(OrderDTO orderDTO, Principal principal,Model model) {
         orderDTO.setUserId(userService.findByName(principal.getName()).getId());
-        orderService.save(orderDTO);
-        return "redirect:/order/orders";
+
+        if (orderService.save(orderDTO)) {
+            return "redirect:/order/orders";
+
+        }else {
+            model.addAttribute("errorMessage", "Server Error, order are not save");
+            return "error";
+        }
     }
 
 }
