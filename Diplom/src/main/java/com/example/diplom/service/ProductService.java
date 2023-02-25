@@ -11,9 +11,11 @@ public interface ProductService {
 
     void addToUserBucket(Long productId, String username);
 
-    boolean save(ProductDTO productDTO, MultipartFile file, String category);
+    boolean save(ProductDTO productDTO, MultipartFile file, String category,Double discount);
+    boolean changeName(ProductDTO productDTO,String oldName);
+    boolean removeWithPhoto(Long productId);
 
-    boolean remove(Long productId);
+    boolean removeWithOutPhoto(Long productId);
 
     Product findProductById(Long productId);
 

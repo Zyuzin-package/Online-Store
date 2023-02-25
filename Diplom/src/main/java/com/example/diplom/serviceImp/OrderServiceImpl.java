@@ -100,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
         );
         StringBuilder temp = new StringBuilder();
         for (OrderDetails o: orderDetailsList){
-            temp.append(o).append("\n");
+            temp.append(o.getProduct().getTitle()).append("\n");
         }
         mailSender.send(userM.getEmail(),"Kork-Market new order","You create new order with number " + doneOrder.getId() +" :\n"+temp);
         return true;
@@ -141,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
                             .url("")
                             .urlText("").build());
         }
-        mailSender.send(userM.getEmail(),"Kork-Market update order status","You order with number " + order.getId() +" the order has changed its status, now the status is " + status);
+        mailSender.send(userM.getEmail(),"Kork-Market update order status","You order with number " + order.getId() +" has changed its status, now the status is " + status);
         orderRepository.updateOrderStatus(orderId, status);
     }
 

@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -32,6 +29,8 @@ public class AdminController {
     private final DiscountService discountService;
     private String username;
     private Long orderId;
+
+    private String productTitle = "";
 
     @Autowired
     public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService) {
@@ -64,27 +63,33 @@ public class AdminController {
             model.addAttribute("notifications", dtos);
         }
 
-        if (productService.save(productDTO, file, category)) {
-            productService.addCategoryToProduct(category, productDTO);
-            if (discount.isEmpty() || Double.parseDouble(discount) <= 0) {
-                discountService.save(0, productService.getProductByName(productDTO.getTitle()).getId());
-            } else {
-                if (Double.parseDouble(discount) < productDTO.getPrice()) {
-                    discountService.save(Double.parseDouble(discount), productService.getProductByName(productDTO.getTitle()).getId());
-                } else {
-                    //TODO: need add catch error
-                    model.addAttribute("product", productDTO);
-                    model.addAttribute("categories", categoryService.getAll());
-                    model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
-                    return "productCreate";
-                }
-            }
+        if (productDTO.getTitle() == null
+                || productDTO.getDescription() == null
+                || productDTO.getPrice() <= 0
+                || (file.isEmpty() && (productTitle.equals("") || productTitle.isEmpty()))
+        ) {
+            model.addAttribute("message", "All fields must be filled");
+            model.addAttribute("product", productDTO);
+            model.addAttribute("categories", categoryService.getAll());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
+            return "productCreate";
+        }
+
+        if(Double.parseDouble(discount) >= productDTO.getPrice()){
+            model.addAttribute("message", "Discount must be less product price");
+            model.addAttribute("product", productDTO);
+            model.addAttribute("categories", categoryService.getAll());
+            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
+            return "productCreate";
+        }
+
+        if (productService.save(productDTO, file, category, Double.valueOf(discount))) {
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
             model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
             return "redirect:/category";
         } else {
-            //TODO: need add catch error
+            model.addAttribute("message", "Server error, could not save.");
             model.addAttribute("product", productDTO);
             model.addAttribute("categories", categoryService.getAll());
             model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
@@ -99,6 +104,11 @@ public class AdminController {
             model.addAttribute("notifications", dtos);
         }
 
+        if (categoryService.getAll() == null) {
+            model.addAttribute("errorMessage", "Can't add product because there are no categories");
+            return "error";
+        }
+
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("categories", categoryService.getAll());
         model.addAttribute("discount", new DiscountDTO());
@@ -106,12 +116,13 @@ public class AdminController {
     }
 
     @GetMapping("/product/{id}/remove")
-    public String removeProduct(@PathVariable Long id, HttpServletRequest request) {
-        try {
-            productService.remove(id);
-        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+    public String removeProduct(@PathVariable Long id, HttpServletRequest request, Model model) {
+        if (productService.removeWithPhoto(id)) {
+            return "redirect:" + request.getHeader("Referer");
+        } else {
+            model.addAttribute("errorMessage", "Error while deleting");
+            return "error";
         }
-        return "redirect:" + request.getHeader("Referer");
     }
 
     @GetMapping("/product/edit/{title}")
@@ -120,7 +131,7 @@ public class AdminController {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
         }
-
+        productTitle = title;
         ProductDTO dto = productService.getProductByName(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
         model.addAttribute("product", dto);

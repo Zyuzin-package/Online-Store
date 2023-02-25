@@ -7,6 +7,12 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/categories :: #category-menu}"></div>
+<table th:unless="${message != null}">
+    <tr>
+        <td th:text="${message}">
+        </td>
+    </tr>
+</table>
 
 <table border="1" align="center">
     <tr>

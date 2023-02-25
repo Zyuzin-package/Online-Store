@@ -5,6 +5,7 @@ import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
+import com.example.diplom.dto.DiscountDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.mapper.ProductMapper;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
 
     private final ProductRepository productRepository;
-private final UserNotificationService userNotificationService;
+    private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
 
 
@@ -57,13 +57,13 @@ private final UserNotificationService userNotificationService;
         if (bucket == null) {
             Bucket newBucket = bucketService.createBucket(userM, Collections.singletonList(productId));
             bucketService.save(newBucket);
-            userService.saveBucket(newBucket,userM);
+            userService.saveBucket(newBucket, userM);
         } else {
             bucketService.addProduct(bucket, Collections.singletonList(productId));
         }
 
         userNotificationService.sendNotificationToUser(UserNotificationDTO.builder()
-                .message("Product: "+ productRepository.findFirstById(productId).getTitle()+" was added to you bucket")
+                .message("Product: " + productRepository.findFirstById(productId).getTitle() + " was added to you bucket")
                 .url("")
                 .urlText("")
                 .userId(userM.getId())
@@ -71,16 +71,13 @@ private final UserNotificationService userNotificationService;
     }
 
     @Override
-    public boolean save(ProductDTO productDTO, MultipartFile file, String category) {
+    public boolean save(ProductDTO productDTO, MultipartFile file, String category, Double discount) {
         Product savedProduct = productRepository.findByTitle(productDTO.getTitle());
 
         String imageName = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         String path = "/img/" + imageName + ".jpg";
 
         if (savedProduct == null) {
-//            if (productDTO.getPrice() <= 0) {
-//                return false;TODO: Это должно быть лишним
-//            }
             try {
                 Product newProduct = Product.builder()
                         .price(productDTO.getPrice())
@@ -89,17 +86,31 @@ private final UserNotificationService userNotificationService;
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-
-
-                if (saveImage(file, imageName, path, category)) {
-                    newProduct.setImage(path);
-
-                    Product product = productRepository.save(newProduct);
-                    discountService.save(0, product.getId());
-                    return true;
-                } else {
-                    return false;
+                System.out.println("1");
+                if (!file.isEmpty()) {
+                    if (saveImage(file, imageName, path, category)) {
+                        newProduct.setImage(path);
+                        System.out.println("2");
+                    } else {
+                        return false;
+                    }
                 }
+                productRepository.save(newProduct);
+                if (discount <= 0) {
+                    discountService.save(0, getProductByName(productDTO.getTitle()).getId());
+                } else {
+                    if (discount < productDTO.getPrice()) {
+                        discountService.save(discount, getProductByName(productDTO.getTitle()).getId());
+                    } else {
+                        System.out.println("FALSE");
+                        return false;
+                    }
+
+                }
+                System.out.println("6");
+
+                addCategoryToProduct(category, productDTO);
+                return true;
             } catch (RuntimeException e) {
                 return false;
             }
@@ -109,7 +120,7 @@ private final UserNotificationService userNotificationService;
                 savedProduct.setTitle(productDTO.getTitle());
                 isChanged = true;
             }
-            if (productDTO.getPrice()!=0
+            if (productDTO.getPrice() != 0
                     && !Objects.equals(productDTO.getPrice(), savedProduct.getPrice())) {
 
                 savedProduct.setPrice(productDTO.getPrice());
@@ -127,22 +138,64 @@ private final UserNotificationService userNotificationService;
                     savedProduct.setImage(path);
                 }
             }
-            if (isChanged) {
-                productRepository.save(savedProduct);
+
+            if (discount <= 0) {
+                discountService.save(0, getProductByName(productDTO.getTitle()).getId());
+
+            } else {
+                if (discount < productDTO.getPrice()) {
+                    discountService.save(discount, getProductByName(productDTO.getTitle()).getId());
+                }
             }
 
+            if (isChanged) {
+                addCategoryToProduct(category, productDTO);
+                productRepository.save(savedProduct);
+            }
         }
-        discountService.save(0, savedProduct.getId());
         return true;
     }
 
     @Override
-    public boolean remove(Long productId) {
+    public boolean changeName(ProductDTO productDTO,String oldName) {
+        ProductDTO product = getProductByName(oldName);
+
+        product.setTitle(productDTO.getTitle());
+
+        Product newProduct = Product.builder()
+                .price(productDTO.getPrice())
+                .categories(new ArrayList<>())
+                .title(productDTO.getTitle())
+                .description(productDTO.getDescription())
+                .image(productDTO.getImage())
+                .id(productDTO.getId())
+                .build();
+        removeWithOutPhoto(productDTO.getId());
+        productRepository.save(newProduct);
+
+        return false;
+    }
+
+    @Override
+    public boolean removeWithPhoto(Long productId) {
         Product product = findProductById(productId);
+        System.out.println(product);
+        if (product == null) {
+            return false;
+        }
         if (!removeImage(product.getImage())) {
             return false;
         }
-        productRepository.deleteProductIdById(productId);
+        productRepository.deleteById(product.getId());
+        return true;
+    }
+
+    @Override
+    public boolean removeWithOutPhoto(Long productId) {
+        Product product = findProductById(productId);
+        if (product == null) {
+            return false;
+        }
         productRepository.deleteById(product.getId());
         return true;
     }
@@ -174,7 +227,12 @@ private final UserNotificationService userNotificationService;
 
     @Override
     public ProductDTO getProductByName(String name) {
-        return new ProductDTO(productRepository.findByTitle(name));
+        Product product = productRepository.findByTitle(name);
+        if (product == null) {
+            return null;
+        } else {
+            return new ProductDTO(product);
+        }
     }
 
     @Override
@@ -229,7 +287,6 @@ private final UserNotificationService userNotificationService;
         String path = "src/main/resources/static/" + imageUrl;
         File file = new File(path);
         if (!file.delete()) {
-            System.out.println("\n\nError delete");
             return false;
         }
         return true;

@@ -52,16 +52,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+
+                .antMatchers("/registration").not().fullyAuthenticated()
                 .antMatchers("/activate/*").permitAll()
-                .antMatchers("/admin/****").authenticated()
-                .antMatchers("/admin/****").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers("/my/***").authenticated()
+                .antMatchers("/order/***").authenticated()
+                .antMatchers("/category/*","/product/*").permitAll()
                 .anyRequest().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/error")
                 .and()
                  .formLogin()
                  .loginPage("/login")
                  .failureUrl("/login-error")
-//                 .loginProcessingUrl("/authentication")
                  .defaultSuccessUrl("/", true)
                  .permitAll()
                 .and()

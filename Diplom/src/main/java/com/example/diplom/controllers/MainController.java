@@ -66,6 +66,10 @@ public class MainController {
         model.addAttribute("loginError", true);
         return "login";
     }
-
+    @GetMapping({"/error"})
+    public String error(Model model){
+        model.addAttribute("errorMessage","ERROR!");
+        return "error";
+    }
 
 }

@@ -42,7 +42,7 @@ spring:
             "mail.transport.protocol": smtp
             "mail.smtp.auth": true
             "mail.smtp.starttls.enable": true
-
-  logging:
-    level:
-      ROOT: DEBUG
+#
+#logging:
+#  level:
+#    ROOT: DEBUG

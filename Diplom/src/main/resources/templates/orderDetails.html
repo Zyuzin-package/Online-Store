@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-    <table border="1" align="center">
+    <table border="1" align="center" th:if="${order != null}">
         <tr>
             <td>Number</td>
             <td>Address</td>
@@ -45,5 +45,12 @@
             <td th:text="${detail.price}">9999999</td>
         </tr>
     </table>
+<table th:unless="${order != null}">
+    <tr>
+        <td th:text="${message}">
+
+        </td>
+    </tr>
+</table>
 </body>
 </html>

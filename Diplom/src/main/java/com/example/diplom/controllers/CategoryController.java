@@ -73,9 +73,7 @@ public class CategoryController {
             productDTOList.sort(Comparator.comparing(ProductDTO::getId));
             discountDTOList.sort(Comparator.comparing(DiscountDTO::getProduct_id));
         }
-//        model.addAttribute("categories", categoryDTOS);
-//        model.addAttribute("products", productDTOList);
-//        model.addAttribute("discounts",discountDTOList);
+
         model.addAttribute("categories", categoryService.getAll() != null ? categoryService.getAll() : new ArrayList<CategoryDTO>());
         model.addAttribute("products", productDTOList != null ? productDTOList : new ArrayList<ProductDTO>());
         model.addAttribute("discounts", discountDTOList != null ? discountDTOList : new ArrayList<DiscountDTO>());
