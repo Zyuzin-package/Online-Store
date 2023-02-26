@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<table border="1" align="center">
+    <tr>
+        <td colspan="2">
+            Visit statistics
+        </td>
+    </tr>
+    <tr th:each="visit : ${visitStats}">
+        <td th:text="${visit.product.title}"></td>
+        <td th:text="${visit.created}"></td>
+    </tr>
+</table>
+
+<table border="1" align="center">
+    <tr>
+        <td colspan="2">
+            Frequency add to cart statistics
+        </td>
+    </tr>
+    <tr th:each="f : ${frequencyAddToCartStats}">
+        <td th:text="${f.product.title}"></td>
+        <td th:text="${f.created}"></td>
+    </tr>
+</table>
+
+<table border="1" align="center">
+    <tr>
+        <td colspan="3">
+            Shopping frequency statistics
+        </td>
+    </tr>
+    <tr th:each="b : ${buyStats}">
+        <td th:text="${b.product.title}"></td>
+        <td th:text="${b.created}"></td>
+        <td th:text="${b.amount}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

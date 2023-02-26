@@ -1,15 +1,16 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.Product;
+import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
+import com.example.diplom.service.statistics.VisitStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.security.Principal;
 import java.util.List;
 
@@ -21,15 +22,15 @@ public class ProductController {
     private final UserNotificationService userNotificationService;
     private final ProductReviewService productReviewService;
     private final DiscountService discountService;
-    private final UserService userService;
-
+    private final VisitStatsService visitStatsService;
+    private final ProductMapper mapper = ProductMapper.MAPPER;
     @Autowired
-    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService, UserService userService) {
+    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService, VisitStatsService visitStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.productReviewService = productReviewService;
         this.discountService = discountService;
-        this.userService = userService;
+        this.visitStatsService = visitStatsService;
     }
 
     @GetMapping("/{id}/bucket")
@@ -51,6 +52,10 @@ public class ProductController {
         ProductDTO dto = productService.getProductByName(title);
         List<ProductReviewDTO> productReviewDTOS = productReviewService.getReviewsByProductTitle(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
+
+        visitStatsService.save(VisitStats.builder()
+                .product_id(dto.getId())
+                .build());
 
         model.addAttribute("product", dto);
         model.addAttribute("reviews", productReviewDTOS);

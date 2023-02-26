@@ -5,7 +5,9 @@ import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
-import org.dom4j.rule.Mode;
+import com.example.diplom.service.statistics.BuyStatsService;
+import com.example.diplom.service.statistics.FrequencyAddToCartStatsService;
+import com.example.diplom.service.statistics.VisitStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @Controller
@@ -28,19 +28,25 @@ public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
     private final DiscountService discountService;
+    private final BuyStatsService buyStatsService;
+    private final FrequencyAddToCartStatsService frequencyAddToCartStatsService;
+    private final VisitStatsService visitStatsService;
     private String username;
     private Long orderId;
 
     private String productTitle = "";
 
     @Autowired
-    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService) {
+    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService, BuyStatsService buyStatsService, FrequencyAddToCartStatsService frequencyAddToCartStatsService, VisitStatsService visitStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.orderService = orderService;
         this.discountService = discountService;
+        this.buyStatsService = buyStatsService;
+        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
+        this.visitStatsService = visitStatsService;
     }
 
     /**
@@ -289,5 +295,15 @@ public class AdminController {
         return "orderEditManagement";
     }
 
-
+    /**
+     * Statistics
+     */
+    @GetMapping("/stats")
+    public String statisticsPage(Model model) {
+        System.out.println("\n\n" +  visitStatsService.getAll().toString());
+        model.addAttribute("visitStats", visitStatsService.getAll());
+        model.addAttribute("buyStats", buyStatsService.getAll());
+        model.addAttribute("frequencyAddToCartStats", frequencyAddToCartStatsService.getAll());
+        return "statistics";
+    }
 }

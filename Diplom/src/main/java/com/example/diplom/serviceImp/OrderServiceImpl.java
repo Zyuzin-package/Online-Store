@@ -2,9 +2,11 @@ package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.OrderRepository;
 import com.example.diplom.domain.*;
+import com.example.diplom.domain.statistics.BuyStats;
 import com.example.diplom.dto.*;
 import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.*;
+import com.example.diplom.service.statistics.BuyStatsService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,16 +23,17 @@ public class OrderServiceImpl implements OrderService {
     private final BucketService bucketService;
     private final UserService userService;
     private final UserNotificationService userNotificationService;
-
+    private final BuyStatsService buyStatsService;
     private final MailSender mailSender;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService, MailSender mailSender) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService, BuyStatsService buyStatsService, MailSender mailSender) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.orderDetailsService = orderDetailsService;
         this.bucketService = bucketService;
         this.userService = userService;
         this.userNotificationService = userNotificationService;
+        this.buyStatsService = buyStatsService;
         this.mailSender = mailSender;
     }
 
@@ -99,10 +102,16 @@ public class OrderServiceImpl implements OrderService {
 
         );
         StringBuilder temp = new StringBuilder();
-        for (OrderDetails o: orderDetailsList){
+        for (OrderDetails o : orderDetailsList) {
             temp.append(o.getProduct().getTitle()).append("\n");
+            buyStatsService.save(BuyStats.builder()
+                            .amount(o.getAmount())
+                    .product_id(o.getProduct().getId())
+                    .build());
         }
-        mailSender.send(userM.getEmail(),"Kork-Market new order","You create new order with number " + doneOrder.getId() +" :\n"+temp);
+
+
+        mailSender.send(userM.getEmail(), "Kork-Market new order", "You create new order with number " + doneOrder.getId() + " :\n" + temp);
         return true;
     }
 
@@ -141,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
                             .url("")
                             .urlText("").build());
         }
-        mailSender.send(userM.getEmail(),"Kork-Market update order status","You order with number " + order.getId() +" has changed its status, now the status is " + status);
+        mailSender.send(userM.getEmail(), "Kork-Market update order status", "You order with number " + order.getId() + " has changed its status, now the status is " + status);
         orderRepository.updateOrderStatus(orderId, status);
     }
 

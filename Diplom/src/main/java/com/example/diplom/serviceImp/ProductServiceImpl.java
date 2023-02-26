@@ -4,18 +4,17 @@ import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
+import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
+import com.example.diplom.service.statistics.FrequencyAddToCartStatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.*;
 
 @Service
@@ -29,8 +28,9 @@ public class ProductServiceImpl implements ProductService {
     private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
     private final ImageService imageService;
+    private final FrequencyAddToCartStatsService frequencyAddToCartStatsService;
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService, ImageService imageService) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService, ImageService imageService, FrequencyAddToCartStatsService frequencyAddToCartStatsService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.categoryService = categoryService;
@@ -38,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
         this.userNotificationService = userNotificationService;
         this.discountService = discountService;
         this.imageService = imageService;
+        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
     }
 
     @Override
@@ -61,12 +62,15 @@ public class ProductServiceImpl implements ProductService {
         } else {
             bucketService.addProduct(bucket, Collections.singletonList(productId));
         }
-
+        Product product = productRepository.findFirstById(productId);
         userNotificationService.sendNotificationToUser(UserNotificationDTO.builder()
-                .message("Product: " + productRepository.findFirstById(productId).getTitle() + " was added to you bucket")
+                .message("Product: " + product.getTitle() + " was added to you bucket")
                 .url("")
                 .urlText("")
                 .userId(userM.getId())
+                .build());
+        frequencyAddToCartStatsService.save(FrequencyAddToCartStats.builder()
+                .product(product)
                 .build());
     }
 
@@ -157,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean changeName(ProductDTO productDTO,String oldName) {
+    public boolean changeName(ProductDTO productDTO, String oldName) {
         ProductDTO product = getProductByName(oldName);
 
         product.setTitle(productDTO.getTitle());
@@ -259,7 +263,7 @@ public class ProductServiceImpl implements ProductService {
             }
             productRepository.removeFromProductsToCategoryByCategoryName(title);
             return true;
-        } catch (Throwable e){
+        } catch (Throwable e) {
             return false;
         }
     }
