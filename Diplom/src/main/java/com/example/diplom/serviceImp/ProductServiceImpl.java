@@ -28,15 +28,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
+    private final ImageService imageService;
 
-
-    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService) {
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService, ImageService imageService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.categoryService = categoryService;
         this.productRepository = productRepository;
         this.userNotificationService = userNotificationService;
         this.discountService = discountService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -87,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
                         .build();
                 System.out.println("1");
                 if (!file.isEmpty()) {
-                    if (saveImage(file, imageName, path, category)) {
+                    if (imageService.saveImage(file, imageName, path, category)) {
                         newProduct.setImage(path);
                         System.out.println("2");
                     } else {
@@ -131,8 +132,8 @@ public class ProductServiceImpl implements ProductService {
             }
 
             if (!file.isEmpty()) {
-                removeImage(savedProduct.getImage());
-                if (saveImage(file, imageName, path, category)) {
+                imageService.removeImage(savedProduct.getImage());
+                if (imageService.saveImage(file, imageName, path, category)) {
                     isChanged = true;
                     savedProduct.setImage(path);
                 }
@@ -182,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             return false;
         }
-        if (!removeImage(product.getImage())) {
+        if (!imageService.removeImage(product.getImage())) {
             return false;
         }
         productRepository.deleteById(product.getId());
@@ -263,36 +264,5 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public boolean saveImage(MultipartFile file, String name, String path, String category) {
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/" + path)));
-                stream.write(bytes);
-                stream.close();
 
-                System.out.println("Successful load file");
-                return true;
-            } catch (Exception e) {
-                System.out.println("Error load file" + e.getMessage());
-                e.printStackTrace();
-                return false;
-            }
-        } else {
-            System.out.println("File is empty");
-            return false;
-        }
-    }
-
-    @Override
-    public boolean removeImage(String imageUrl) {
-        String path = "src/main/resources/static/" + imageUrl;
-        File file = new File(path);
-        if (!file.delete()) {
-            return false;
-        }
-        return true;
-    }
 }
