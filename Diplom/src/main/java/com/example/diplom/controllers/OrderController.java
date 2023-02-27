@@ -55,6 +55,7 @@ public class OrderController {
 
         OrderDTO order = orderService.findOrderById(id);
 
+
         if (order == null || (!Objects.equals(order.getUserId(), userService.findByName(principal.getName()).getId()))) {
             model.addAttribute("errorMessage", "Order not found");
             return "error";

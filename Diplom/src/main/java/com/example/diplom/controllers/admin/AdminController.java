@@ -60,10 +60,14 @@ public class AdminController {
      * @return
      */
     @PostMapping("/product/new")
-    public String createNewProduct(Model model, ProductDTO productDTO,
-                                   @RequestParam(name = "categories") String category, Principal principal, HttpServletRequest request,
-                                   @RequestParam(name = "discount") String discount,
-                                   @RequestParam("file") MultipartFile file
+    public String createNewProduct(
+            Model model,
+            ProductDTO productDTO,
+            @RequestParam(name = "categories") String category,
+            Principal principal,
+            HttpServletRequest request,
+            @RequestParam(name = "discount") String discount,
+            @RequestParam("file") MultipartFile file
     ) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
@@ -300,7 +304,7 @@ public class AdminController {
      */
     @GetMapping("/stats")
     public String statisticsPage(Model model) {
-        System.out.println("\n\n" +  visitStatsService.getAll().toString());
+        System.out.println("\n\n" + visitStatsService.getAll().toString());
         model.addAttribute("visitStats", visitStatsService.getAll());
         model.addAttribute("buyStats", buyStatsService.getAll());
         model.addAttribute("frequencyAddToCartStats", frequencyAddToCartStatsService.getAll());

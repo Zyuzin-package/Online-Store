@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetails o : orderDetailsList) {
             temp.append(o.getProduct().getTitle()).append("\n");
             buyStatsService.save(BuyStats.builder()
-                            .amount(o.getAmount())
+                    .amount(o.getAmount())
                     .product_id(o.getProduct().getId())
                     .build());
         }
@@ -117,7 +117,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findOrderById(Long id) {
-        return mapper.fromOrder(orderRepository.findFirstById(id));
+        Order order = orderRepository.findFirstById(id);
+        OrderDTO dto = mapper.fromOrder(order);
+        dto.setUserId(order.getUser().getId());
+        return dto;
     }
 
     @Override

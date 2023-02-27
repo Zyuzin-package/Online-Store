@@ -25,7 +25,7 @@ public class ProductReviewController {
     @GetMapping("/new/{id}")
     public String createNewReview(@RequestParam(name = "review") String review, @RequestParam(name = "stars") int stars, Principal principal, Model model, @PathVariable Long id, HttpServletRequest request) {
         if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),id)!=null){
-            //TODO: need add catch error
+            model.addAttribute("isReviewCreated", true);
             return "redirect:"+request.getHeader("Referer");
         }
 
@@ -36,6 +36,7 @@ public class ProductReviewController {
                 .stars(stars)
                 .userName(principal.getName())
                 .build());
+        model.addAttribute("isReviewCreated", false);
         return "redirect:"+request.getHeader("Referer");
     }
 

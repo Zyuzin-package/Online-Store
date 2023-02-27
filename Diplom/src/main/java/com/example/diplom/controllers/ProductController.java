@@ -57,10 +57,17 @@ public class ProductController {
                 .product_id(dto.getId())
                 .build());
 
+        if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),dto.getId())!=null){
+            model.addAttribute("isReviewCreated", true);
+        } else {
+            model.addAttribute("isReviewCreated", false);
+        }
+
         model.addAttribute("product", dto);
         model.addAttribute("reviews", productReviewDTOS);
         model.addAttribute("review", new ProductReviewDTO());
         model.addAttribute("discount", discountDTO);
+
         return "productDetails";
     }
 
