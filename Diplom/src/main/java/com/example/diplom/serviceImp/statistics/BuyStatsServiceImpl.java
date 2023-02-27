@@ -2,19 +2,17 @@ package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.BuyStatsRepository;
 import com.example.diplom.domain.statistics.BuyStats;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.dto.statistics.BuyStatsDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
-import com.example.diplom.service.statistics.BuyStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BuyStatsServiceImpl implements BuyStatsService {
+public class BuyStatsServiceImpl implements StatsService<BuyStats, BuyStatsDTO> {
 
     private final BuyStatsRepository buyStatsRepository;
     private final ProductService productService;
@@ -39,6 +37,19 @@ public class BuyStatsServiceImpl implements BuyStatsService {
     public List<BuyStatsDTO> getAll() {
         List<BuyStatsDTO> dtos = new ArrayList<>();
         for (BuyStats buyStats : buyStatsRepository.findAll()) {
+            dtos.add(BuyStatsDTO.builder()
+                    .product(mapper.fromProduct(productService.findProductById(buyStats.getProduct_id())))
+                    .created(buyStats.getCreated())
+                    .amount(buyStats.getAmount())
+                    .build());
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<BuyStatsDTO> getAllBuyProductName(String productName) {
+        List<BuyStatsDTO> dtos = new ArrayList<>();
+        for (BuyStats buyStats : buyStatsRepository.getAllBuyProductName(productName)) {
             dtos.add(BuyStatsDTO.builder()
                     .product(mapper.fromProduct(productService.findProductById(buyStats.getProduct_id())))
                     .created(buyStats.getCreated())

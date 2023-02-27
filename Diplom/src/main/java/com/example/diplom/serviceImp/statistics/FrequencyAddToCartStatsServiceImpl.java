@@ -2,19 +2,16 @@ package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.FrequencyAddToCartStatsRepository;
 import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
-import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
-import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
-import com.example.diplom.service.ProductService;
-import com.example.diplom.service.statistics.FrequencyAddToCartStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FrequencyAddToCartStatsServiceImpl implements FrequencyAddToCartStatsService {
+public class FrequencyAddToCartStatsServiceImpl implements StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO>{
     private final FrequencyAddToCartStatsRepository repository;
 
     private final ProductMapper mapper = ProductMapper.MAPPER;
@@ -37,6 +34,18 @@ public class FrequencyAddToCartStatsServiceImpl implements FrequencyAddToCartSta
     public List<FrequencyAddToCartStatsDTO> getAll() {
         List<FrequencyAddToCartStatsDTO> dtos = new ArrayList<>();
         for (FrequencyAddToCartStats frequencyAddToCartStats : repository.findAll()) {
+            dtos.add(FrequencyAddToCartStatsDTO.builder()
+                    .product(frequencyAddToCartStats.getProduct())
+                    .created(frequencyAddToCartStats.getCreated())
+                    .build());
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<FrequencyAddToCartStatsDTO> getAllBuyProductName(String productName) {
+        List<FrequencyAddToCartStatsDTO> dtos = new ArrayList<>();
+        for (FrequencyAddToCartStats frequencyAddToCartStats : repository.getAllBuyProductName(productName)) {
             dtos.add(FrequencyAddToCartStatsDTO.builder()
                     .product(frequencyAddToCartStats.getProduct())
                     .created(frequencyAddToCartStats.getCreated())

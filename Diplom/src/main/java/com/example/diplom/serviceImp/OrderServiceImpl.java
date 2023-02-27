@@ -4,15 +4,14 @@ import com.example.diplom.dao.OrderRepository;
 import com.example.diplom.domain.*;
 import com.example.diplom.domain.statistics.BuyStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.dto.statistics.BuyStatsDTO;
 import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.*;
-import com.example.diplom.service.statistics.BuyStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -23,10 +22,10 @@ public class OrderServiceImpl implements OrderService {
     private final BucketService bucketService;
     private final UserService userService;
     private final UserNotificationService userNotificationService;
-    private final BuyStatsService buyStatsService;
+    private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
     private final MailSender mailSender;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService, BuyStatsService buyStatsService, MailSender mailSender) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, OrderDetailsService orderDetailsService, BucketService bucketService, UserService userService, UserNotificationService userNotificationService,   StatsService<BuyStats, BuyStatsDTO>  buyStatsService, MailSender mailSender) {
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.orderDetailsService = orderDetailsService;

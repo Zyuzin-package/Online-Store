@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ProductsStatistics</title>
+</head>
+<body>
+<table id="products-statistic-menu" width="100%" >
+<tr>
+    <td th:each="p : ${products}">
+        <a th:href="@{/admin/stats/{title}(title=${p.title})}" th:text="${p.title}"></a>
+    </td>
+</tr>
+</table>
+</body>
+</html>

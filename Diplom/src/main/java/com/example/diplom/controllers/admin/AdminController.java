@@ -3,11 +3,15 @@ package com.example.diplom.controllers.admin;
 import com.example.diplom.domain.OrderStatus;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
+import com.example.diplom.domain.statistics.BuyStats;
+import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
+import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.dto.statistics.BuyStatsDTO;
+import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
+import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.service.*;
-import com.example.diplom.service.statistics.BuyStatsService;
-import com.example.diplom.service.statistics.FrequencyAddToCartStatsService;
-import com.example.diplom.service.statistics.VisitStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +32,25 @@ public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
     private final DiscountService discountService;
-    private final BuyStatsService buyStatsService;
-    private final FrequencyAddToCartStatsService frequencyAddToCartStatsService;
-    private final VisitStatsService visitStatsService;
+    private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
+    private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
+    private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private String username;
     private Long orderId;
 
     private String productTitle = "";
 
     @Autowired
-    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService, BuyStatsService buyStatsService, FrequencyAddToCartStatsService frequencyAddToCartStatsService, VisitStatsService visitStatsService) {
+    public AdminController(
+            ProductService productService,
+            UserNotificationService userNotificationService,
+            CategoryService categoryService,
+            UserService userService,
+            OrderService orderService,
+            DiscountService discountService,
+            StatsService<BuyStats, BuyStatsDTO> buyStatsService,
+            StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO>frequencyAddToCartStatsService,
+            StatsService<VisitStats, VisitStatsDTO> visitStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.categoryService = categoryService;
@@ -304,10 +317,25 @@ public class AdminController {
      */
     @GetMapping("/stats")
     public String statisticsPage(Model model) {
-        System.out.println("\n\n" + visitStatsService.getAll().toString());
+        model.addAttribute("products", productService.getAll());
         model.addAttribute("visitStats", visitStatsService.getAll());
         model.addAttribute("buyStats", buyStatsService.getAll());
         model.addAttribute("frequencyAddToCartStats", frequencyAddToCartStatsService.getAll());
+        return "statistics";
+    }
+
+    @GetMapping("/stats/{title}")
+    public String statisticsDetails(@PathVariable String title, Model model) {
+
+        List<VisitStatsDTO> visitStatsDTOList = visitStatsService.getAllBuyProductName(title);
+        List<BuyStatsDTO> buyStatsDTOS = buyStatsService.getAllBuyProductName(title);
+        List<FrequencyAddToCartStatsDTO> frequencyAddToCartStatsDTOS = frequencyAddToCartStatsService.getAllBuyProductName(title);
+
+        model.addAttribute("visitStats", visitStatsDTOList);
+        model.addAttribute("buyStats", buyStatsDTOS);
+        model.addAttribute("frequencyAddToCartStats",frequencyAddToCartStatsDTOS);
+
+        model.addAttribute("products", productService.getAll());
         return "statistics";
     }
 }

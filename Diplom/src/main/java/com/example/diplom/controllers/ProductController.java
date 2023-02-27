@@ -2,9 +2,10 @@ package com.example.diplom.controllers;
 
 import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
-import com.example.diplom.service.statistics.VisitStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,10 @@ public class ProductController {
     private final UserNotificationService userNotificationService;
     private final ProductReviewService productReviewService;
     private final DiscountService discountService;
-    private final VisitStatsService visitStatsService;
+    private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private final ProductMapper mapper = ProductMapper.MAPPER;
     @Autowired
-    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService, VisitStatsService visitStatsService) {
+    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService,    StatsService<VisitStats, VisitStatsDTO>  visitStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.productReviewService = productReviewService;
