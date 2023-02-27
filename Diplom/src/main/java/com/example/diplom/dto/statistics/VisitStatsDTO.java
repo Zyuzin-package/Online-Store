@@ -1,5 +1,6 @@
 package com.example.diplom.dto.statistics;
 
+import com.example.diplom.domain.Product;
 import com.example.diplom.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,15 @@ public class VisitStatsDTO {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    @Override
+    public String toString() {
+        return "VisitStatsDTO{" +
+                "id=" + id +
+                ", product=" + product +
+                ", created=" + created +
+                '}';
     }
 }
 

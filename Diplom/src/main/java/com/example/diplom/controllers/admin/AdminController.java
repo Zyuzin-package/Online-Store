@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @Controller
@@ -330,6 +332,11 @@ public class AdminController {
         List<VisitStatsDTO> visitStatsDTOList = visitStatsService.getAllBuyProductName(title);
         List<BuyStatsDTO> buyStatsDTOS = buyStatsService.getAllBuyProductName(title);
         List<FrequencyAddToCartStatsDTO> frequencyAddToCartStatsDTOS = frequencyAddToCartStatsService.getAllBuyProductName(title);
+
+
+        model.addAttribute("visitStatsMap",visitStatsService.calculateStatsByProductName(title));
+        model.addAttribute("buyStatsMap",buyStatsService.calculateStatsByProductName(title));
+        model.addAttribute("frequencyAddToCartStatsMap",frequencyAddToCartStatsService.calculateStatsByProductName(title));
 
         model.addAttribute("visitStats", visitStatsDTOList);
         model.addAttribute("buyStats", buyStatsDTOS);

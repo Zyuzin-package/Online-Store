@@ -3,13 +3,14 @@ package com.example.diplom.serviceImp.statistics;
 import com.example.diplom.dao.statistics.BuyStatsRepository;
 import com.example.diplom.domain.statistics.BuyStats;
 import com.example.diplom.dto.statistics.BuyStatsDTO;
+import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class BuyStatsServiceImpl implements StatsService<BuyStats, BuyStatsDTO> {
@@ -57,6 +58,29 @@ public class BuyStatsServiceImpl implements StatsService<BuyStats, BuyStatsDTO> 
                     .build());
         }
         return dtos;
+    }
+
+    @Override
+    public Map<LocalDateTime, Integer> calculateStatsByProductName(String title) {
+        List<BuyStatsDTO> buyStatsDTOS = getAllBuyProductName(title);
+
+        buyStatsDTOS.sort(Comparator.comparing(BuyStatsDTO::getCreated));
+
+        LocalDateTime temp = buyStatsDTOS.get(0).getCreated();
+        SortedMap<LocalDateTime, Integer> resultMap = new TreeMap<>();
+
+        int amount = 0;
+        for (BuyStatsDTO v : buyStatsDTOS) {
+            if (temp.getDayOfYear() == (v.getCreated().getDayOfYear())) {
+                amount+=1;
+            } else {
+                amount=1;
+                temp=v.getCreated();
+            }
+            resultMap.put(v.getCreated(), amount);
+        }
+        resultMap.put(temp, amount);
+        return resultMap;
     }
 
 }

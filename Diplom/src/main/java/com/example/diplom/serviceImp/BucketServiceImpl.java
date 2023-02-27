@@ -5,14 +5,12 @@ import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.BucketDetailDTO;
 import com.example.diplom.dto.DiscountDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.BucketService;
 import com.example.diplom.service.UserService;
-import com.example.diplom.service.statistics.FrequencyAddToCartStatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

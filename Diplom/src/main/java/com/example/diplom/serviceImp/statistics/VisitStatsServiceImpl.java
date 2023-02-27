@@ -8,11 +8,11 @@ import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
-public class VisitStatsServiceImpl implements StatsService<VisitStats,VisitStatsDTO>  {
+public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStatsDTO> {
     private final VisitStatsRepository visitStatsRepository;
     private final ProductService productService;
     private final ProductMapper mapper = ProductMapper.MAPPER;
@@ -43,8 +43,9 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats,VisitStats
         }
         return visitStatsDTOS;
     }
+
     @Override
-    public List<VisitStatsDTO> getAllBuyProductName(String productName){
+    public List<VisitStatsDTO> getAllBuyProductName(String productName) {
         List<VisitStatsDTO> visitStatsDTOS = new ArrayList<>();
         for (VisitStats vs : visitStatsRepository.getAllBuyProductName(productName)) {
             visitStatsDTOS.add(VisitStatsDTO.builder()
@@ -53,5 +54,28 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats,VisitStats
                     .build());
         }
         return visitStatsDTOS;
+    }
+
+    @Override
+    public Map<LocalDateTime, Integer> calculateStatsByProductName(String title) {
+        List<VisitStatsDTO> visitStatsDTOS = getAllBuyProductName(title);
+
+        visitStatsDTOS.sort(Comparator.comparing(VisitStatsDTO::getCreated));
+
+        LocalDateTime temp = visitStatsDTOS.get(0).getCreated();
+        SortedMap<LocalDateTime, Integer> resultMap = new TreeMap<>();
+
+        int amount = 0;
+        for (VisitStatsDTO v : visitStatsDTOS) {
+            if (temp.getDayOfYear() == (v.getCreated().getDayOfYear())) {
+                amount+=1;
+            } else {
+                amount=1;
+                temp=v.getCreated();
+            }
+            resultMap.put(v.getCreated(), amount);
+        }
+        resultMap.put(temp, amount);
+        return resultMap;
     }
 }

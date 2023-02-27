@@ -7,15 +7,16 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/productsStatistics :: #products-statistic-menu}"></div>
+
 <table border="1" align="center">
     <tr>
         <td colspan="2">
             Visit statistics
         </td>
     </tr>
-    <tr th:each="visit : ${visitStats}">
-        <td th:text="${visit.product.title}"></td>
-        <td th:text="${visit.created}"></td>
+    <tr th:each="v: ${visitStatsMap}">
+        <td th:text="${v.key}"></td>
+        <td th:text="${v.value}"></td>
     </tr>
 </table>
 
@@ -25,9 +26,9 @@
             Frequency add to cart statistics
         </td>
     </tr>
-    <tr th:each="f : ${frequencyAddToCartStats}">
-        <td th:text="${f.product.title}"></td>
-        <td th:text="${f.created}"></td>
+    <tr th:each="f: ${frequencyAddToCartStatsMap}">
+        <td th:text="${f.key}"></td>
+        <td th:text="${f.value}"></td>
     </tr>
 </table>
 
@@ -37,10 +38,9 @@
             Shopping frequency statistics
         </td>
     </tr>
-    <tr th:each="b : ${buyStats}">
-        <td th:text="${b.product.title}"></td>
-        <td th:text="${b.created}"></td>
-        <td th:text="${b.amount}"></td>
+    <tr th:each="b: ${buyStatsMap}">
+        <td th:text="${b.key}"></td>
+        <td th:text="${b.value}"></td>
     </tr>
 </table>
 

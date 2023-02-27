@@ -1,7 +1,9 @@
 package com.example.diplom.service.statistics;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface StatsService<T,D> {
 
@@ -9,4 +11,6 @@ public interface StatsService<T,D> {
     List<D> getAll();
 
     List<D> getAllBuyProductName(String productName);
+
+    Map<LocalDateTime,Integer> calculateStatsByProductName(String title);
 }

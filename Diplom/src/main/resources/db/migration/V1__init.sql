@@ -9,6 +9,7 @@ drop table if exists public.products_categories cascade;
 drop table if exists public.users cascade;
 drop table if exists public.visit_stats cascade;
 drop table if exists public.frequency_add_to_cart_stats cascade;
+drop table if exists public.buy_stats cascade;
 
 drop sequence if exists public.bucket_seq;
 drop sequence if exists public.category_seq;
@@ -21,6 +22,7 @@ drop sequence if exists public.user_notification_seq;
 drop sequence if exists public.user_seq;
 drop sequence if exists public.visit_stats_seq;
 drop sequence if exists public.frequency_add_to_cart_stats_seq;
+drop sequence if exists public.buy_stats_seq;
 
 alter table if exists public.discount
     drop constraint if exists FKr4tq0e68q1e2id6odo428vawp;
@@ -65,6 +67,7 @@ create sequence public.user_notification_seq start 1 increment 1;
 create sequence public.user_seq start 1 increment 1;
 create sequence public.visit_stats_seq start 1 increment 1;
 create sequence public.frequency_add_to_cart_stats_seq start 1 increment 1;
+create sequence public.buy_stats_seq start 1 increment 1;
 
 create table public.buckets_product
 (
@@ -147,6 +150,14 @@ create table public.visit_stats
 create table public.frequency_add_to_cart_stats
 (
     id         int8 not null,
+    created    timestamp,
+    product_id int8,
+    primary key (id)
+);
+create table public.buy_stats
+(
+    id         int8 not null,
+    amount     int4 not null,
     created    timestamp,
     product_id int8,
     primary key (id)
