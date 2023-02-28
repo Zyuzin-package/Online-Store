@@ -12,7 +12,11 @@ import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -335,12 +339,17 @@ public class AdminController {
         List<BuyStatsDTO> buyStatsDTOS = buyStatsService.getAllBuyProductName(title);
         List<FrequencyAddToCartStatsDTO> frequencyAddToCartStatsDTOS = frequencyAddToCartStatsService.getAllBuyProductName(title);
 
+        String json = JSONValue.toJSONString( visitStatsService.calculateStatsByProductName(title));
+        String json1 = JSONValue.toJSONString(buyStatsService.calculateStatsByProductName(title));
+        String json2 = JSONValue.toJSONString(frequencyAddToCartStatsService.calculateStatsByProductName(title));
 
-        model.addAttribute("visitStatsMap",visitStatsService.calculateStatsByProductName(title));
-        model.addAttribute("buyStatsMap",buyStatsService.calculateStatsByProductName(title));
-        model.addAttribute("frequencyAddToCartStatsMap",frequencyAddToCartStatsService.calculateStatsByProductName(title));
 
 
+        System.out.println(json);
+
+        model.addAttribute("visitStatsMap",json);
+        model.addAttribute("buyStatsMap",json1);
+        model.addAttribute("frequencyAddToCartStatsMap",json2);
 
         model.addAttribute("visitStats", visitStatsDTOList);
         model.addAttribute("buyStats", buyStatsDTOS);
