@@ -1,128 +1,63 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
-    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
-    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
-    <style type="text/css">
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
 
-        html,
-        body,
-        #container {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'Mount');
+            data.addColumn('number', 'Number');
+            var arr = getData("2022-01-10T06:14=2, 2022-02-11T06:14=3, 2022-03-12T06:14=1, 2022-04-13T06:14=3, 2022-05-14T06:14=1, 2022-06-15T06:14=1, 2022-07-16T06:14=1, 2022-08-17T06:14=1, 2022-09-18T06:14=2, 2022-10-19T06:14=1");
+            for (var  i = 0; i<=arr.length-1;i++){
+                data.addRows([arr[i]]);
+            }
+            var options = {
+                chart: {
+                    title: 'Box Office Earnings in First Two Weeks of Opening',
+                    subtitle: 'in millions of dollars (USD)'
+                },
+                width: 900,
+                height: 500
+            };
+
+            var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+            chart.draw(data, google.charts.Line.convertOptions(options));
         }
+        function getData(str) {
+            str = str.substring(1);
+            var num = 0;
+            let arr = [];
+            while (str.length>0) {
+                var temp = str.split(',')[0];
+                var length = temp.length;
+                str = str.slice(length+1);
+                var y = temp.split('-')[0];
 
-    </style>
+                var m = temp.split('-')[1];
+                var count = temp.split('=')[1];
+
+                temp = temp.slice(9);
+                var d = temp.split('T')[0];
+                console.log(parseInt(count,10))
+                arr[num] = [parseFloat(m),parseFloat(count)];
+
+                num= num +1;
+
+            }
+            arr.pop();
+            // arr.unshift(["Year","Visit"])
+            console.log(arr);
+            return arr;
+        }
+    </script>
 </head>
 <body>
-
-<div id="container"></div>
-
-
-<script>
-
-
-    anychart.onDocumentReady(function () {
-        var firstSeriesData = anychart.data.set(getData("2022-01-10T06:14=2, 2022-02-11T06:14=3, 2022-03-12T06:14=1, 2022-04-13T06:14=3, 2022-05-14T06:14=1, 2022-06-15T06:14=1, 2022-07-16T06:14=1, 2022-08-17T06:14=1, 2022-09-18T06:14=2, 2022-10-19T06:14=1")).mapAs({ x: 0, value: 1 });
-        var secondSeriesData = anychart.data.set(getData("2022-01-10T06:14=2, 2022-02-11T06:14=3, 2022-03-12T06:14=1, 2022-04-13T06:14=3, 2022-05-14T06:14=1, 2022-06-15T06:14=1, 2022-07-16T06:14=1, 2022-08-17T06:14=1, 2022-09-18T06:14=2, 2022-10-19T06:14=1")).mapAs({ x: 0, value: 1 });
-        var thirdSeriesData = anychart.data.set(getData("2022-01-10T06:14=2, 2022-02-11T06:14=3, 2022-03-12T06:14=1, 2022-04-13T06:14=3, 2022-05-14T06:14=1, 2022-06-15T06:14=1, 2022-07-16T06:14=1, 2022-08-17T06:14=1, 2022-09-18T06:14=2, 2022-10-19T06:14=1")).mapAs({ x: 0, value: 1 });
-
-        // create line chart
-        var chart = anychart.line();
-
-        // turn on chart animation
-        chart.animation(true);
-
-        // set chart padding
-        chart.padding([10, 20, 5, 20]);
-
-        // turn on the crosshair
-        chart.crosshair().enabled(true).yLabel(false).yStroke(null);
-
-        // set tooltip mode to point
-        chart.tooltip().positionMode('point');
-
-        // set chart title text settings
-        chart.title(
-            'Trend of Sales of the Most Popular Products of ACME Corp.'
-        );
-
-        // set yAxis title
-        chart.yAxis().title('Number of Bottles Sold (thousands)');
-        chart.xAxis().labels().padding(5);
-
-        chart.xScale().mode('continuous');
-
-        // create first series with mapped data
-        var firstSeries = chart.line(firstSeriesData);
-        firstSeries.name('Brandy');
-        firstSeries.hovered().markers().enabled(true).type('circle').size(4);
-        firstSeries
-            .tooltip()
-            .position('right')
-            .anchor('left-center')
-            .offsetX(5)
-            .offsetY(5);
-
-        // create second series with mapped data
-        var secondSeries = chart.line(secondSeriesData);
-        secondSeries.name('Whiskey');
-        secondSeries.hovered().markers().enabled(true).type('circle').size(4);
-        secondSeries
-            .tooltip()
-            .position('right')
-            .anchor('left-center')
-            .offsetX(5)
-            .offsetY(5);
-
-        // create third series with mapped data
-        var thirdSeries = chart.line(thirdSeriesData);
-        thirdSeries.name('Tequila');
-        thirdSeries.hovered().markers().enabled(true).type('circle').size(4);
-        thirdSeries
-            .tooltip()
-            .position('right')
-            .anchor('left-center')
-            .offsetX(5)
-            .offsetY(5);
-
-        // turn the legend on
-        chart.legend().enabled(true).fontSize(13).padding([0, 0, 10, 0]);
-
-        // set container id for the chart
-        chart.container('container');
-        // initiate chart drawing
-        chart.draw();
-    });
-
-    function getData(str) {
-        var num = 0;
-        let arr = [];
-        while (str.length>0) {
-            var temp = str.split(',')[0];
-            var length = temp.length;
-            str = str.slice(length+1);
-            var y = temp.split('-')[0];
-
-            var m = temp.split('-')[1];
-            var count = temp.split('=')[1];
-
-            temp = temp.slice(9);
-            var d = temp.split('T')[0];
-
-            arr[num] =[ new Date(y,m,d),count];
-
-            num= num +1;
-
-        }
-        console.log(arr);
-        return arr;
-    }
-
-</script>
+<div id="linechart_material" style="width: 900px; height: 500px"></div>
 </body>
-</html>

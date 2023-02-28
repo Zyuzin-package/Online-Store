@@ -3,79 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Statistics</title>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
-    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
-    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
-    <style type="text/css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
-        html,
-        body,
-        #container {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
+        function drawChart() {
+            // var data = google.visualization.arrayToDataTable([
+            //   getData("[[${visitStatsMap}]]")
+            // ]);
+
+            var options = {
+                title: 'Company Performance',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(getData("[[${visitStatsMap}]]"), options);
         }
-
-    </style>
-    <script>
-
-        anychart.onDocumentReady(function () {
-            var firstSeriesData = anychart.data.set(getData("[[${visitStatsMap}]]")).mapAs({ x: 0, value: 1 });
-            var secondSeriesData = anychart.data.set(getData("[[${visitStatsMap}]]")).mapAs({ x: 0, value: 1 });
-            var thirdSeriesData = anychart.data.set(getData("[[${visitStatsMap}]]")).mapAs({ x: 0, value: 1 });
-
-            // create a line chart
-            var chart = anychart.line();
-
-            // turn on the line chart animation
-            chart.animation(true);
-
-            // configure the chart title text settings
-            chart.title('Acceptance of same-sex relationships in the US over the last 2 decades');
-
-            // set the y axis title
-            chart.yAxis().title('% of people who accept same-sex relationships');
-
-            // turn on the crosshair
-            chart.crosshair().enabled(true).yLabel(false).yStroke(null);
-
-            // create the first series with the mapped data
-            var firstSeries = chart.line(firstSeriesData);
-            firstSeries
-                .name('18-34')
-                .stroke('3 #f49595')
-                .tooltip()
-                .format('Age group 18-34 : {%value}%');
-
-            // create the second series with the mapped data
-            var secondSeries = chart.line(secondSeriesData);
-            secondSeries
-                .name('35-49')
-                .stroke('3 #f9eb97')
-                .tooltip()
-                .format('Age group 35-49 : {%value}%');
-
-            // create the third series with the mapped data
-            var thirdSeries = chart.line(thirdSeriesData);
-            thirdSeries
-                .name('50-64')
-                .stroke('3 #a8d9f6')
-                .tooltip()
-                .format('Age group 50-64 : {%value}%');
-
-            // turn the legend on
-            chart.legend().enabled(true);
-
-            // set the container id for the line chart
-            chart.container('container');
-
-            // draw the line chart
-            chart.draw();
-
-        });
         function getData(str) {
             str = str.substring(1);
             var num = 0;
@@ -91,22 +38,22 @@
 
                 temp = temp.slice(9);
                 var d = temp.split('T')[0];
-
-                arr[num] =[new Date(y,m,d),count];
+                console.log(parseInt(count,10))
+                arr[num] = [parseFloat(m),parseFloat(count)];
 
                 num= num +1;
 
             }
-           arr.pop();
+            arr.pop();
+            console.log(arr);
             return arr;
         }
-
     </script>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/productsStatistics :: #products-statistic-menu}"></div>
-<div id="container"></div>
+<div id="curve_chart" style="width: 900px; height: 500px"></div>
 <table border="1" align="center">
     <tr>
         <td colspan="2">

@@ -341,6 +341,7 @@ public class AdminController {
         model.addAttribute("frequencyAddToCartStatsMap",frequencyAddToCartStatsService.calculateStatsByProductName(title));
 
 
+
         model.addAttribute("visitStats", visitStatsDTOList);
         model.addAttribute("buyStats", buyStatsDTOS);
         model.addAttribute("frequencyAddToCartStats",frequencyAddToCartStatsDTOS);
