@@ -23,6 +23,8 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Stream;
 
 @Controller
@@ -337,6 +339,7 @@ public class AdminController {
         model.addAttribute("visitStatsMap",visitStatsService.calculateStatsByProductName(title));
         model.addAttribute("buyStatsMap",buyStatsService.calculateStatsByProductName(title));
         model.addAttribute("frequencyAddToCartStatsMap",frequencyAddToCartStatsService.calculateStatsByProductName(title));
+
 
         model.addAttribute("visitStats", visitStatsDTOList);
         model.addAttribute("buyStats", buyStatsDTOS);
