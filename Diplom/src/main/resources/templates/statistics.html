@@ -83,21 +83,25 @@
                 title: 'Visit stats',
             },
             width: 900,
-            height: 500
+            height: 500,
+            colors : "blue"
         };
         var options2 = {
             chart: {
                 title: 'Shopping frequency statistics',
             },
             width: 900,
-            height: 500
+            height: 500,
+            colors : "green"
         };
         var options3 = {
             chart: {
                 title: '  Frequency add to cart statistics',
             },
+            legend: null,
             width: 900,
-            height: 500
+            height: 500,
+            colors : "red"
         };
         var chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
         chart1.draw(data1, google.charts.Line.convertOptions(options1));
@@ -112,44 +116,30 @@
     function getData1() {
         var json1 = "[[${visitStatsMap}]]";
         var temp = JSON.parse(json1.replace(/&quot;/g, '"'));
-        // var json2 = "[[${buyStatsMap}]]";
-        // var json3 = "[[${frequencyAddToCartStatsMap}]]";
-
-        // var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
-        // var temp3 = JSON.parse(json3.replace(/&quot;/g, '"'));
-
         let arr1 = [];
+
         for (var key in temp) {
             arr1.push([key, temp[key]]);
         }
-
         return arr1;
     }
 
     function getData2() {
-
         var json2 = "[[${buyStatsMap}]]";
-        // var json3 = "[[${frequencyAddToCartStatsMap}]]";
-
         var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
-        // var temp3 = JSON.parse(json3.replace(/&quot;/g, '"'));
-
         let arr1 = [];
+
         for (var key in temp2) {
             arr1.push([key, temp2[key]]);
         }
-
         return arr1;
     }
 
     function getData3() {
-
         var json3 = "[[${frequencyAddToCartStatsMap}]]";
-
-        // var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
         var temp3 = JSON.parse(json3.replace(/&quot;/g, '"'));
-
         let arr1 = [];
+
         for (var key in temp3) {
             arr1.push([key, temp3[key]]);
         }
