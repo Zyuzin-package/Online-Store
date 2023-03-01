@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface VisitStatsRepository extends JpaRepository<VisitStats,Long> {
@@ -14,4 +15,12 @@ public interface VisitStatsRepository extends JpaRepository<VisitStats,Long> {
     @Query(value = "Select * from visit_stats where product_id=(Select products.id from products where title = :title)", nativeQuery = true)
     @Transactional
     List<VisitStats> getAllBuyProductName(@Param("title") String title);
+    @Modifying
+    @Query(value = "Select * from visit_stats where created=:date", nativeQuery = true)
+    @Transactional
+    List<VisitStats> getAllByDate(@Param("date") LocalDateTime localDateTime);
+    @Modifying
+    @Query(value = "Select distinct created from visit_stats", nativeQuery = true)
+    @Transactional
+    List<LocalDateTime> getUniqueDates();
 }

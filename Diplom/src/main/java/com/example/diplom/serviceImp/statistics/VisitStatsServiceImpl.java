@@ -47,6 +47,8 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStat
     @Override
     public List<VisitStatsDTO> getAllBuyProductName(String productName) {
         List<VisitStatsDTO> visitStatsDTOS = new ArrayList<>();
+        List<VisitStats> temp = visitStatsRepository.getAllBuyProductName(productName);
+        System.out.println("\nTEMP: "+temp);
         for (VisitStats vs : visitStatsRepository.getAllBuyProductName(productName)) {
             visitStatsDTOS.add(VisitStatsDTO.builder()
                     .product(mapper.fromProduct(productService.findProductById(vs.getProduct_id())))

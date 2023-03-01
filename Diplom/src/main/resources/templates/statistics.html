@@ -10,44 +10,6 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/productsStatistics :: #products-statistic-menu}"></div>
 <div id="linechart_material1" style="width: 900px; height: 500px"></div>
-<div id="linechart_material2" style="width: 900px; height: 500px"></div>
-<div id="linechart_material3" style="width: 900px; height: 500px"></div>
-<!--<table border="1" align="center">-->
-<!--    <tr>-->
-<!--        <td colspan="2">-->
-<!--            Visit statistics-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr th:each="v: ${visitStatsMap}">-->
-<!--        <td th:text="${v.key}"></td>-->
-<!--        <td th:text="${v.value}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
-
-<!--<table border="1" align="center">-->
-<!--    <tr>-->
-<!--        <td colspan="2">-->
-<!--            Frequency add to cart statistics-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr th:each="f: ${frequencyAddToCartStatsMap}">-->
-<!--        <td th:text="${f.key}"></td>-->
-<!--        <td th:text="${f.value}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
-
-<!--<table border="1" align="center">-->
-<!--    <tr>-->
-<!--        <td colspan="3">-->
-<!--            Shopping frequency statistics-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr th:each="b: ${buyStatsMap}">-->
-<!--        <td th:text="${b.key}"></td>-->
-<!--        <td th:text="${b.value}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
-
 </body>
 <script type="text/javascript">
     google.charts.load('current', {'packages': ['line']});
@@ -55,96 +17,52 @@
 
     function drawChart() {
         let arr1 = getData1();
-        let arr2 = getData2();
-        let arr3 = getData3();
+
         var data1 = new google.visualization.DataTable();
         data1.addColumn('string', 'Mount');
         data1.addColumn('number', 'Visit stats');
+
         for (var i = 0; i <= arr1.length - 1; i++) {
             data1.addRows([arr1[i]]);
         }
 
-        var data2 = new google.visualization.DataTable();
-        data2.addColumn('string', 'Mount');
-        data2.addColumn('number', 'Buy Stats');
-        for (var i = 0; i <= arr2.length - 1; i++) {
-            data2.addRows([arr2[i]]);
-        }
-
-        var data3 = new google.visualization.DataTable();
-        data3.addColumn('string', 'Mount');
-        data3.addColumn('number', 'Frequency add to cart stats');
-        for (var i = 0; i <= arr3.length - 1; i++) {
-            data3.addRows([arr3[i]]);
-        }
-
+        visitTest
         var options1 = {
             chart: {
                 title: 'Visit stats',
             },
             width: 900,
             height: 500,
-            colors : "blue"
-        };
-        var options2 = {
-            chart: {
-                title: 'Shopping frequency statistics',
-            },
-            width: 900,
-            height: 500,
-            colors : "green"
-        };
-        var options3 = {
-            chart: {
-                title: '  Frequency add to cart statistics',
-            },
-            legend: null,
-            width: 900,
-            height: 500,
-            colors : "red"
+            colors: "blue"
         };
         var chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
         chart1.draw(data1, google.charts.Line.convertOptions(options1));
 
-        var chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
-        chart2.draw(data2, google.charts.Line.convertOptions(options2));
-
-        var chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
-        chart3.draw(data3, google.charts.Line.convertOptions(options3));
     }
 
     function getData1() {
-        var json1 = "[[${visitStatsMap}]]";
-        var temp = JSON.parse(json1.replace(/&quot;/g, '"'));
-        let arr1 = [];
-
-        for (var key in temp) {
-            arr1.push([key, temp[key]]);
-        }
-        return arr1;
-    }
-
-    function getData2() {
-        var json2 = "[[${buyStatsMap}]]";
+        // var json1 = "[[${visitStatsMap}]]";
+        // var temp = JSON.parse(json1.replace(/&quot;/g, '"'));
+//{
+// "Meat1":{"2022-02-10T06:14":2,"2022-02-11T06:14":3,"2022-02-12T06:14":4,"2022-02-13T06:14":2,"2022-02-14T06:14":3}
+// "Meat2":{"2022-02-10T06:14":2,"2022-02-11T06:14":3,"2022-02-12T06:14":4,"2022-02-13T06:14":2,"2022-02-14T06:14":3}
+// }
+        var json2 = "[[${visitTest}]]"
+        console.log(json2);
         var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
+        console.log(temp2);
+
         let arr1 = [];
 
         for (var key in temp2) {
-            arr1.push([key, temp2[key]]);
-        }
-        return arr1;
-    }
-
-    function getData3() {
-        var json3 = "[[${frequencyAddToCartStatsMap}]]";
-        var temp3 = JSON.parse(json3.replace(/&quot;/g, '"'));
-        let arr1 = [];
-
-        for (var key in temp3) {
-            arr1.push([key, temp3[key]]);
+            let keys = new ArrayList<String>(temp2[key].keySet());
+            for (let i = 0; i<=keys .size(); i++){
+                arr1.push([key], [key, temp2[key]]);
+            }
         }
 
         return arr1;
     }
+
 </script>
 </html>
