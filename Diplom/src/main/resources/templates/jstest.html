@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    window.onload = function () {
+        let json2 = "{&quot;Meat1&quot;:{&quot;2022-02-10T06:14&quot;:2,&quot;2022-02-11T06:14&quot;:3,&quot;2022-02-12T06:14&quot;:4,&quot;2022-02-13T06:14&quot;:2,&quot;2022-02-14T06:14&quot;:3}}"
+
+        console.log(json2);
+        var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
+        console.log(temp2);
+        let arr = [];
+        for (var key in temp2) {
+            for (var k in temp2[key]) {
+                console.log(key + "|" + k + "|" + temp2[key][k])
+                arr.push([temp2[key]], [k, temp2[key][k]])
+            }
+        }
+        console.log(arr[0]);
+    }
+</script>
+<body>
+
+</body>
+</html>

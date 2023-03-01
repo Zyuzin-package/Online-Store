@@ -48,19 +48,16 @@
 // "Meat2":{"2022-02-10T06:14":2,"2022-02-11T06:14":3,"2022-02-12T06:14":4,"2022-02-13T06:14":2,"2022-02-14T06:14":3}
 // }
         var json2 = "[[${visitTest}]]"
-        console.log(json2);
         var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
         console.log(temp2);
-
-        let arr1 = [];
-
+        var arr1 =[];
         for (var key in temp2) {
-            let keys = new ArrayList<String>(temp2[key].keySet());
-            for (let i = 0; i<=keys .size(); i++){
-                arr1.push([key], [key, temp2[key]]);
+            console.log(temp2[key]);
+            for (var k in temp2[key]){
+                console.log(k + "|"+temp2[key][k])
+
             }
         }
-
         return arr1;
     }
 
