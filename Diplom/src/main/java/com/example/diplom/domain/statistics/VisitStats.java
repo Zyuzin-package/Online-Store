@@ -26,7 +26,7 @@ public class VisitStats {
 //    @JoinColumn(name = "product_id", referencedColumnName = "id")
 //    public Product product;
     private Long product_id;
-    @CreationTimestamp
+
     private LocalDateTime created;
 
     public Long getId() {

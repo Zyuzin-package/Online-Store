@@ -8,20 +8,24 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<div th:insert="~{fragments/productsStatistics :: #products-statistic-menu}"></div>
 <div id="linechart_material1" style="width: 900px; height: 500px"></div>
+<div id="linechart_material2" style="width: 900px; height: 500px"></div>
+<div id="linechart_material3" style="width: 900px; height: 500px"></div>
 </body>
 <script type="text/javascript">
     google.charts.load('current', {'packages': ['line']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        let json2 = "[[${visitTest}]]";
-        var data1 = getData(json2);
+        let visitStatsJson = "[[${visitStatsJson}]]";
+        let buyStatsJson = "[[${buyStatsJson}]]";
+        let frequencyStatsJson = "[[${frequencyStatsJson}]]";
 
+        let visitStatsData = getData(visitStatsJson);
+        let buyStatsData = getData(buyStatsJson);
+        let frequencyStatsData = getData(frequencyStatsJson);
 
-
-        var options1 = {
+        let visitStatsOption = {
             chart: {
                 title: 'Visit stats',
             },
@@ -29,14 +33,38 @@
             height: 500,
             colors: "blue"
         };
-        var chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
-        chart1.draw(data1, google.charts.Line.convertOptions(options1));
+
+        let buyStatsOption = {
+            chart: {
+                title: 'Buy stats',
+            },
+            width: 900,
+            height: 500,
+            colors: "blue"
+        };
+
+        let frequencyStatsOption = {
+            chart: {
+                title: 'Frequency stats',
+            },
+            width: 900,
+            height: 500,
+            colors: "blue"
+        };
+
+        let chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
+        chart1.draw(visitStatsData, google.charts.Line.convertOptions(visitStatsOption));
+
+        let chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
+        chart2.draw(buyStatsData, google.charts.Line.convertOptions(buyStatsOption));
+
+        let chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
+        chart3.draw(frequencyStatsData, google.charts.Line.convertOptions(frequencyStatsOption));
     }
-    function getData(json){
-        console.log(json)
+
+    function getData(json) {
         var temp2 = JSON.parse(json.replace(/&quot;/g, '"'));
         var data1 = new google.visualization.DataTable();
-        console.log(temp2)
 
         let productJson = "[[${productsTitle}]]";
         var products = JSON.parse(productJson.replace(/&quot;/g, '"'));
@@ -45,22 +73,16 @@
         for (let p in products) {
             data1.addColumn('number', products[p]);
         }
-        console.log(data1)
-        console.log("TEMP2: "+temp2)
-        console.log("_______")
-        let korka =[]
+        let korka = []
         for (var k in temp2) {
             let arr = [];
-            //console.log(key + "|" + k + "|" + temp2[key][k]);
             arr.push(k);
-            for (var t in temp2[k]){
+            for (var t in temp2[k]) {
                 arr.push(temp2[k][t])
             }
             korka.push(arr);
-            console.log(arr);
             data1.addRows(korka);
         }
-        console.log(data1)
         return data1;
     }
 

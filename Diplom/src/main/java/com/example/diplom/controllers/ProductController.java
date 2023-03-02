@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -25,6 +27,7 @@ public class ProductController {
     private final DiscountService discountService;
     private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private final ProductMapper mapper = ProductMapper.MAPPER;
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Autowired
     public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService,    StatsService<VisitStats, VisitStatsDTO>  visitStatsService) {
         this.productService = productService;
@@ -54,8 +57,14 @@ public class ProductController {
         List<ProductReviewDTO> productReviewDTOS = productReviewService.getReviewsByProductTitle(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
 
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = localDateTime.format(formatter);
+        localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+
         visitStatsService.save(VisitStats.builder()
                 .product_id(dto.getId())
+                .created(localDateTime)
                 .build());
 
         if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),dto.getId())!=null){

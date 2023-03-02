@@ -6,7 +6,6 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
 import com.example.diplom.serviceImp.statistics.CollectStatsService;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -318,35 +317,24 @@ public class AdminController {
      */
     @GetMapping("/stats")
     public String statisticsPage(Model model) {
-        model.addAttribute("products", productService.getAll());
-        return "statistics";
-    }
+        String visitStatsJson = JSONValue.toJSONString(collectStatsService.collectVisitStats());
+        String buyStatsJson = JSONValue.toJSONString(collectStatsService.collectBuyStats());
+        String frequencyStatsJson = JSONValue.toJSONString(collectStatsService.collectFrequencyStats());
 
-    @GetMapping("/stats/{title}")
-    public String statisticsDetails(@PathVariable String title, Model model) {
-//        String json = JSONValue.toJSONString( visitStatsService.calculateStatsByProductName(title));
-//        String json1 = JSONValue.toJSONString(buyStatsService.calculateStatsByProductName(title));
-//        String json2 = JSONValue.toJSONString(frequencyAddToCartStatsService.calculateStatsByProductName(title));
-
-
-        String json = JSONValue.toJSONString(collectStatsService.collectStats2());
-        System.out.println("JSON: "+json+"\n");
-//
-//        model.addAttribute("visitStatsMap",json);
-//        model.addAttribute("buyStatsMap",json1);
-//        model.addAttribute("frequencyAddToCartStatsMap",json2);
-//
-//        model.addAttribute("visitStats", visitStatsDTOList);
-//        model.addAttribute("buyStats", buyStatsDTOS);
-//        model.addAttribute("frequencyAddToCartStats",frequencyAddToCartStatsDTOS);
         List<ProductDTO> productDTOList = productService.getAll();
         List<String> productsTitle = new ArrayList<>();
         for (ProductDTO p:productDTOList){
             productsTitle.add(p.getTitle());
         }
+
         model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
-        model.addAttribute("visitTest",json);
+
+        model.addAttribute("visitStatsJson",visitStatsJson);
+        model.addAttribute("buyStatsJson",buyStatsJson);
+        model.addAttribute("frequencyStatsJson",frequencyStatsJson);
+
         model.addAttribute("products", productDTOList);
         return "statistics";
     }
+
 }

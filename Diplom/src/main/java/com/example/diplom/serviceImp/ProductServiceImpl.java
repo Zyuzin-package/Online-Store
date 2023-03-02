@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -70,8 +72,15 @@ public class ProductServiceImpl implements ProductService {
                 .urlText("")
                 .userId(userM.getId())
                 .build());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = localDateTime.format(formatter);
+        localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+        System.out.println("\nfrequency");
         frequencyAddToCartStatsService.save(FrequencyAddToCartStats.builder()
                 .product(product)
+                .created(localDateTime)
                 .build());
     }
 
@@ -91,11 +100,9 @@ public class ProductServiceImpl implements ProductService {
                         .description(productDTO.getDescription())
                         .image(productDTO.getImage())
                         .build();
-                System.out.println("1");
                 if (!file.isEmpty()) {
                     if (imageService.saveImage(file, imageName, path, category)) {
                         newProduct.setImage(path);
-                        System.out.println("2");
                     } else {
                         return false;
                     }
@@ -107,12 +114,10 @@ public class ProductServiceImpl implements ProductService {
                     if (discount < productDTO.getPrice()) {
                         discountService.save(discount, getProductByName(productDTO.getTitle()).getId());
                     } else {
-                        System.out.println("FALSE");
                         return false;
                     }
 
                 }
-                System.out.println("6");
 
                 addCategoryToProduct(category, productDTO);
                 return true;

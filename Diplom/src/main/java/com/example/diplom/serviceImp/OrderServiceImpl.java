@@ -10,6 +10,8 @@ import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,11 +103,18 @@ public class OrderServiceImpl implements OrderService {
 
         );
         StringBuilder temp = new StringBuilder();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = localDateTime.format(formatter);
+        localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+
         for (OrderDetails o : orderDetailsList) {
             temp.append(o.getProduct().getTitle()).append("\n");
             buyStatsService.save(BuyStats.builder()
                     .amount(o.getAmount())
                     .product_id(o.getProduct().getId())
+                    .created(localDateTime)
                     .build());
         }
 

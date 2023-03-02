@@ -22,13 +22,9 @@ public class BuyStats {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     public Long id;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
-//    public Product product;
     public Long product_id;
     public int amount;
 
-    @CreationTimestamp
     private LocalDateTime created;
 
     public Long getId() {
