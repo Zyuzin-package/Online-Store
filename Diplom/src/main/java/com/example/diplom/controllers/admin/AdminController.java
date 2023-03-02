@@ -6,6 +6,7 @@ import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
 import com.example.diplom.serviceImp.statistics.CollectStatsService;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -325,8 +327,10 @@ public class AdminController {
 //        String json = JSONValue.toJSONString( visitStatsService.calculateStatsByProductName(title));
 //        String json1 = JSONValue.toJSONString(buyStatsService.calculateStatsByProductName(title));
 //        String json2 = JSONValue.toJSONString(frequencyAddToCartStatsService.calculateStatsByProductName(title));
-        String json = JSONValue.toJSONString(collectStatsService.collectStats());
-        System.out.println(json+"\n");
+
+
+        String json = JSONValue.toJSONString(collectStatsService.collectStats2());
+        System.out.println("JSON: "+json+"\n");
 //
 //        model.addAttribute("visitStatsMap",json);
 //        model.addAttribute("buyStatsMap",json1);
@@ -335,8 +339,14 @@ public class AdminController {
 //        model.addAttribute("visitStats", visitStatsDTOList);
 //        model.addAttribute("buyStats", buyStatsDTOS);
 //        model.addAttribute("frequencyAddToCartStats",frequencyAddToCartStatsDTOS);
+        List<ProductDTO> productDTOList = productService.getAll();
+        List<String> productsTitle = new ArrayList<>();
+        for (ProductDTO p:productDTOList){
+            productsTitle.add(p.getTitle());
+        }
+        model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
         model.addAttribute("visitTest",json);
-        model.addAttribute("products", productService.getAll());
+        model.addAttribute("products", productDTOList);
         return "statistics";
     }
 }

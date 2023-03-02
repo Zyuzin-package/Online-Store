@@ -6,6 +6,7 @@ import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,36 +49,44 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStat
     public List<VisitStatsDTO> getAllBuyProductName(String productName) {
         List<VisitStatsDTO> visitStatsDTOS = new ArrayList<>();
         List<VisitStats> temp = visitStatsRepository.getAllBuyProductName(productName);
-        System.out.println("\nTEMP: "+temp);
-        for (VisitStats vs : visitStatsRepository.getAllBuyProductName(productName)) {
-            visitStatsDTOS.add(VisitStatsDTO.builder()
-                    .product(mapper.fromProduct(productService.findProductById(vs.getProduct_id())))
-                    .created(vs.getCreated())
-                    .build());
+
+        if (temp != null || !temp.isEmpty()) {
+            for (VisitStats vs : temp) {
+                visitStatsDTOS.add(VisitStatsDTO.builder()
+                        .product(mapper.fromProduct(productService.findProductById(vs.getProduct_id())))
+                        .created(vs.getCreated())
+                        .build());
+            }
+            return visitStatsDTOS;
         }
-        return visitStatsDTOS;
+        return null;
     }
+
+
 
     @Override
     public Map<LocalDateTime, Integer> calculateStatsByProductName(String title) {
         List<VisitStatsDTO> visitStatsDTOS = getAllBuyProductName(title);
+        if (visitStatsDTOS.isEmpty() || visitStatsDTOS == null) {
+            return null;
+        }
 
         visitStatsDTOS.sort(Comparator.comparing(VisitStatsDTO::getCreated));
-
         LocalDateTime temp = visitStatsDTOS.get(0).getCreated();
         SortedMap<LocalDateTime, Integer> resultMap = new TreeMap<>();
 
         int amount = 0;
         for (VisitStatsDTO v : visitStatsDTOS) {
             if (temp.getDayOfYear() == (v.getCreated().getDayOfYear())) {
-                amount+=1;
+                amount += 1;
             } else {
-                amount=1;
-                temp=v.getCreated();
+                amount = 1;
+                temp = v.getCreated();
             }
             resultMap.put(v.getCreated(), amount);
         }
         resultMap.put(temp, amount);
         return resultMap;
+
     }
 }

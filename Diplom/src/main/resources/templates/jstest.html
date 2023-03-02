@@ -4,24 +4,55 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     window.onload = function () {
         let json2 = "{&quot;Meat1&quot;:{&quot;2022-02-10T06:14&quot;:2,&quot;2022-02-11T06:14&quot;:3,&quot;2022-02-12T06:14&quot;:4,&quot;2022-02-13T06:14&quot;:2,&quot;2022-02-14T06:14&quot;:3}}"
 
-        console.log(json2);
-        var temp2 = JSON.parse(json2.replace(/&quot;/g, '"'));
-        console.log(temp2);
-        let arr = [];
         for (var key in temp2) {
             for (var k in temp2[key]) {
                 console.log(key + "|" + k + "|" + temp2[key][k])
                 arr.push([temp2[key]], [k, temp2[key][k]])
+        var data1 = getData(json2);
+        data1.addColumn('number', '7');
+            },
+            width: 900,
+            height: 500,
+            colors: "blue"
+        };
+        var chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
+        chart1.draw(data1, google.charts.Line.convertOptions(options1));
+    }
+    function getData(json){
+        console.log(json)
+        var temp2 = JSON.parse(json.replace(/&quot;/g, '"'));
+        var data1 = new google.visualization.DataTable();
+        data1.addColumn('string', 'Date');
+        data1.addColumn('number', '1');
+        data1.addColumn('number', '2');
+        data1.addColumn('number', '3');
+        data1.addColumn('number', '4');
+        data1.addColumn('number', '5');
+        data1.addColumn('number', '6');
+        data1.addColumn('number', '7');
+        console.log("_______")
+        let korka =[]
+        for (var k in temp2) {
+            let arr = [];
+            //console.log(key + "|" + k + "|" + temp2[key][k]);
+            arr.push(k);
+            for (var t in temp2[k]){
+                arr.push(temp2[k][t])
             }
+            korka.push(arr);
+            console.log(korka)
+            data1.addRows(korka);
         }
-        console.log(arr[0]);
+
+        return data1;
     }
 </script>
 <body>
-
+<div id="linechart_material1" style="width: 900px; height: 500px"></div>
 </body>
 </html>
