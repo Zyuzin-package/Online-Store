@@ -8,9 +8,26 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<div id="linechart_material1" style="width: 900px; height: 500px"></div>
-<div id="linechart_material2" style="width: 900px; height: 500px"></div>
-<div id="linechart_material3" style="width: 900px; height: 500px"></div>
+<table>
+    <tr>
+       <td>
+           <div id="linechart_material1" style="width: 900px; height: 500px"></div>
+       </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="linechart_material2" style="width: 900px; height: 500px"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="linechart_material3" style="width: 900px; height: 500px"></div>
+        </td>
+    </tr>
+</table>
+
+
+
 </body>
 <script type="text/javascript">
     google.charts.load('current', {'packages': ['line']});
