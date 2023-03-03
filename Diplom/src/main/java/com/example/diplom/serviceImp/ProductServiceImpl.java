@@ -31,9 +31,9 @@ public class ProductServiceImpl implements ProductService {
     private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
     private final ImageService imageService;
-    private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
 
-    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService, ImageService imageService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService) {
+
+    public ProductServiceImpl(UserService userService, BucketService bucketService, CategoryService categoryService, ProductRepository productRepository, UserNotificationService userNotificationService, DiscountService discountService, ImageService imageService) {
         this.userService = userService;
         this.bucketService = bucketService;
         this.categoryService = categoryService;
@@ -41,7 +41,6 @@ public class ProductServiceImpl implements ProductService {
         this.userNotificationService = userNotificationService;
         this.discountService = discountService;
         this.imageService = imageService;
-        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
     }
 
     @Override
@@ -73,15 +72,7 @@ public class ProductServiceImpl implements ProductService {
                 .userId(userM.getId())
                 .build());
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = localDateTime.format(formatter);
-        localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
-        System.out.println("\nfrequency");
-        frequencyAddToCartStatsService.save(FrequencyAddToCartStats.builder()
-                .product(product)
-                .created(localDateTime)
-                .build());
+
     }
 
     @Override

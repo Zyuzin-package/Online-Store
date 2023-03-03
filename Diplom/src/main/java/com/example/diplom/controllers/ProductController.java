@@ -1,7 +1,10 @@
 package com.example.diplom.controllers;
 
+import com.example.diplom.domain.Product;
+import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
@@ -24,26 +27,42 @@ public class ProductController {
     private final ProductService productService;
     private final UserNotificationService userNotificationService;
     private final ProductReviewService productReviewService;
+    private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
     private final DiscountService discountService;
     private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private final ProductMapper mapper = ProductMapper.MAPPER;
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    @Autowired
-    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, DiscountService discountService,    StatsService<VisitStats, VisitStatsDTO>  visitStatsService) {
+
+    public ProductController(ProductService productService, UserNotificationService userNotificationService, ProductReviewService productReviewService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService, DiscountService discountService, StatsService<VisitStats, VisitStatsDTO> visitStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.productReviewService = productReviewService;
+        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
         this.discountService = discountService;
         this.visitStatsService = visitStatsService;
     }
 
     @GetMapping("/{id}/bucket")
-    public String addBucket(@PathVariable Long id, Principal principal, HttpServletRequest request) {
+    public String addBucket(@PathVariable Long id, Principal principal, HttpServletRequest request, Model model) {
         if (principal == null) {
             return "redirect:/login";
         }
+        Product p = productService.findProductById(id);
+
+        if (p == null) {
+            model.addAttribute("errorMessage", "Product not found");
+            return "error";
+        }
         productService.addToUserBucket(id, principal.getName());
-        productService.findProductById(id);
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = localDateTime.format(formatter);
+        localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+        frequencyAddToCartStatsService.save(FrequencyAddToCartStats.builder()
+                .product(p)
+                .created(localDateTime)
+                .build());
+
         return "redirect:" + request.getHeader("Referer");
     }
 
@@ -67,7 +86,7 @@ public class ProductController {
                 .created(localDateTime)
                 .build());
 
-        if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),dto.getId())!=null){
+        if (productReviewService.getReviewByUserNameAndProductId(principal.getName(), dto.getId()) != null) {
             model.addAttribute("isReviewCreated", true);
         } else {
             model.addAttribute("isReviewCreated", false);

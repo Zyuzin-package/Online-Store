@@ -13,4 +13,10 @@ public interface StatsService<T,D> {
     List<D> getAllBuyProductName(String productName);
 
     Map<LocalDateTime,Integer> calculateStatsByProductName(String title);
+
+    List<String> getUniqueDates();
+
+    Integer getCountByDateAndProductId(LocalDateTime l, Long id);
+
+    Map<LocalDateTime, List<Integer>> collectStats();
 }

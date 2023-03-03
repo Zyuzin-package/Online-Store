@@ -5,16 +5,21 @@ import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
+import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.dto.BucketDTO;
 import com.example.diplom.dto.BucketDetailDTO;
 import com.example.diplom.dto.DiscountDTO;
+import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.BucketService;
 import com.example.diplom.service.UserService;
+import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,8 +29,8 @@ public class BucketServiceImpl implements BucketService {
     private final ProductRepository productRepository;
     private final DiscountServiceImpl discountService;
     private final UserService userService;
-    private final ProductMapper mapper = ProductMapper.MAPPER;
 
+    private final ProductMapper mapper = ProductMapper.MAPPER;
 
     public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, DiscountServiceImpl discountService, UserService userService) {
         this.bucketRepository = bucketRepository;
@@ -57,6 +62,7 @@ public class BucketServiceImpl implements BucketService {
         newProductList.addAll(getCollectRefProductsByIds(productsIds));
         bucket.setProducts(newProductList);
         bucketRepository.save(bucket);
+
 
     }
 

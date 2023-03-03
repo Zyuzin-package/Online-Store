@@ -3,11 +3,16 @@ package com.example.diplom.controllers.admin;
 import com.example.diplom.domain.OrderStatus;
 import com.example.diplom.domain.Role;
 import com.example.diplom.domain.UserM;
+import com.example.diplom.domain.statistics.BuyStats;
+import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
+import com.example.diplom.domain.statistics.VisitStats;
 import com.example.diplom.dto.*;
+import com.example.diplom.dto.statistics.BuyStatsDTO;
+import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
+import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.service.*;
-import com.example.diplom.serviceImp.statistics.CollectStatsService;
+import com.example.diplom.service.statistics.StatsService;
 import org.json.simple.JSONValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,38 +33,24 @@ public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
     private final DiscountService discountService;
-//    private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
-//    private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
-//    private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
-    private final CollectStatsService collectStatsService;
+    private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
+    private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
+    private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
     private String username;
     private Long orderId;
 
     private String productTitle = "";
 
-    @Autowired
-    public AdminController(
-            ProductService productService,
-            UserNotificationService userNotificationService,
-            CategoryService categoryService,
-            UserService userService,
-            OrderService orderService,
-            DiscountService discountService,
-//            StatsService<BuyStats, BuyStatsDTO> buyStatsService,
-//            StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO>frequencyAddToCartStatsService,
-//            StatsService<VisitStats, VisitStatsDTO> visitStatsService
-            CollectStatsService collectStatsService) {
+    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService, StatsService<VisitStats, VisitStatsDTO> visitStatsService, StatsService<BuyStats, BuyStatsDTO> buyStatsService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.orderService = orderService;
         this.discountService = discountService;
-//        this.buyStatsService = buyStatsService;
-//        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
-//        this.visitStatsService = visitStatsService;
-
-        this.collectStatsService = collectStatsService;
+        this.visitStatsService = visitStatsService;
+        this.buyStatsService = buyStatsService;
+        this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
     }
 
     /**
@@ -317,9 +308,9 @@ public class AdminController {
      */
     @GetMapping("/stats")
     public String statisticsPage(Model model) {
-        String visitStatsJson = JSONValue.toJSONString(collectStatsService.collectVisitStats());
-        String buyStatsJson = JSONValue.toJSONString(collectStatsService.collectBuyStats());
-        String frequencyStatsJson = JSONValue.toJSONString(collectStatsService.collectFrequencyStats());
+        String visitStatsJson = JSONValue.toJSONString(visitStatsService.collectStats());
+        String buyStatsJson = JSONValue.toJSONString(buyStatsService.collectStats());
+        String frequencyStatsJson = JSONValue.toJSONString(frequencyAddToCartStatsService.collectStats());
 
         List<ProductDTO> productDTOList = productService.getAll();
         List<String> productsTitle = new ArrayList<>();

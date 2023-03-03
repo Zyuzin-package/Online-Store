@@ -46,6 +46,10 @@ public class MainController {
     @PostMapping({"/authentication"})
     public String authentication(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, Model model, HttpServletRequest request) {
         UserM userM  = userService.findByName(username);
+        if(userM == null){
+            model.addAttribute("errorMessage", "User with name "+ username + " not found");
+            return "error";
+        }
         System.out.println("UserM"+userM);
         if(userM.getActivationCode()==null) {
             try {
