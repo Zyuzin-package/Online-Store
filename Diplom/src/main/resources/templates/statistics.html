@@ -18,48 +18,61 @@
 
     function drawChart() {
         let visitStatsJson = "[[${visitStatsJson}]]";
+
+        if (!isEmpty(visitStatsJson)) {
+            let visitStatsData = getData(visitStatsJson);
+            let visitStatsOption = {
+                chart: {
+                    title: 'Visit stats',
+                },
+                width: 900,
+                height: 500,
+                colors: "blue"
+            };
+            let chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
+            chart1.draw(visitStatsData, google.charts.Line.convertOptions(visitStatsOption));
+        } else {
+            document.getElementById("linechart_material1").innerHTML = "Visit stats is empty";
+        }
+
+
         let buyStatsJson = "[[${buyStatsJson}]]";
+        if (!isEmpty(buyStatsJson)) {
+            let buyStatsData = getData(buyStatsJson);
+            let buyStatsOption = {
+                chart: {
+                    title: 'Buy stats',
+                },
+                width: 900,
+                height: 500,
+                colors: "blue"
+            };
+            let chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
+            chart2.draw(buyStatsData, google.charts.Line.convertOptions(buyStatsOption));
+
+        } else {
+            document.getElementById("linechart_material2").innerHTML = "Buy stats is empty";
+        }
+
         let frequencyStatsJson = "[[${frequencyStatsJson}]]";
+        if (!isEmpty(frequencyStatsJson)) {
+            let frequencyStatsData = getData(frequencyStatsJson);
+            let frequencyStatsOption = {
+                chart: {
+                    title: 'Frequency stats',
+                },
+                width: 900,
+                height: 500,
+                colors: "blue"
+            };
 
-        let visitStatsData = getData(visitStatsJson);
-        let buyStatsData = getData(buyStatsJson);
-        let frequencyStatsData = getData(frequencyStatsJson);
+            let chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
+            chart3.draw(frequencyStatsData, google.charts.Line.convertOptions(frequencyStatsOption));
+        } else {
+            document.getElementById("linechart_material3").innerHTML = "Frequency add to bucket stats is empty";
+        }
 
-        let visitStatsOption = {
-            chart: {
-                title: 'Visit stats',
-            },
-            width: 900,
-            height: 500,
-            colors: "blue"
-        };
 
-        let buyStatsOption = {
-            chart: {
-                title: 'Buy stats',
-            },
-            width: 900,
-            height: 500,
-            colors: "blue"
-        };
-
-        let frequencyStatsOption = {
-            chart: {
-                title: 'Frequency stats',
-            },
-            width: 900,
-            height: 500,
-            colors: "blue"
-        };
-
-        let chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
-        chart1.draw(visitStatsData, google.charts.Line.convertOptions(visitStatsOption));
-
-        let chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
-        chart2.draw(buyStatsData, google.charts.Line.convertOptions(buyStatsOption));
-
-        let chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
-        chart3.draw(frequencyStatsData, google.charts.Line.convertOptions(frequencyStatsOption));
     }
 
     function getData(json) {
@@ -86,5 +99,11 @@
         return data1;
     }
 
+    function isEmpty(str) {
+        if (str.trim() == "{}")
+            return true;
+
+        return false;
+    }
 </script>
 </html>
