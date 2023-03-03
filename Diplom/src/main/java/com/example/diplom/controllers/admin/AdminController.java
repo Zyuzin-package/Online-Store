@@ -307,7 +307,12 @@ public class AdminController {
      * Statistics
      */
     @GetMapping("/stats")
-    public String statisticsPage(Model model) {
+    public String statisticsPage(Model model,Principal principal) {
+        if (principal != null) {
+            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
+            model.addAttribute("notifications", dtos);
+        }
+
         String visitStatsJson = JSONValue.toJSONString(visitStatsService.collectStats());
         String buyStatsJson = JSONValue.toJSONString(buyStatsService.collectStats());
         String frequencyStatsJson = JSONValue.toJSONString(frequencyAddToCartStatsService.collectStats());

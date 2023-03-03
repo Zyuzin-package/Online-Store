@@ -17,7 +17,6 @@ import java.util.List;
 
 @Controller
 public class MainController {
-
     UserNotificationService userNotificationService;
     UserService userService;
 

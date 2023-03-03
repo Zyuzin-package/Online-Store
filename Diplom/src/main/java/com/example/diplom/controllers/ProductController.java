@@ -73,6 +73,12 @@ public class ProductController {
             model.addAttribute("notifications", dtos);
         }
         ProductDTO dto = productService.getProductByName(title);
+
+        if (dto == null) {
+            model.addAttribute("errorMessage", "Product not found");
+            return "error";
+        }
+
         List<ProductReviewDTO> productReviewDTOS = productReviewService.getReviewsByProductTitle(title);
         DiscountDTO discountDTO = discountService.findDiscountByProductId(dto.getId());
 

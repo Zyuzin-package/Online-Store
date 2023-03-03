@@ -22,9 +22,11 @@ public class UserNotificationController {
     }
 
     @GetMapping("/remove/{id}")
-    public String removeNotification(@PathVariable Long id,Model model, Principal principal,HttpServletRequest request){
-        System.out.println(request);
-        System.out.println(id);
+    public String removeNotification(@PathVariable Long id,Model model,HttpServletRequest request){
+        if (userNotificationService.getNotificationsById(id)==null){
+            model.addAttribute("errorMessage", "Notification does not exist");
+            return "error";
+        }
         userNotificationService.deleteNotificationByUserId(id);
         return "redirect:"+request.getHeader("Referer");
     }

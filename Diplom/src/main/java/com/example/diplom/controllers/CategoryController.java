@@ -68,6 +68,11 @@ public class CategoryController {
             model.addAttribute("notifications", dtos);
         }
 
+        if (categoryService.getCategoryByName(category) == null) {
+            model.addAttribute("errorMessage", "Category not found");
+            return "error";
+        }
+
         List<ProductDTO> productDTOList = productService.getProductsByCategory(category);
         List<DiscountDTO> discountDTOList = discountService.findDiscountsByProducts(productDTOList);
 

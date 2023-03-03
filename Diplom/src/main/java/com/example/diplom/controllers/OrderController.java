@@ -81,13 +81,17 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String saveOrder(OrderDTO orderDTO, Principal principal,Model model) {
+    public String saveOrder(OrderDTO orderDTO, Principal principal, Model model) {
+        if (userService.findByName(principal.getName()) == null) {
+            model.addAttribute("errorMessage", "Order not found");
+            return "error";
+        }
         orderDTO.setUserId(userService.findByName(principal.getName()).getId());
 
         if (orderService.save(orderDTO)) {
             return "redirect:/order/orders";
 
-        }else {
+        } else {
             model.addAttribute("errorMessage", "Server Error, order are not save");
             return "error";
         }

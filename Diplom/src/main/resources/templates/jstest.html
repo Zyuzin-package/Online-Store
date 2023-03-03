@@ -6,19 +6,21 @@
 </head>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    window.onload = function () {
-        let json2 = "{&quot;Meat1&quot;:{&quot;2022-02-10T06:14&quot;:2,&quot;2022-02-11T06:14&quot;:3,&quot;2022-02-12T06:14&quot;:4,&quot;2022-02-13T06:14&quot;:2,&quot;2022-02-14T06:14&quot;:3}}"
+    google.charts.load('current', {'packages': ['line']});
+    google.charts.setOnLoadCallback(drawChart);
 
-        for (var key in temp2) {
-            for (var k in temp2[key]) {
-                console.log(key + "|" + k + "|" + temp2[key][k])
-                arr.push([temp2[key]], [k, temp2[key][k]])
+    function drawChart() {
+        let json2 = "{&quot;2022-02-13T06:14&quot;:[2,0,0,0,0,0,3],&quot;2022-02-12T06:14&quot;:[4,0,0,0,0,0,1],&quot;2022-02-14T06:14&quot;:[3,0,0,0,0,0,0],&quot;2022-02-11T06:14&quot;:[3,0,0,0,0,0,4],&quot;2022-02-10T06:14&quot;:[2,0,0,0,0,0,3]}";
         var data1 = getData(json2);
+
         data1.addColumn('number', '7');
+        var options1 = {
+            chart: {
+                title: 'Visit stats',
             },
             width: 900,
             height: 500,
-            colors: "blue"
+            colors: "green"
         };
         var chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
         chart1.draw(data1, google.charts.Line.convertOptions(options1));

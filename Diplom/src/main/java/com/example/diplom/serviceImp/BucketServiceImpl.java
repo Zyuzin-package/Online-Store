@@ -62,8 +62,6 @@ public class BucketServiceImpl implements BucketService {
         newProductList.addAll(getCollectRefProductsByIds(productsIds));
         bucket.setProducts(newProductList);
         bucketRepository.save(bucket);
-
-
     }
 
     @Override
@@ -112,7 +110,9 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void amountIncrease(Bucket bucket, Long productId) {
+
         addProduct(bucket, List.of(productId));
+
     }
 
     @Override
