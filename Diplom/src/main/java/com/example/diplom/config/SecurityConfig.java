@@ -52,12 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/my/**").authenticated()
+                .antMatchers("/order/**").authenticated()
                 .antMatchers("/registration").not().fullyAuthenticated()
                 .antMatchers("/activate/*").permitAll()
-                .antMatchers("/my/***").authenticated()
-                .antMatchers("/order/***").authenticated()
                 .antMatchers("/category/*","/product/*").permitAll()
                 .anyRequest().permitAll()
                 .and()
@@ -71,6 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .rememberMe()
                     .userDetailsService(userService)
+                .and()
+                .exceptionHandling().accessDeniedPage("/forbidden")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").deleteCookies("JSESSIONID")

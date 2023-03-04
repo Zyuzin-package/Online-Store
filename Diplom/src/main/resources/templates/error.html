@@ -6,6 +6,6 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<p th:utext="${errorMessage}">Error</p>
+<p th:if="${errorMessage != null}" th:utext="${errorMessage}">Error</p>
 </body>
 </html>

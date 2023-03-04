@@ -75,4 +75,9 @@ public class MainController {
         return "error";
     }
 
+    @RequestMapping({"/forbidden"})
+    public String forbiddenPage(Model model) {
+        model.addAttribute("errorMessage","Forbidden");
+        return "error";
+    }
 }
