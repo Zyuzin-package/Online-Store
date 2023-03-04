@@ -17,4 +17,6 @@ public interface BucketService {
 
     void amountIncrease(Bucket bucket,Long productId);
     void amountDecrease(Bucket bucket,Long productId);
+
+    boolean checkBucketProducts(Long id);
 }

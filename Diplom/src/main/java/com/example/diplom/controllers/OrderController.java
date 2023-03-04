@@ -4,10 +4,7 @@ import com.example.diplom.dto.OrderDTO;
 import com.example.diplom.dto.OrderDetailsDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
-import com.example.diplom.service.OrderService;
-import com.example.diplom.service.ProductService;
-import com.example.diplom.service.UserNotificationService;
-import com.example.diplom.service.UserService;
+import com.example.diplom.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +22,14 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
     private final ProductService productService;
+    private final BucketService bucketService;
     private final UserNotificationService userNotificationService;
 
-    public OrderController(OrderService orderService, UserService userService, ProductService productService, UserNotificationService userNotificationService) {
+    public OrderController(OrderService orderService, UserService userService, ProductService productService, BucketService bucketService, UserNotificationService userNotificationService) {
         this.orderService = orderService;
         this.userService = userService;
         this.productService = productService;
+        this.bucketService = bucketService;
         this.userNotificationService = userNotificationService;
     }
 
@@ -74,6 +73,11 @@ public class OrderController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+        }
+
+        if(!bucketService.checkBucketProducts(userService.findByName(principal.getName()).getId())){
+            model.addAttribute("errorMessage", "You bucket is empty");
+            return "error";
         }
 
         model.addAttribute("order", new OrderDTO());
