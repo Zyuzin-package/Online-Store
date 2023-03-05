@@ -40,4 +40,13 @@ public class CategoryDTO {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "CategoryDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", products=" + products +
+                '}';
+    }
 }

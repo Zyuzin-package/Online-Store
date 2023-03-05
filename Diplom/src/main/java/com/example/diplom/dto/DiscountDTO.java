@@ -46,4 +46,13 @@ public class DiscountDTO {
     public void setProduct_id(Long product_id) {
         this.product_id = product_id;
     }
+
+    @Override
+    public String toString() {
+        return "DiscountDTO{" +
+                "id=" + id +
+                ", discount_price=" + discount_price +
+                ", product_id=" + product_id +
+                '}';
+    }
 }

@@ -54,5 +54,11 @@ public class CategoryServiceImpl implements CategoryService {
         return mapper.fromCategory(category);
     }
 
+    @Override
+    public CategoryDTO getCategoryByProductName(String title) {
+        Category category = categoryRepository.getCategoryByProductName(title);
+        return mapper.fromCategory(category);
+    }
+
 
 }

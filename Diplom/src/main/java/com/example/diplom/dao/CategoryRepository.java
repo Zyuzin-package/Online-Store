@@ -15,4 +15,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(value = "delete from categories where title=:name", nativeQuery = true)
     @Transactional
     void removeByTitle(@Param("name") String name);
+
+    @Modifying
+    @Query(value = "Select * from categories where categories.id=(select id from products where products.title = :title)", nativeQuery = true)
+    @Transactional
+    Category getCategoryByProductName(@Param("title") String title);
 }

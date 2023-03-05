@@ -97,18 +97,30 @@ public class AdminController {
             model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
             return "productCreate";
         }
-
-        if (productService.save(productDTO, file, category, Double.valueOf(discount))) {
-            model.addAttribute("product", productDTO);
-            model.addAttribute("categories", categoryService.getAll());
-            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
-            return "redirect:/category";
+        if (productTitle.equals("") || productTitle.isEmpty()) {
+            if (productService.save(productDTO, file, category, Double.valueOf(discount))) {
+                model.addAttribute("product", productDTO);
+                model.addAttribute("categories", categoryService.getAll());
+                model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
+                return "redirect:/category";
+            } else {
+                model.addAttribute("message", "Server error, could not save.");
+                model.addAttribute("product", productDTO);
+                model.addAttribute("categories", categoryService.getAll());
+                model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
+                return "productCreate";
+            }
         } else {
-            model.addAttribute("message", "Server error, could not save.");
-            model.addAttribute("product", productDTO);
-            model.addAttribute("categories", categoryService.getAll());
-            model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
-            return "productCreate";
+            if (productService.changeName(productDTO, productTitle, category, file, Double.valueOf(discount))) {
+                model.addAttribute("product", productDTO);
+                model.addAttribute("categories", categoryService.getAll());
+                System.out.println("DISCOUNT: "+discount + " | " + DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build().toString());
+                model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
+                return "redirect:/category";
+            } else {
+                model.addAttribute("errorMessage", "Product change error");
+                return "error";
+            }
         }
     }
 
@@ -307,7 +319,7 @@ public class AdminController {
      * Statistics
      */
     @GetMapping("/stats")
-    public String statisticsPage(Model model,Principal principal) {
+    public String statisticsPage(Model model, Principal principal) {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
@@ -319,15 +331,15 @@ public class AdminController {
 
         List<ProductDTO> productDTOList = productService.getAll();
         List<String> productsTitle = new ArrayList<>();
-        for (ProductDTO p:productDTOList){
+        for (ProductDTO p : productDTOList) {
             productsTitle.add(p.getTitle());
         }
 
         model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
 
-        model.addAttribute("visitStatsJson",visitStatsJson);
-        model.addAttribute("buyStatsJson",buyStatsJson);
-        model.addAttribute("frequencyStatsJson",frequencyStatsJson);
+        model.addAttribute("visitStatsJson", visitStatsJson);
+        model.addAttribute("buyStatsJson", buyStatsJson);
+        model.addAttribute("frequencyStatsJson", frequencyStatsJson);
 
         model.addAttribute("products", productDTOList);
         return "statistics";

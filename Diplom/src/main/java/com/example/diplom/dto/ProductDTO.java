@@ -62,4 +62,15 @@ public class ProductDTO {
    public void setDescription(String description) {
       this.description = description;
    }
+
+   @Override
+   public String toString() {
+      return "ProductDTO{" +
+              "id=" + id +
+              ", title='" + title + '\'' +
+              ", price=" + price +
+              ", image='" + image + '\'' +
+              ", description='" + description + '\'' +
+              '}';
+   }
 }

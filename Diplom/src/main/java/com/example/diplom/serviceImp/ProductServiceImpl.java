@@ -2,6 +2,7 @@ package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
 import com.example.diplom.domain.Bucket;
+import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -158,23 +160,46 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean changeName(ProductDTO productDTO, String oldName) {
-        ProductDTO product = getProductByName(oldName);
-
+    public boolean changeName(ProductDTO productDTO, String oldName, String category, MultipartFile file,Double discount) {
+        Product product = productRepository.findByTitle(oldName);
         product.setTitle(productDTO.getTitle());
+
+        CategoryDTO categoryDTO = categoryService.getCategoryByName(category);
+
+        Category category1 = Category.builder()
+                .id(categoryDTO.getId())
+                .title(categoryDTO.getTitle()).build();
 
         Product newProduct = Product.builder()
                 .price(productDTO.getPrice())
-                .categories(new ArrayList<>())
+                .categories(List.of(category1))
                 .title(productDTO.getTitle())
                 .description(productDTO.getDescription())
-                .image(productDTO.getImage())
-                .id(productDTO.getId())
+                .image(product.getImage())
+                .id(product.getId())
                 .build();
-        removeWithOutPhoto(productDTO.getId());
+
+        addCategoryToProduct(category, productDTO);
+
+        if (file.getSize() != 0) {
+            String imageName = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+            String path = "/img/" + imageName + ".jpg";
+            imageService.saveImage(file, imageName, path, null);
+            newProduct.setImage(path);
+        }
+
+        productRepository.deleteById(product.getId());
         productRepository.save(newProduct);
 
-        return false;
+        if (discount <= 0) {
+            discountService.save(0, getProductByName(productDTO.getTitle()).getId());
+        } else {
+            if (discount < productDTO.getPrice()) {
+                discountService.save(discount, getProductByName(productDTO.getTitle()).getId());
+            }
+        }
+
+        return true;
     }
 
     @Override
