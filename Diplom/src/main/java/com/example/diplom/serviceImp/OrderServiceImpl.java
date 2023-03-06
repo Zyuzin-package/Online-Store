@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        mailSender.send(userM.getEmail(), "Kork-Market new order", "You create new order with number " + doneOrder.getId() + " :\n" + temp);
+        mailSender.send(userM.getEmail(), "Kork-Market new order", "You create new order with number " + doneOrder.getId() + " and products:\n" + temp);
         return true;
     }
 
