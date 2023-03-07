@@ -45,7 +45,6 @@ public class RegistrationController {
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code,HttpServletRequest request){
         UserDTO dto = userService.activateUser(code);
-        System.out.println("\nDTO ACTIVATE: "+dto);
         if(dto != null){
             model.addAttribute("message","User successfully activated");
         } else {
@@ -59,6 +58,6 @@ public class RegistrationController {
         } catch (ServletException e) {
             System.out.println("Error while login \n" + e);
         }
-        return "index";
+        return "redirect:/";
     }
 }
