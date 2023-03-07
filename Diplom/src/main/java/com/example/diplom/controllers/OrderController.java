@@ -38,6 +38,8 @@ public class OrderController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         List<OrderDTO> orders = orderService.getOrderByUserName(principal.getName());
@@ -50,6 +52,8 @@ public class OrderController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         OrderDTO order = orderService.findOrderById(id);
@@ -73,6 +77,8 @@ public class OrderController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         if(!bucketService.checkBucketProducts(userService.findByName(principal.getName()).getId())){

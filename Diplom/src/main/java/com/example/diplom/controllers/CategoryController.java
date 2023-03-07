@@ -46,6 +46,8 @@ public class CategoryController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         List<CategoryDTO> categoryDTOS = categoryService.getAll();
@@ -66,6 +68,8 @@ public class CategoryController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         if (categoryService.getCategoryByName(category) == null) {

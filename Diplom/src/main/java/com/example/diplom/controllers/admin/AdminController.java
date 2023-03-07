@@ -76,6 +76,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         if (productDTO.getTitle() == null
@@ -129,6 +131,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         if (categoryService.getAll() == null) {
@@ -157,6 +161,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
         productTitle = title;
         ProductDTO dto = productService.getProductByName(title);
@@ -179,6 +185,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         model.addAttribute("category", new CategoryDTO());
@@ -218,6 +226,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         List<String> roles = Stream.of(Role.values())
@@ -243,6 +253,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         UserM userM = userService.findByName(name);
@@ -273,6 +285,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         List<String> stats = Stream.of(OrderStatus.values())
@@ -289,6 +303,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         List<String> stats = Stream.of(OrderStatus.values())
@@ -304,6 +320,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
         OrderDTO dto = orderService.findOrderById(id);
 
@@ -323,6 +341,8 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         String visitStatsJson = JSONValue.toJSONString(visitStatsService.collectStats());

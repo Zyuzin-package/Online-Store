@@ -1,60 +1,155 @@
 <!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- xmlns:th="http://www.w3.org/1999/xhtml" -->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div id="nav-menu">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <script>
+        function notificationPageController() {
+            if (document.getElementById("navbarHeader").classList.contains("show")) {
+                document.getElementById("navbarHeader").classList.remove("show")
+            } else {
+                document.getElementById("navbarHeader").classList.add("show")
+            }
+        }
+    </script>
+    <div class="bg-dark collapse " id="navbarHeader" style="max-height:100px;overflow-x: scroll;overflow-y: hidden;">
+        <div sec:authorize="isAuthenticated()" class="text-white">
+            <ul th:if="${#lists.isEmpty(notifications)}" style=" list-style-type: none">
+                <li class="mx-2" style="display: inline;">
+                    No notifications
+                </li>
+            </ul>
+            <ul th:unless="${#lists.isEmpty(notifications)}" th:each="notification : ${notifications}"
+                style="list-style-type: none;display: inline;">
+                <li style="display: inline;">
+                    <span th:text="${notification.message}"></span>
+                    <a th:if="${notification.url != null}" th:href="${notification.url}"></a>
+                    <a th:href="@{/notification/remove/{id}/(id=${notification.id})}"><sup>X</sup></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div
+            class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Kork-Market</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" th:href="@{/}">Home</a></a>
+            <a class="p-2 text-dark" th:href="@{/category}">Products</a>
+            <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"
+               th:href="@{/admin/users}">Users</a>
+            <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/my/bucket}">Bucket </a>
+            <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/order/orders}">Orders</a>
+            <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"
+               th:href="@{/admin/users/orders}">Order
+                management</a>
+            <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/stats}">Statistics</a>
+            <button class="navbar-toggler collapsed btn btn-light text-dark" type="button" data-toggle="collapse"
+                    data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"
+                    aria-label="Toggle navigation" onclick="notificationPageController()">
+                Notifications <span class="badge badge-light" th:text="${notificationsCount}">4</span>
+            </button>
+        </nav>
+        <div sec:authorize="isAuthenticated()">
+            <div>
+                Hello, <a th:href="@{/my/main}"><span sec:authentication="principal.username">UserName</span></a>
+            </div>
+            <div>
+                <a class="btn btn-outline-primary" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <div>
+                Please <a class="btn btn-outline-primary" th:href="@{/login}">Sign up</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+<!--
+ <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<table id="nav-menu" width="100%">
-    <tr>
-        <td align="center">
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Kork-Market</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" th:href="@{/}">Home</a>
+        <a class="p-2 text-dark" th:href="@{/category}">Products</a>
+        <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/users}">Users</a>
+        <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/my/bucket}">Bucket</a>
+        <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/order/orders}">Orders</a>
+        <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/users/orders}">Order management</a>
+        <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/stats}">Statistics</a>
+    </nav>
+    <div sec:authorize="isAuthenticated()">
+        <div>
+            Hello, <a th:href="@{/my/main}"><span sec:authentication="principal.username">Error</span></a>
+        </div>
+        <div>
+            <a class="btn btn-outline-primary" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <div>
+            Please <a class="btn btn-outline-primary" th:href="@{/login}">Login</a> or <a class="btn btn-outline-primary" th:href="@{/registration}">Register</a>
+        </div>
+    </div>
+</div>
+<table>
+    <td align="right">
+        <div sec:authorize="isAuthenticated()">
             <table>
-                <tr>
-                    <td>Menu:</td>
-                    <td><a th:href="@{/}">Home</a></td>
-                    <td><a th:href="@{/category}">Products</a></td>
-                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/admin/users}">Users</a></td>
-                    <td sec:authorize="isAuthenticated()"><a th:href="@{/my/bucket}">Bucket</a></td>
-                    <td sec:authorize="isAuthenticated()"><a th:href="@{/order/orders}">Orders</a></td>
-                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/admin/users/orders}">Order management</a></td>
-                    <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/admin/stats}">Statistics</a></td>
+                <tr th:if="${#lists.isEmpty(notifications)}">
+                    <td>
+                        No notifications
+                    </td>
+                </tr>
+                <tr th:unless="${#lists.isEmpty(notifications)}" th:each="notification : ${notifications}">
+                    <td>
+                        <span th:text="${notification.message}"></span>
+                        <a th:if="${notification.url != null}" th:href="${notification.url}"></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/notification/remove/{id}/(id=${notification.id})}">X</a>
+                    </td>
                 </tr>
             </table>
-        </td>
-        <td align="right">
-            <div sec:authorize="isAuthenticated()">
-                <table>
-                    <tr th:if="${#lists.isEmpty(notifications)}">
-                        <td>
-                            No notifications
-                        </td>
-                    </tr>
-                    <tr th:unless="${#lists.isEmpty(notifications)}" th:each="notification : ${notifications}">
-                        <td>
-                            <span th:text="${notification.message}"></span>
-                            <a th:if="${notification.url != null}" th:href="${notification.url}"></a>
-                        </td>
-                        <td>
-                            <a th:href="@{/notification/remove/{id}/(id=${notification.id})}">X</a>
-                        </td>
-                    </tr>
-                </table>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <div>
+                Hello, <a th:href="@{/my/main}"><span sec:authentication="principal.username">Error</span></a>
             </div>
-            <div sec:authorize="isAuthenticated()">
-                <div>
-                    Hello, <a th:href="@{/my/main}"><span sec:authentication="principal.username">Error</span></a>
-                </div>
-                <div>
-                    <a th:href="@{/logout}">Logout</a>
-                </div>
+            <div>
+                <a th:href="@{/logout}">Logout</a>
             </div>
-            <div sec:authorize="!isAuthenticated()">
-                <div>
-                    Please <a th:href="@{/login}">login</a> or <a th:href="@{/registration}">register</a>
-                </div>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <div>
+                Please <a th:href="@{/login}">login</a> or <a th:href="@{/registration}">register</a>
             </div>
-        </td>
-    </tr>
+        </div>
+    </td>
 </table>
 </body>
 </html>
+ -->

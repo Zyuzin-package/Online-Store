@@ -1,11 +1,9 @@
--- INSERT INTO user_notification (id, message, url, url_text, user_id)
--- VALUES (1,1,1);
---
--- INSERT INTO user_notification (id, notification, user_id)
--- VALUES (2,2,1);
---
--- INSERT INTO user_notification (id, notification, user_id)
--- VALUES (3,3,1);
---
--- INSERT INTO user_notification (id, notification, user_id)
--- VALUES (4,4,1);
+Insert Into user_notification (id, message, url, url_text, user_id)
+VALUES
+    (1,'TEST','','',1),
+    (2,'TEST','','',1),
+    (3,'TEST','','',1),
+    (4,'TEST','','',1),
+    (5,'TEST','','',1)
+
+;

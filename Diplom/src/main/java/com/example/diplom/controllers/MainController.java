@@ -31,6 +31,8 @@ public class MainController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
+            model.addAttribute("notificationsCount",dtos.size());
+
         }
 
         return "index";
