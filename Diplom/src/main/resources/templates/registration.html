@@ -5,38 +5,37 @@
     <title>User list</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="/assets/css/style.css" rel="stylesheet">
+    <style>
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<form th:action="@{/registration}" th:object ="${user}" method="post">
-    <table border ='1'>
-        <tr>
-            <td>Name</td>
-            <td>
-                <input type="text" th:field="*{username}">
-            </td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>
-                <input type="password"  th:field="*{password}">
-            </td>
-        </tr>
-        <tr>
-            <td>Matching password</td>
-            <td>
-                <input type="password"  th:field="*{matchPassword}">
-            </td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>
-                <input type="email"  th:field="*{email}">
-            </td>
-        </tr>
-    </table>
-    <button type="submit">Register</button>
+<form th:action="@{/registration}" th:object ="${user}" method="post" class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="userName" class="sr-only">User name</label>
+    <input type="text" th:field="*{username}" id="userName" class="form-control" placeholder="User name" required=""
+           autofocus="">
+
+    <label for="email" class="sr-only">Email</label>
+    <input type="email"  th:field="*{email}" id="email" class="form-control" placeholder="Email" required=""
+           autofocus="">
+
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input  type="password"  th:field="*{password}"id="inputPassword" class="form-control" placeholder="Password"
+           required="">
+    <label for="confirmPassword" class="sr-only">Confirm password</label>
+    <input  type="password"  th:field="*{matchPassword}" id="confirmPassword" class="form-control" placeholder="Confirm password"
+           required="">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    <a th:href="@{/registration}">Login</a>
 </form>
 </body>
 </html>

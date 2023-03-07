@@ -23,8 +23,8 @@
 <form  th:action="@{/authentication}" method="post" class="form-signin">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <p th:if="${loginError}" class="error text-danger">Wrong user or password</p>
-    <label for="inputEmail" class="sr-only">User name</label>
-    <input th:name="username" type="text" id="inputEmail" class="form-control" placeholder="User name" required=""
+    <label for="userName" class="sr-only">User name</label>
+    <input th:name="username" type="text" id="userName" class="form-control" placeholder="User name" required=""
            autofocus="">
 
     <label for="inputPassword" class="sr-only">Password</label>
@@ -37,7 +37,7 @@
         </label>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <a th:href="@{/registration}"></a>
+    <a th:href="@{/registration}">Registration</a>
 </form>
 </body>
 </html>

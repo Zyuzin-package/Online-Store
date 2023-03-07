@@ -51,7 +51,7 @@
                th:href="@{/admin/users/orders}">Order
                 management</a>
             <a class="p-2 text-dark" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/stats}">Statistics</a>
-            <button class="navbar-toggler collapsed btn btn-light text-dark" type="button" data-toggle="collapse"
+            <button class="navbar-toggler collapsed btn btn-light text-dark" sec:authorize="isAuthenticated()" type="button" data-toggle="collapse"
                     data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false"
                     aria-label="Toggle navigation" onclick="notificationPageController()">
                 Notifications <span class="badge badge-light" th:text="${notificationsCount}">4</span>
