@@ -26,7 +26,7 @@ public class ProductReviewController {
 
     @GetMapping("/new/{id}")
     public String createNewReview(@RequestParam(name = "review") String review, @RequestParam(name = "stars") int stars, Principal principal, Model model, @PathVariable Long id, HttpServletRequest request) {
-        if(productService.getProductByName(principal.getName())==null){
+        if(productService.findProductById(id)==null){
             model.addAttribute("errorMessage", "Product not found");
             return "error";
         }

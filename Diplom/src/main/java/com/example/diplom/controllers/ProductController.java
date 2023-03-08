@@ -71,10 +71,10 @@ public class ProductController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
-         ProductDTO dto = productService.getProductByName(title);
+        ProductDTO dto = productService.getProductByName(title);
 
         if (dto == null) {
             model.addAttribute("errorMessage", "Product not found");
@@ -94,10 +94,12 @@ public class ProductController {
                 .created(localDateTime)
                 .build());
 
-        if (productReviewService.getReviewByUserNameAndProductId(principal.getName(), dto.getId()) != null) {
-            model.addAttribute("isReviewCreated", true);
-        } else {
-            model.addAttribute("isReviewCreated", false);
+        if (principal != null) {
+            if (productReviewService.getReviewByUserNameAndProductId(principal.getName(), dto.getId()) != null) {
+                model.addAttribute("isReviewCreated", true);
+            } else {
+                model.addAttribute("isReviewCreated", false);
+            }
         }
 
         model.addAttribute("product", dto);
