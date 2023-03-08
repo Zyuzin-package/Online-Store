@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced product list</title>
+    <title>Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
@@ -14,47 +17,63 @@
     </tr>
 </table>
 
-<table border="1" align="center">
-    <tr>
-        <td>
-            Title
-        </td>
-        <td>
-            Image
-        </td>
-        <td>
-            Price
-        </td>
-        <td colspan="2" sec:authorize="isAuthenticated()"></td>
-        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"></td>
-    </tr>
-    <tr th:unless="${#lists.isEmpty(products)}" th:each="p,itemStat : ${products}">
-        <td>
-            <a th:href="@{/product/{title}(title=${p.title})}" th:text="${p.title}"></a>
-        </td>
-        <td th:if="${p.image != null}">
-            <img th:src="@{${p.image}}">
-        </td>
-        <td th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}">
-            <span>
-               <s>[[${p.price}]]</s><br>
-                [[${discounts[__${itemStat.index}__].discount_price}]]
-            </span>
-        </td>
-        <td th:unless="${discounts[__${itemStat.index}__].discount_price > 0.0}" th:text="${p.price}"></td>
-        <td colspan="4">
-            <a th:href="@{/product/{id}/bucket(id=${p.id})}">Add to bucket</a>
-        </td>
-        <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-            <a th:href="@{/admin/product/{id}/remove(id=${p.id})}">Remove</a>
-        </td>
-    </tr>
-    <tr sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-        <td colspan="5">
-            <a th:href="@{/admin/product/new}">Add new product</a>
-        </td>
-    </tr>
-</table>
+<div class="container">
 
+    <div class="row">
+        <div class="col-md-4" th:unless="${#lists.isEmpty(products)}" th:each="p,itemStat : ${products}">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top" style="height: 225px; width: 100%; display: block;"
+                     data-holder-rendered="true" th:src="@{${p.image}}">
+                <div class="card-body">
+                    <a class="card-text" th:href="@{/product/{title}(title=${p.title})}"><b
+                            th:text="${p.title}">Title</b></a><br>
+                    <p class="card-text" th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}">
+                        <span>
+                           <s class=" btn btn-sm btn-secondary">[[${p.price}]]</s>
+                            <span class="btn btn-sm btn-success ">[[${discounts[__${itemStat.index}__].discount_price}]]</span>
+                        </span>
+                    </p>
+                    <p class=" btn btn-sm btn-secondary card-text" th:unless="${discounts[__${itemStat.index}__].discount_price > 0.0}"
+                       th:text="${p.price}">price2</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm  btn-outline-success"
+                                    th:href="@{/product/{id}/bucket(id=${p.id})}"
+                                    sec:authorize="isAuthenticated()">
+                                <a th:href="@{/product/{id}/bucket(id=${p.id})}">
+                                    Add to bucket
+                                </a>
+                            </button>
+                            <button type="button" class="btn btn-sm  btn-outline-info"
+                                    sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"
+                                    th:href="@{/admin/product/{id}/remove(id=${p.id})}"><a
+                                    th:href="@{/product/{title}(title=${p.title})}">Details </a>
+                            </button>
+
+                            <button class="btn btn-sm  btn-outline-danger"
+                                    sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+                                <a th:href="@{/admin/product/{id}/remove(id=${p.id})}"> Remove</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row " sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+        <div class="col-12 w-50 mx-auto">
+            <button class="  btn btn-success"><a class="text-light" th:href="@{/admin/product/new}">Add new product</a></button>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>
