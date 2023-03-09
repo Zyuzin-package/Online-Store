@@ -181,4 +181,15 @@ public class BucketServiceImpl implements BucketService {
         return true;
     }
 
+    @Override
+    public boolean checkProductInAllBuckets(Long productId){
+        Product product = bucketRepository.getProductFromBucketById(productId);
+        if(product == null){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

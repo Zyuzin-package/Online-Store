@@ -22,10 +22,8 @@
                     <p class="card-text" th:text="${product.description}">price2</p>
                     <br>
                     <p class="card-text" th:if="${discount.discount_price > 0.0}">
-                        <span>
-                           <s class=price-without-sale">[[${product.price}]] $</s>
-                            <span class="price-sale">[[${discount.discount_price}]] $</span>
-                        </span>
+                        <s class="price-without-sale">[[${product.price}]] $</s>
+                        <span class="price-sale">[[${discount.discount_price}]] $</span>
                     </p>
                     <p class="price-without-sale" th:unless="${discount.discount_price > 0.0}">
                         [[${product.price}]] $</p>

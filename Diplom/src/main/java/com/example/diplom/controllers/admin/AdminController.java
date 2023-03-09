@@ -33,6 +33,7 @@ public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
     private final DiscountService discountService;
+    private final BucketService bucketService;
     private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
     private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
@@ -41,13 +42,14 @@ public class AdminController {
 
     private String productTitle = "";
 
-    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService, StatsService<VisitStats, VisitStatsDTO> visitStatsService, StatsService<BuyStats, BuyStatsDTO> buyStatsService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService) {
+    public AdminController(ProductService productService, UserNotificationService userNotificationService, CategoryService categoryService, UserService userService, OrderService orderService, DiscountService discountService, BucketService bucketService, StatsService<VisitStats, VisitStatsDTO> visitStatsService, StatsService<BuyStats, BuyStatsDTO> buyStatsService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService) {
         this.productService = productService;
         this.userNotificationService = userNotificationService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.orderService = orderService;
         this.discountService = discountService;
+        this.bucketService = bucketService;
         this.visitStatsService = visitStatsService;
         this.buyStatsService = buyStatsService;
         this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
@@ -99,6 +101,7 @@ public class AdminController {
             model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
             return "productCreate";
         }
+
         if (productTitle.equals("") || productTitle.isEmpty()) {
             if (productService.save(productDTO, file, category, Double.valueOf(discount))) {
                 model.addAttribute("product", productDTO);
@@ -148,6 +151,10 @@ public class AdminController {
 
     @GetMapping("/product/{id}/remove")
     public String removeProduct(@PathVariable Long id, HttpServletRequest request, Model model) {
+        if(!bucketService.checkBucketProducts(id)){
+            model.addAttribute("errorMessage", "This product is in another user's cart, cannot be deleted");
+            return "error";
+        }
         if (productService.removeWithPhoto(id)) {
             return "redirect:" + request.getHeader("Referer");
         } else {

@@ -1,6 +1,7 @@
 package com.example.diplom.dao;
 
 import com.example.diplom.domain.Bucket;
+import com.example.diplom.domain.Product;
 import com.example.diplom.domain.UserM;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,4 +21,9 @@ public interface BucketRepository extends JpaRepository<Bucket, Long> {
     void removeProductByUsername(@Param("productId") Long productId,@Param("username") String username);
 
     Bucket getBucketByUserId(Long id);
+
+    @Modifying
+    @Query(value = "Select from buckets_product where product_id=:id", nativeQuery = true)
+    @Transactional
+    Product getProductFromBucketById(@Param("id") Long id);
 }

@@ -19,4 +19,6 @@ public interface BucketService {
     void amountDecrease(Bucket bucket,Long productId);
 
     boolean checkBucketProducts(Long id);
+
+    boolean checkProductInAllBuckets(Long productId);
 }

@@ -118,6 +118,9 @@ public class ProductServiceImpl implements ProductService {
                 return false;
             }
         } else {
+            if(!bucketService.checkBucketProducts(savedProduct.getId())){
+                return false;
+            }
             boolean isChanged = false;
             if (!Objects.equals(productDTO.getTitle(), savedProduct.getTitle())) {
                 savedProduct.setTitle(productDTO.getTitle());
@@ -163,6 +166,10 @@ public class ProductServiceImpl implements ProductService {
     public boolean changeName(ProductDTO productDTO, String oldName, String category, MultipartFile file,Double discount) {
         Product product = productRepository.findByTitle(oldName);
         product.setTitle(productDTO.getTitle());
+
+       if(!bucketService.checkBucketProducts(product.getId())){
+           return false;
+       }
 
         CategoryDTO categoryDTO = categoryService.getCategoryByName(category);
 
