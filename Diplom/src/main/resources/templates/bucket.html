@@ -9,52 +9,57 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<h2>You Bucket</h2>
-<h3>All sum: <b th:text="${bucket.sum}">0</b></h3>
+<h3 class="ml-3">You Bucket</h3>
+<h2 class="ml-3">All sum: <b th:text="${bucket.sum}">0</b></h2>
 
-<table border="1" align="center">
-    <tr>
-        <td>Title</td>
-        <td>Image</td>
-        <td>Amount</td>
-        <td>Price</td>
-        <td>Sum</td>
-        <td></td>
-    </tr>
-    <tr th:each="detail : ${bucket.bucketDetails}">
-        <td th:text="${detail.title}"></td>
-        <td th:if="${detail.image != null}">
-            <img th:src="@{${detail.image}}">
-        </td>
-        <td>
-            <table>
-                <tr>
-                    <td><a th:href="@{/my/bucket/{id}/increase(id=${detail.productId})}">+</a></td>
-                    <td><b th:text="${detail.amount}"></b></td>
-                    <td><a th:href="@{/my/bucket/{id}/decrease(id=${detail.productId})}">-</a></td>
-                </tr>
-            </table>
-        </td>
-        <td th:if="${detail.discountPrice > 0.0}">
-                <span>
-                   <s>[[${detail.price}]]</s><br>
-                    [[${detail.discountPrice}]]
-                </span>
-        </td>
-        <td th:unless="${detail.discountPrice > 0.0}" th:text="${detail.price}"></td>
-        <td th:text="${detail.sum}"></td>
-        <td><a th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Remove</a></td>
-    </tr>
-    <tr>
-        <td align="center" colspan="6">
-            <a th:href="@{/my/bucket/clear}">Clear bucket</a>
-        </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="6">
-            <a th:href="@{/order/new}">Create an order</a>
-        </td>
-    </tr>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <details th:each="detail : ${bucket.bucketDetails}">
+                <summary>
+                    <div>
+			            <span>
+                            <img th:src="@{${detail.image}}">
+			            </span>
+                        <h3>
+                            <strong th:text="${detail.title}">Title</strong>
+                            <small th:each="c : ${detail.category}" th:text="${c}"></small>
+                        </h3>
+                        <h2>
+                            <a class="ml-5 ml-5"
+                               th:href="@{/my/bucket/{id}/increase(id=${detail.productId})}">+</a>
+                            <b style=" align-items: center;" th:text="${detail.amount}">0</b>
+                            <a style=" align-items: center;"
+                               th:href="@{/my/bucket/{id}/decrease(id=${detail.productId})}">-</a>
+                        </h2>
+                        <span>
+                            <p style=" align-items: flex-end;">[[${detail.sum}]] $</p><br>
+                        </span>
+                    </div>
+                </summary>
+                <div>
+                    <dl>
+                        <div>
+                            <p th:text="${detail.description}">Description</p>
+                        </div>
+                        <div>
+                            <p th:if="${detail.discountPrice > 0.0}">
+                        <span>
+                           <s>[[${detail.price}]] $</s><br>
+                            [[${detail.discountPrice}]] $
+                        </span><br>
+                            </p>
+                            <p th:unless="${detail.discountPrice > 0.0}">[[${detail.price}]] $</p>
+                        </div>
+                    </dl>
+                </div>
+            </details>
+            <div align="center">
+                <a th:href="@{/order/new}"><button class="btn btn-sm  btn-success">Create an order</button></a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

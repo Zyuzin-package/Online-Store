@@ -10,21 +10,67 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <form th:action="@{/order/new}" th:object="${order}" method="post">
-    <table border="1" align="center">
+    <table align="center">
         <tr>
             <td>
-                Address
+                Enter address, and check the ordered products
             </td>
+        </tr>
+        <tr>
             <td>
                 <input type="text" th:field="*{address}"/>
             </td>
         </tr>
-       <tr>
-           <td>
-               <button type="submit">Create</button>
-           </td>
-       </tr>
+        <tr>
+            <td align="center">
+                <a th:href="@{/order/new}"><button class="btn btn-sm btn-success">Create an order</button></a>
+            </td>
+        </tr>
     </table>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <details th:each="detail : ${bucket.bucketDetails}">
+                    <summary>
+                        <div>
+			            <span>
+                            <img th:src="@{${detail.image}}">
+			            </span>
+                            <h3>
+                                <strong th:text="${detail.title}">Title</strong>
+                                <small th:each="c : ${detail.category}" th:text="${c}"></small>
+                            </h3>
+                            <h2>
+                                <b  class="ml-5 ml-5" style=" align-items: center;" th:text="${detail.amount}">0</b>
+                            </h2>
+                            <span>
+                            <p style=" align-items: flex-end;">[[${detail.sum}]] $</p><br>
+                        </span>
+                        </div>
+                    </summary>
+                    <div>
+                        <dl>
+                            <div>
+                                <p th:text="${detail.description}">Description</p>
+                            </div>
+                            <div>
+                                <p th:if="${detail.discountPrice > 0.0}">
+                        <span>
+                           <s>[[${detail.price}]] $</s><br>
+                            [[${detail.discountPrice}]] $
+                        </span><br>
+                                </p>
+                                <p th:unless="${detail.discountPrice > 0.0}">[[${detail.price}]] $</p>
+                            </div>
+                        </dl>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
 </form>
 </body>
 </html>

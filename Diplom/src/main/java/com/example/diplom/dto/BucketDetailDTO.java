@@ -1,5 +1,6 @@
 package com.example.diplom.dto;
 
+import com.example.diplom.domain.Category;
 import com.example.diplom.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +20,10 @@ public class BucketDetailDTO {
     private Long productId;
     private String image;
     private double discountPrice;
+
+    private String description;
+    private List<String> category;
+
     private double price;
     private int amount;
     private double sum;
@@ -24,6 +31,14 @@ public class BucketDetailDTO {
     public BucketDetailDTO(Product product) {
         this.title = product.getTitle();
         this.productId = product.getId();
+        this.description = product.getDescription();
+
+        List<String> categories = new ArrayList<>();
+        for (Category c : product.getCategories()){
+            categories.add(c.getTitle());
+        }
+
+        this.category = categories;
         this.image = product.getImage();
         this.price = product.getPrice();
         this.amount = 1;

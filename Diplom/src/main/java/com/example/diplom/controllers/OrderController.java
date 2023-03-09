@@ -1,9 +1,6 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.dto.OrderDTO;
-import com.example.diplom.dto.OrderDetailsDTO;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.UserNotificationDTO;
+import com.example.diplom.dto.*;
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +76,13 @@ public class OrderController {
             model.addAttribute("notifications", dtos);
             model.addAttribute("notificationsCount",dtos.size());
 
+        }
+
+        if (principal == null) {
+            model.addAttribute("bucket", new BucketDTO());
+        } else {
+            BucketDTO bucketDTO = bucketService.getBucketByUser(principal.getName());
+            model.addAttribute("bucket", bucketDTO);
         }
 
         if(!bucketService.checkBucketProducts(userService.findByName(principal.getName()).getId())){

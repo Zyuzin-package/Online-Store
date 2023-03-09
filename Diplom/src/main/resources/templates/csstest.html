@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+
+    /**,*/
+    /**:after,*/
+    /**:before {*/
+    /*  box-sizing: border-box;*/
+    /*}*/
+
+    /*body {*/
+    /*  font-family: "Inter", sans-serif;*/
+    /*  line-height: 1.5;*/
+    /*  min-height: 100vh;*/
+    /*  padding: 5rem 0;*/
+    /*  font-size: clamp(1rem, 2.5vw, 1.125rem);*/
+    /*}*/
+
+    section {
+      width: 90%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+
+    }
+    section section {
+        margin-top: 2.5em;
+    }
+
+    h1 {
+      font-weight: 700;
+      line-height: 1.125;
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    }
+
+    h2 {
+      margin-top: .25em;
+      color: #999;
+      font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+
+    }
+    h2 + * {
+          margin-top: 1.5em;
+      }
+
+
+    summary {
+      background-color: #fff;
+      position: relative;
+      cursor: pointer;
+      padding: 1em .5em;
+      list-style: none; // Remove arrow
+
+    }
+
+    summary::-webkit-details-marker {
+         display: none; // Remove arrow
+     }
+
+    summary:hover {
+         background-color: #f2f5f9;
+     }
+
+
+    summary div {
+        display: flex;
+        align-items: center;
+    }
+
+    summary h3 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    summary small {
+        color: #999;
+        font-size: .875em;
+    }
+
+    summary strong {
+        font-weight: 700;
+    }
+
+    summary span:first-child {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 10px;
+        background-color: #f3e1e1;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.25em;
+    }
+    summary img {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
+    span:last-child {
+      font-weight: 700;
+      margin-left: auto;
+    }
+    span:last-child :focus {
+         outline: none;
+     }
+  </style>
+</head>
+<body>
+<section>
+    <details>
+        <summary>
+            <div>
+				<span style="background-color: #f2dcbb;">
+				</span>
+                <h3>
+                    <strong>American Eagle</strong>
+                    <small>Clothes & Fashion</small>
+                </h3>
+                <span>-39.99 USD</span>
+            </div>
+        </summary>
+        <div>
+            <dl>
+                <div>
+                    <dt>Time</dt>
+                    <dd>4.27pm</dd>
+                </div>
+
+                <div>
+                    <dt>Card used</dt>
+                    <dd>•••• 6890</dd>
+                </div>
+
+                <div>
+                    <dt>Reference ID</dt>
+                    <dd>3125-568911</dd>
+                </div>
+            </dl>
+        </div>
+    </details>
+
+</section>
+</body>
+</html>
