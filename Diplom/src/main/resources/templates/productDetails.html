@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col">
             <div class="card mb-4 box-shadow">
-                <img class="card-img-top align-center" style="height: 225px; width: 500px; display: block;"
+                <img class="card-img-top align-center" style="height: 225px; width: 400px; display: block;"
                      data-holder-rendered="true" th:src="@{${product.image}}">
                 <div class="card-body">
                     <a class="card-text" th:href="@{/product/{title}(title=${product.title})}"><b
@@ -23,11 +23,11 @@
                     <br>
                     <p class="card-text" th:if="${discount.discount_price > 0.0}">
                         <span>
-                           <s class=" btn btn-sm btn-secondary">[[${product.price}]] $</s>
-                            <span class="btn btn-sm btn-success ">[[${discount.discount_price}]] $</span>
+                           <s class=price-without-sale">[[${product.price}]] $</s>
+                            <span class="price-sale">[[${discount.discount_price}]] $</span>
                         </span>
                     </p>
-                    <p class=" btn btn-sm btn-secondary card-text" th:unless="${discount.discount_price > 0.0}">
+                    <p class="price-without-sale" th:unless="${discount.discount_price > 0.0}">
                         [[${product.price}]] $</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">

@@ -7,3 +7,4 @@ VALUES
     (5,'TEST','','',1)
 
 ;
+ALTER SEQUENCE user_notification_seq RESTART with 8;

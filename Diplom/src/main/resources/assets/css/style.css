@@ -8,6 +8,7 @@
 .overflow {
     min-height: 400px;
 }
+
 #element::-webkit-scrollbar {
     width: 10px;
 }
@@ -22,10 +23,30 @@
     border-radius: 10px;
     background: linear-gradient(180deg, #00c6fb, #005bea);
 }
+
 a {
     text-decoration: none;
 }
-.align-center{
+
+.align-center {
     margin-left: auto;
     margin-right: auto;
+}
+
+.price-sale {
+    border: 4px;
+    background: #28a745;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 4px;
+    color: white;
+}
+
+.price-without-sale {
+    border: 4px;
+    background: #6c757d;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 4px;
+    color: white;
 }
