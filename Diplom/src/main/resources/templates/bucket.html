@@ -34,8 +34,11 @@
                                th:href="@{/my/bucket/{id}/decrease(id=${detail.productId})}">-</a>
                         </h2>
                         <span>
-                            <p style=" align-items: flex-end;">[[${detail.sum}]] $</p><br>
-                        </span>
+                            <p style=" align-items: flex-end;">[[${detail.sum}]] $
+                                <a class="ml-5 ml-5"
+                                   th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Remove</a>
+                            </p>
+                            </span>
                     </div>
                 </summary>
                 <div>
@@ -56,7 +59,12 @@
                 </div>
             </details>
             <div align="center">
-                <a th:href="@{/order/new}"><button class="btn btn-sm  btn-success">Create an order</button></a>
+                <a th:href="@{/my/bucket/clear}">
+                    <button class="btn btn-sm  btn-warning">Clear bucket</button>
+                </a>
+                <a th:href="@{/order/new}">
+                    <button class="btn btn-sm  btn-success">Create an order</button>
+                </a>
             </div>
         </div>
     </div>
