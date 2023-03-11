@@ -17,7 +17,7 @@
             <a class="text-danger" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin/category/{title}/remove(title = ${category.title})}">X</a>
         </div>
         <div class="col mx-auto px-0" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-            <a class="btn btn-sm  btn-primary my-2 text-light"  th:href="@{/admin/category/new}">Create new category</a>
+            <a class="btn btn-sm  btn-success my-2 text-light"  th:href="@{/admin/category/new}">Create new category</a>
         </div>
     </div>
 </div>

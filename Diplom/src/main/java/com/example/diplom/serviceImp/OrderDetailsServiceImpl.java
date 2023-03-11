@@ -36,9 +36,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         for (int i = 0; i<=details.size()-1;i++) {
         orderDetails.get(i).setOrderId(orderId);
         orderDetails.get(i).setProductName(details.get(i).getProduct().getTitle());
+        orderDetails.get(i).setImage(details.get(i).getProduct().getImage());
         orderDetails.get(i).setProductId(details.get(i).getProduct().getId());
         }
-
         return orderDetails;
     }
 

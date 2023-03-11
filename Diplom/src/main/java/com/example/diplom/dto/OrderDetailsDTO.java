@@ -15,14 +15,12 @@ public class OrderDetailsDTO {
     private Long id;
     private Long orderId;
     private Long productId;
+    private String image;
     private String productName;
     private int amount;
     private double price;
     private double sum;
 
-    public void aggregate() {
-        this.sum =  price * amount;
-    }
 
     public Long getId() {
         return id;
@@ -78,5 +76,27 @@ public class OrderDetailsDTO {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetailsDTO{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", productId=" + productId +
+                ", image='" + image + '\'' +
+                ", productName='" + productName + '\'' +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", sum=" + sum +
+                '}';
     }
 }

@@ -133,7 +133,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDetailsDTO> getDetailsByOrderId(Long id) {
-        return orderDetailsService.findOrdersDetailsByOrderId(id);
+        List<OrderDetailsDTO> dtos  =orderDetailsService.findOrdersDetailsByOrderId(id);
+        return dtos;
     }
 
     @Override

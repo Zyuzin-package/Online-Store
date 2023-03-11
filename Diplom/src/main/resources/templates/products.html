@@ -32,27 +32,27 @@
                         <p class="price-without-sale"><s>[[${p.price}]]</s></p>
                         <p class="price-sale">[[${discounts[__${itemStat.index}__].discount_price}]]</p>
                     </div>
-                    <p class="price-sale"
+                    <p class="price-without-sale"
                        th:unless="${discounts[__${itemStat.index}__].discount_price > 0.0}"
                        th:text="${p.price}">price2</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm  btn-outline-success"
-                                    th:href="@{/product/{id}/bucket(id=${p.id})}"
-                                    sec:authorize="isAuthenticated()">
-                                <a th:href="@{/product/{id}/bucket(id=${p.id})}">
+                            <a th:href="@{/product/{id}/bucket(id=${p.id})}">
+                                <button type="button" class="btn btn-sm  btn-outline-success"
+                                        th:href="@{/product/{id}/bucket(id=${p.id})}"
+                                        sec:authorize="isAuthenticated()">
                                     Add to bucket
-                                </a>
-                            </button>
-                            <button type="button" class="btn btn-sm  btn-outline-info"
-                                    th:href="@{/admin/product/{id}/remove(id=${p.id})}"><a
-                                    th:href="@{/product/{title}(title=${p.title})}">Details </a>
-                            </button>
-
-                            <button class="btn btn-sm  btn-outline-danger"
-                                    sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-                                <a th:href="@{/admin/product/{id}/remove(id=${p.id})}"> Remove</a>
-                            </button>
+                                </button>
+                            </a>
+                            <a th:href="@{/product/{title}(title=${p.title})}">
+                                <button type="button" class="btn btn-sm  btn-outline-info">Details</button>
+                            </a>
+                            <a th:href="@{/admin/product/{id}/remove(id=${p.id})}">
+                                <button class="btn btn-sm  btn-outline-danger"
+                                        sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+                                    Remove
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
