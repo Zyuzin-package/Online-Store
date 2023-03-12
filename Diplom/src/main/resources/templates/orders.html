@@ -10,29 +10,61 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<table border="1" align="center">
-    <tr>
-        <td>Number</td>
-        <td>Address</td>
-        <td>Created</td>
-        <td>Updated</td>
-        <td>Status</td>
-        <td>Sum</td>
-        <td>Details</td>
-    </tr>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.address}"></td>
-        <td th:text="${order.created}"></td>
-        <td th:text="${order.updated}"></td>
-        <td th:text="${order.status}"></td>
-        <td th:text="${order.sum}"></td>
-        <td>  <a th:href="@{/order/{id}(id=${order.id})}">Details</a></td>
-    </tr>
+<div class="container">
+    <div class="row">
+        <div class="col-12" th:each="order : ${orders}">
+            <details>
+                <summary>
+                    <div>
+			            <span>
+                            <strong th:text="${order.id}">Id</strong>
+			            </span>
+                        <h3>
+                            <span>
+                            <p align="center" class="price-sale mt-3" th:text="${order.status}">status</p>
+                        </span>
+                        </h3>
+                        <span style=" align-items: center;">
+                            <h4 class="ml-2" th:text="${order.address}">Address</h4>
+                             <span style=" align-items: center;">
+                                <p class="ml-2 mt-2">Total sum: [[${order.sum}]] $</p>
+                            </span>
+                        </span>
+                        <span style=" align-items: flex-end;">
+                                <p>Created: [[${#temporals.format(order.created, 'dd-MM-yyyy')}]] </p>
+                                <p>Updated: [[${#temporals.format(order.updated, 'dd-MM-yyyy')}]] </p>
+                        </span>
+                    </div>
 
-
-
-</table>
-
+                </summary>
+                <div>
+                    <dl>
+                        <div class="container bg-light">
+                            <div class="row mt-2" style="overflow-x: hidden; overflow-y: scroll;height: 50vh">
+                                <div class="col-md-4" th:each="detail : ${order.orderDetailsDTOList}">
+                                    <div class="card mb-4 box-shadow">
+                                        <div class="card-body">
+                                            <img class="card-img-top"
+                                                 style="height: 225px; width: 100%; display: block;"
+                                                 data-holder-rendered="true" th:src="@{${detail.image}}">
+                                            <div class="card-text">
+                                                <a th:href="@{/product/{title}/(title=${detail.productName})}"
+                                                   th:text="${detail.productName}">Title</a>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p>Amount: [[${detail.amount}]]</p>
+                                                <p>Sum: [[${detail.price}]]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dl>
+                </div>
+            </details>
+        </div>
+    </div>
+</div>
 </body>
 </html>
