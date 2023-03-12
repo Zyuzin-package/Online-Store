@@ -21,6 +21,9 @@ public class OrderDetailsDTO {
     private double price;
     private double sum;
 
+    public void aggregate(){
+        this.sum = price*amount;
+    }
 
     public Long getId() {
         return id;

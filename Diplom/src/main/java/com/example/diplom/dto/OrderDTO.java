@@ -99,4 +99,18 @@ public class OrderDTO {
     public void setOrderDetailsDTOList(List<OrderDetailsDTO> orderDetailsDTOList) {
         this.orderDetailsDTOList = orderDetailsDTOList;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", userId=" + userId +
+                ", sum=" + sum +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", orderDetailsDTOList=" + orderDetailsDTOList +
+                '}';
+    }
 }

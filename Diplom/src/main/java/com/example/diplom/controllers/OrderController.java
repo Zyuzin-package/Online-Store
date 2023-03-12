@@ -39,32 +39,9 @@ public class OrderController {
         }
 
         List<OrderDTO> orders = orderService.getOrderByUserName(principal.getName());
+
         model.addAttribute("orders", orders);
         return "orders";
-    }
-
-    @GetMapping("/{id}")
-    public String getCurrentOrders(Model model, @PathVariable Long id, Principal principal) {
-        if (principal != null) {
-            List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
-            model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
-
-        }
-
-        OrderDTO order = orderService.findOrderById(id);
-
-        if (order == null || (!Objects.equals(order.getUserId(), userService.findByName(principal.getName()).getId()))) {
-            model.addAttribute("errorMessage", "Order not found");
-            return "error";
-        }
-
-        List<OrderDetailsDTO> orderDetailsDTOS = orderService.getDetailsByOrderId(id);
-        List<ProductDTO> productDTOList = productService.getProductsByUserIds(id);
-        model.addAttribute("order", order);
-        model.addAttribute("details", orderDetailsDTOS);
-        model.addAttribute("products", productDTOList);
-        return "orderDetails";
     }
 
     @GetMapping("/new")

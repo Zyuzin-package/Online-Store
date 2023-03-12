@@ -168,7 +168,35 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> getOrderByUserName(String username) {
-        return mapper.fromOrderList(orderRepository.getOrdersByUserName(username));
+        List<Order> orders = orderRepository.getOrdersByUserName(username);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (Order o : orders){
+            OrderDTO orderDTO = OrderDTO.builder()
+                    .id(o.getId())
+                    .address(o.getAddress())
+                    .created(o.getCreated())
+                    .updated(o.getUpdated())
+                    .status(o.getStatus().name())
+                    .sum(o.getSum())
+                    .build();
+            List<OrderDetailsDTO> detailsDTOS = new ArrayList<>();
+            for (OrderDetails orderDetails : o.getOrderDetailsList()){
+                OrderDetailsDTO dto = OrderDetailsDTO.builder()
+                        .id(orderDetails.getId())
+                        .orderId(o.getId())
+                        .amount(orderDetails.getAmount())
+                        .productName(orderDetails.getProduct().getTitle())
+                        .image(orderDetails.getProduct().getImage())
+                        .price(orderDetails.getPrice())
+                        .productId(orderDetails.getProduct().getId())
+                        .build();
+                dto.aggregate();
+                detailsDTOS.add(dto);
+            }
+            orderDTO.setOrderDetailsDTOList(detailsDTOS);
+            orderDTOS.add(orderDTO);
+        }
+        return orderDTOS;
     }
 
     @Override
