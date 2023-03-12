@@ -47,6 +47,13 @@ a {
     padding: 4px;
     color: white;
 }
+.notification{
+    border: 5px;
+    background: rgba(220, 220, 220, 0.5);
+    border-radius: 25px;
+    display: inline-block;
+    padding: 4px;
+}
 
 .price-without-sale {
     border: 4px;

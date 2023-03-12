@@ -44,9 +44,7 @@
                                     Add to bucket
                                 </button>
                             </a>
-                            <a th:href="@{/product/{title}(title=${p.title})}">
-                                <button type="button" class="btn btn-sm  btn-outline-info">Details</button>
-                            </a>
+
                             <a th:href="@{/admin/product/{id}/remove(id=${p.id})}">
                                 <button class="btn btn-sm  btn-outline-danger"
                                         sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
