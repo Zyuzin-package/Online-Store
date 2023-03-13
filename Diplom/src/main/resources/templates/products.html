@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-4" th:unless="${#lists.isEmpty(products)}" th:each="p,itemStat : ${products}">
             <div class="card mb-4 box-shadow">
-                <img class="card-img-top" style="height: 225px; width: 100%; display: block;"
+                <img class="mx-auto card-img-top" style="height: 100%; width: 100%; display: block;"
                      data-holder-rendered="true" th:src="@{${p.image}}">
                 <div class="card-body">
                     <a class="card-text" th:href="@{/product/{title}(title=${p.title})}"><b
@@ -45,7 +45,7 @@
                                 </button>
                             </a>
 
-                            <a th:href="@{/admin/product/{id}/remove(id=${p.id})}">
+                            <a class="ml-2" th:href="@{/admin/product/{id}/remove(id=${p.id})}">
                                 <button class="btn btn-sm  btn-outline-danger"
                                         sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                                     Remove

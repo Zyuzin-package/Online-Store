@@ -6,9 +6,77 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+    <style>
+
+        .mainbox {
+            margin: auto;
+            height: 600px;
+            width: 600px;
+            position: relative;
+        }
+
+        .far {
+
+            position: absolute;
+            font-size: 8.5rem;
+            left: 51%;
+            top: 18%;
+            color: #000000;
+        }
+        .err {
+            color: #000000;
+            font-size: 9rem;
+            position: absolute;
+            left: 20%;
+            top: 8%;
+        }
+        .err2 {
+            color: #000000;
+            font-size: 9rem;
+            position: absolute;
+            left: 75%;
+            top: 8%;
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 1.6rem;
+            position: absolute;
+            left: 16%;
+            top: 45%;
+            width: 75%;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<p th:if="${errorMessage != null}" th:utext="${errorMessage}">Error</p>
+
+<div class="mainbox">
+    <div class="err">Err</div>
+    <div>
+        <i class="far fa-question-circle fa-spin"></i>
+    </div>
+    <div class="err2">r</div>
+    <div class="msg" th:if="${errorMessage != null}" >
+        <p>[[${errorMessage}]], let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">home</a> and try from there.</p>
+    </div>
+    <div class="msg" th:unless="${errorMessage != null}" >
+       Uncaught error, let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">home</a> and try from there. </div>
+</div>
+
+
+
 </body>
 </html>

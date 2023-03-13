@@ -30,10 +30,6 @@ body {
     background: linear-gradient(180deg, #00c6fb, #005bea);
 }
 
-a {
-    text-decoration: none;
-}
-
 .align-center {
     margin-left: auto;
     margin-right: auto;
@@ -59,8 +55,8 @@ a {
     color: black;
 }
 .close-notification-button:hover {
-    color: #CE242B; /* Цвет ссылки при наведении */
-    text-decoration: underline; /* Добавляем подчёркивание */
+    color: #CE242B;
+    text-decoration: underline;
 }
 .price-without-sale {
     border: 4px;

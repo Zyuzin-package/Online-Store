@@ -51,14 +51,13 @@ public class MainController {
             model.addAttribute("errorMessage", "User with name "+ username + " not found");
             return "error";
         }
-        System.out.println("UserM"+userM);
         if(userM.getActivationCode()==null) {
             try {
                 request.login(username, password);
                 return "redirect:/";
             } catch (ServletException e) {
-                System.out.println("Error while login \n" + e);
-                return "login";
+                model.addAttribute("errorMessage", "Authorisation error");
+                return "error";
             }
         } else {
             model.addAttribute("loginError", true);
