@@ -47,14 +47,21 @@ a {
     padding: 4px;
     color: white;
 }
-.notification{
-    border: 5px;
-    background: rgba(220, 220, 220, 0.5);
-    border-radius: 25px;
-    display: inline-block;
-    padding: 4px;
+.notification{.
+    border: 4px;
+    border-radius: 12px;
+    width: 300px;
+    background: white;
+    box-shadow: 0 0 10px -3px rgba(0, 0, 0, .5);
 }
+.close-notification-button{
 
+    color: black;
+}
+.close-notification-button:hover {
+    color: #CE242B; /* Цвет ссылки при наведении */
+    text-decoration: underline; /* Добавляем подчёркивание */
+}
 .price-without-sale {
     border: 4px;
     background: #6c757d;
