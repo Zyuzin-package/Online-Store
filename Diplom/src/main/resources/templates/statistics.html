@@ -10,25 +10,34 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<table>
-    <tr>
-       <td>
-           <div id="linechart_material1" style="width: 900px; height: 500px"></div>
-       </td>
-    </tr>
-    <tr>
-        <td>
-            <div id="linechart_material2" style="width: 900px; height: 500px"></div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div id="linechart_material3" style="width: 900px; height: 500px"></div>
-        </td>
-    </tr>
-</table>
-
-
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center">Visit statistics</h3>
+                    <div id="linechart_material1" style="width: 900px; height: 500px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center">Buy statistics</h3>
+                    <div id="linechart_material2" style="width: 900px; height: 500px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center">Frequency of adding items to the cart</h3>
+                    <div id="linechart_material3" style="width: 900px; height: 500px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 <script type="text/javascript">
@@ -41,9 +50,6 @@
         if (!isEmpty(visitStatsJson)) {
             let visitStatsData = getData(visitStatsJson);
             let visitStatsOption = {
-                chart: {
-                    title: 'Visit stats',
-                },
                 width: 900,
                 height: 500,
                 colors: "blue"
@@ -59,9 +65,6 @@
         if (!isEmpty(buyStatsJson)) {
             let buyStatsData = getData(buyStatsJson);
             let buyStatsOption = {
-                chart: {
-                    title: 'Buy stats',
-                },
                 width: 900,
                 height: 500,
                 colors: "blue"
@@ -77,9 +80,6 @@
         if (!isEmpty(frequencyStatsJson)) {
             let frequencyStatsData = getData(frequencyStatsJson);
             let frequencyStatsOption = {
-                chart: {
-                    title: 'Frequency stats',
-                },
                 width: 900,
                 height: 500,
                 colors: "blue"
