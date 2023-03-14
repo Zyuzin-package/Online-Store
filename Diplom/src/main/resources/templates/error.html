@@ -69,10 +69,10 @@
     </div>
     <div class="err2">r</div>
     <div class="msg" th:if="${errorMessage != null}" >
-        <p>[[${errorMessage}]], let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">home</a> and try from there.</p>
+        <p>[[${errorMessage}]], let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">back</a> and try from there.</p>
     </div>
     <div class="msg" th:unless="${errorMessage != null}" >
-       Uncaught error, let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">home</a> and try from there. </div>
+       Uncaught error, let's go <a class="text-primary" style="cursor: pointer; text-decoration: underline;" onclick=" history.back();">back</a> and try from there. </div>
 </div>
 
 

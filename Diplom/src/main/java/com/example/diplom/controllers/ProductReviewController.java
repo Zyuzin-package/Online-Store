@@ -30,6 +30,7 @@ public class ProductReviewController {
             model.addAttribute("errorMessage", "Product not found");
             return "error";
         }
+        System.out.println("\n\n"+stars);
         if(productReviewService.getReviewByUserNameAndProductId(principal.getName(),id)!=null){
             model.addAttribute("isReviewCreated", true);
             return "redirect:"+request.getHeader("Referer");

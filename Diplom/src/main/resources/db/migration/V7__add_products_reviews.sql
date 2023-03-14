@@ -5,5 +5,8 @@ VALUES (1,'Good product, tasty!',5,11,1),
        (4,'Not good product, un tasty!',2,44,1),
        (5,'Bad product',1,55,1),
        (6,'Good product',5,66,1),
-       (7,'Poydet',5,11,2);
+       (7,'Good product, tasty!',4,11,1),
+       (8,'Norm product',3,11,1),
+       (9,'Not good product, un tasty!',2,11,1),
+       (10,'Bad product',1,11,1);
 ALTER SEQUENCE product_review_seq RESTART with 8;

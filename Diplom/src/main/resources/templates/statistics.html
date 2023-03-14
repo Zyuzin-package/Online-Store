@@ -51,7 +51,6 @@
                         </div>
                     </div>
                     <div th:unless="${#lists.isEmpty(visitStatsJson)}">
-                        Not empty
                         <div id="linechart_material1" ></div>
                     </div>
 
@@ -62,7 +61,6 @@
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
                     <h3 align="center">Buy statistics</h3>
-
                     <div th:if="${#lists.isEmpty(visitStatsJson)}">
                         <div class="card-text">
                             <div class="mainbox">
@@ -76,9 +74,6 @@
                     <div th:unless="${#lists.isEmpty(visitStatsJson)}">
                         <div id="linechart_material2" ></div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -86,7 +81,6 @@
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
                     <h3 align="center">Frequency of adding items to the cart</h3>
-
                     <div th:if="${#lists.isEmpty(visitStatsJson)}">
                         <div class="card-text">
                             <div class="mainbox">
@@ -100,7 +94,6 @@
                     <div th:unless="${#lists.isEmpty(visitStatsJson)}">
                         <div id="linechart_material3"></div>
                     </div>
-
                 </div>
             </div>
         </div>
