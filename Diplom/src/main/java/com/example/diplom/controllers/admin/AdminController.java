@@ -78,7 +78,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -119,7 +119,7 @@ public class AdminController {
             if (productService.changeName(productDTO, productTitle, category, file, Double.valueOf(discount))) {
                 model.addAttribute("product", productDTO);
                 model.addAttribute("categories", categoryService.getAll());
-                System.out.println("DISCOUNT: "+discount + " | " + DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build().toString());
+                System.out.println("DISCOUNT: " + discount + " | " + DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build().toString());
                 model.addAttribute("discount", DiscountDTO.builder().discount_price(Double.parseDouble(discount)).build());
                 return "redirect:/category";
             } else {
@@ -134,7 +134,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -151,7 +151,7 @@ public class AdminController {
 
     @GetMapping("/product/{id}/remove")
     public String removeProduct(@PathVariable Long id, HttpServletRequest request, Model model) {
-        if(!bucketService.checkBucketProducts(id)){
+        if (!bucketService.checkBucketProducts(id)) {
             model.addAttribute("errorMessage", "This product is in another user's cart, cannot be deleted");
             return "error";
         }
@@ -168,7 +168,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
         productTitle = title;
@@ -192,7 +192,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -233,7 +233,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -260,7 +260,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -292,7 +292,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -310,7 +310,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -327,7 +327,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
         OrderDTO dto = orderService.findOrderById(id);
@@ -348,7 +348,7 @@ public class AdminController {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);
-            model.addAttribute("notificationsCount",dtos.size());
+            model.addAttribute("notificationsCount", dtos.size());
 
         }
 
@@ -364,9 +364,9 @@ public class AdminController {
 
         model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
 
-        model.addAttribute("visitStatsJson", visitStatsJson);
-        model.addAttribute("buyStatsJson", buyStatsJson);
-        model.addAttribute("frequencyStatsJson", frequencyStatsJson);
+        model.addAttribute("visitStatsJson", visitStatsJson.equals("{}") ? null : visitStatsJson);
+        model.addAttribute("buyStatsJson", buyStatsJson.equals("{}") ? null : buyStatsJson);
+        model.addAttribute("frequencyStatsJson", frequencyStatsJson.equals("{}") ? null : frequencyStatsJson);
 
         model.addAttribute("products", productDTOList);
         return "statistics";

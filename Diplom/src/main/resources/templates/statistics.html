@@ -4,19 +4,57 @@
     <meta charset="UTF-8">
     <title>Statistics</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link th:href="@{../assets/css/style.css}" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+    <style>
+        .mainbox {
+            margin: auto;
+            height: 500px;
+            width: 100%;
+        }
+        .far {
+            font-size: 8.5rem;
+            color: #000000;
+        }
+        .err {
+            color: #000000;
+            font-size: 9rem;
+        }
+        .msg {
+            text-align: center;
+            font-size: 1.6rem;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
                     <h3 align="center">Visit statistics</h3>
-                    <div id="linechart_material1" style="width: 900px; height: 500px"></div>
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text" >
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        Not empty
+                        <div id="linechart_material1" ></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -24,7 +62,23 @@
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
                     <h3 align="center">Buy statistics</h3>
-                    <div id="linechart_material2" style="width: 900px; height: 500px"></div>
+
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text">
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        <div id="linechart_material2" ></div>
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
@@ -32,7 +86,21 @@
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
                     <h3 align="center">Frequency of adding items to the cart</h3>
-                    <div id="linechart_material3" style="width: 900px; height: 500px"></div>
+
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text">
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        <div id="linechart_material3"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -45,52 +113,46 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        let visitStatsJson = "[[${visitStatsJson}]]";
 
+        let visitStatsJson = "[[${visitStatsJson}]]";
         if (!isEmpty(visitStatsJson)) {
             let visitStatsData = getData(visitStatsJson);
             let visitStatsOption = {
-                width: 900,
                 height: 500,
                 colors: "blue"
             };
             let chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
             chart1.draw(visitStatsData, google.charts.Line.convertOptions(visitStatsOption));
-        } else {
-            document.getElementById("linechart_material1").innerHTML = "Visit stats is empty";
+            document.getElementById('linechart_material1').style.width="900px";
+            document.getElementById('linechart_material1').style.width="500px";
         }
-
 
         let buyStatsJson = "[[${buyStatsJson}]]";
         if (!isEmpty(buyStatsJson)) {
             let buyStatsData = getData(buyStatsJson);
             let buyStatsOption = {
-                width: 900,
                 height: 500,
                 colors: "blue"
             };
             let chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
             chart2.draw(buyStatsData, google.charts.Line.convertOptions(buyStatsOption));
-
-        } else {
-            document.getElementById("linechart_material2").innerHTML = "Buy stats is empty";
+            document.getElementById('linechart_material2').style.width="900px";
+            document.getElementById('linechart_material2').style.width="500px";
         }
 
         let frequencyStatsJson = "[[${frequencyStatsJson}]]";
         if (!isEmpty(frequencyStatsJson)) {
             let frequencyStatsData = getData(frequencyStatsJson);
             let frequencyStatsOption = {
-                width: 900,
                 height: 500,
                 colors: "blue"
             };
 
             let chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
             chart3.draw(frequencyStatsData, google.charts.Line.convertOptions(frequencyStatsOption));
-        } else {
-            document.getElementById("linechart_material3").innerHTML = "Frequency add to bucket stats is empty";
+            document.getElementById('linechart_material3').style.width="900px";
+            document.getElementById('linechart_material3').style.width="500px";
         }
-
 
     }
 
