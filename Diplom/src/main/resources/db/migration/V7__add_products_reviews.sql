@@ -9,4 +9,4 @@ VALUES (1,'Good product, tasty!',5,11,1),
        (8,'Norm product',3,11,1),
        (9,'Not good product, un tasty!',2,11,1),
        (10,'Bad product',1,11,1);
-ALTER SEQUENCE product_review_seq RESTART with 8;
+ALTER SEQUENCE product_review_seq RESTART with 11;
