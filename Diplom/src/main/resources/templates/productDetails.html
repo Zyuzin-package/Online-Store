@@ -40,31 +40,11 @@
 
         .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
 
-
-
-
-        .review-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: left;
-        }
-
-        .review-rating > input{ display:none;}
-
-
-        .review-rating > label {
+        .review {
             position: relative;
             width: 1em;
-            font-size: 2vw;
+            font-size: 20vw;
             color: #FFD600;
-        }
-        .review-rating > label::before{
-            content: "\2605";
-            position: absolute;
-            opacity: 0;
-        }
-        .review-rating input:checked ~ label:before {
-            opacity: 1;
         }
     </style>
 </head>
@@ -114,18 +94,15 @@
                <p class="card-text" th:text="${review.review}">Good product</p>
                <p class="card-text">
                <p>
-               <div class="review-rating">
-               [[${review.stars} == 5]]
-                [[${review.stars} == 4]]
-                [[${review.stars} == 3]]
-                [[${review.stars} == 2]]
-                [[${review.stars} == 1]]
-                    <input type="radio" name="rating" value="5"  th:checked="${review.stars} == 5" th:id="'5'+${review.id}"><label th:for="'5'+${review.id}">☆</label>
-                    <input type="radio" name="rating" value="4"  th:checked="${review.stars} == 4" th:id="'4'+${review.id}"><label th:for="'4'+${review.id}">☆</label>
-                    <input type="radio" name="rating" value="3"  th:checked="${review.stars} == 3" th:id="'3'+${review.id}"><label th:for="'3'+${review.id}">☆</label>
-                    <input type="radio" name="rating" value="2"  th:checked="${review.stars} == 2" th:id="'2'+${review.id}"><label th:for="'2'+${review.id}">☆</label>
-                    <input type="radio" name="rating" value="1"  th:checked="${review.stars} == 1" th:id="'1'+${review.id}"><label th:for="'1'+${review.id}">☆</label>
-               </div>
+                <div class="review" th:if="${review.stars}<5" th:each="i: ${#numbers.sequence(0, review.stars - 1)}">
+                    <p>&#9733;</p>
+                </div>
+                <div class="review" th:if="${review.stars}<5" th:each="i: ${#numbers.sequence(review.stars, 5}">
+                    <p>&#9733;</p>
+                </div>
+                <div class="review" th:unless="${review.stars}<5"  th:each="i: ${#numbers.sequence(0, review.stars - 1)}">
+                    <p>&#9733;</p>
+                </div>
                </p>
             </div>
         </div>
