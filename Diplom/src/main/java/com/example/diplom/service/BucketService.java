@@ -20,5 +20,7 @@ public interface BucketService {
 
     boolean checkBucketProducts(Long id);
 
+    boolean checkProductInBuckets(Long productId);
+
     boolean checkProductInAllBuckets(Long productId);
 }

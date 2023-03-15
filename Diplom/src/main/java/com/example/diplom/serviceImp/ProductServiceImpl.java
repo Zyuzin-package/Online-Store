@@ -203,21 +203,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean removeWithPhoto(Long productId) {
         Product product = findProductById(productId);
-        System.out.println(product);
         if (product == null) {
             return false;
         }
+        productRepository.removeReviewFromProductsByProductId(productId);
         if (!imageService.removeImage(product.getImage())) {
-            return false;
-        }
-        productRepository.deleteById(product.getId());
-        return true;
-    }
-
-    @Override
-    public boolean removeWithOutPhoto(Long productId) {
-        Product product = findProductById(productId);
-        if (product == null) {
             return false;
         }
         productRepository.deleteById(product.getId());

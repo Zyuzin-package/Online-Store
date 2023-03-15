@@ -68,5 +68,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "DELETE from product_review where product_id=:id", nativeQuery = true)
     @Transactional
     void removeReviewFromProductsByProductId(@Param("id")Long id);
-
 }

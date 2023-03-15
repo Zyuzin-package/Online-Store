@@ -105,9 +105,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void amountIncrease(Bucket bucket, Long productId) {
-
         addProduct(bucket, List.of(productId));
-
     }
 
     @Override
@@ -175,16 +173,19 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public boolean checkBucketProducts(Long id) {
         Bucket bucket = bucketRepository.getBucketByUserId(id);
-        if (bucket == null) {
-            return false;
-        }
-        return true;
+        return bucket != null;
     }
 
     @Override
-    public boolean checkProductInAllBuckets(Long productId){
+    public boolean checkProductInBuckets(Long productId) {
+        List<Long> ids = bucketRepository.getProductAtUserCart(productId);
+        return ids == null || ids.size() == 0;
+    }
+
+    @Override
+    public boolean checkProductInAllBuckets(Long productId) {
         Product product = bucketRepository.getProductFromBucketById(productId);
-        if(product == null){
+        if (product == null) {
             return true;
         } else {
             return false;

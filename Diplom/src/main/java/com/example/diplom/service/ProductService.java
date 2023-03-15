@@ -16,8 +16,6 @@ public interface ProductService {
     boolean changeName(ProductDTO productDTO, String oldName, String category, MultipartFile file,Double discount);
     boolean removeWithPhoto(Long productId);
 
-    boolean removeWithOutPhoto(Long productId);
-
     Product findProductById(Long productId);
 
     List<ProductDTO> getProductsByCategory(String category);

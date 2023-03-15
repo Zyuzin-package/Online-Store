@@ -151,12 +151,12 @@ public class AdminController {
 
     @GetMapping("/product/{id}/remove")
     public String removeProduct(@PathVariable Long id, HttpServletRequest request, Model model) {
-        if (!bucketService.checkBucketProducts(id)) {
+        if (!bucketService.checkProductInBuckets(id)) {
             model.addAttribute("errorMessage", "This product is in another user's cart, cannot be deleted");
             return "error";
         }
         if (productService.removeWithPhoto(id)) {
-            return "redirect:" + request.getHeader("Referer");
+            return "redirect:/category";
         } else {
             model.addAttribute("errorMessage", "Error while deleting");
             return "error";

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface BucketRepository extends JpaRepository<Bucket, Long> {
 
     @Modifying
@@ -26,4 +28,9 @@ public interface BucketRepository extends JpaRepository<Bucket, Long> {
     @Query(value = "Select from buckets_product where product_id=:id", nativeQuery = true)
     @Transactional
     Product getProductFromBucketById(@Param("id") Long id);
+
+    @Modifying
+    @Query(value = "Select * from buckets_product where product_id=:productId", nativeQuery = true)
+    @Transactional
+    List<Long> getProductAtUserCart(@Param("productId")Long productId);
 }

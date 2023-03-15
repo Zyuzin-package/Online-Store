@@ -34,7 +34,7 @@ public class ImageService {
 
 
     public boolean removeImage(String imageUrl) {
-        String path = "src/main/resources/static/" + imageUrl;
+        String path = "src/main/resources/static" + imageUrl;
         File file = new File(path);
         if (!file.delete()) {
             return false;
