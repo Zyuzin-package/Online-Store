@@ -10,4 +10,5 @@ public interface ProductReviewService {
     void saveReview(ProductReviewDTO productReviewDTO);
 
     ProductReviewDTO getReviewByUserNameAndProductId(String name, Long productId);
+    
 }

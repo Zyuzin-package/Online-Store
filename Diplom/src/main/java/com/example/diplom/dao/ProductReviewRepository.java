@@ -26,4 +26,5 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, Lo
             "and product_review.product_id=:productId", nativeQuery = true)
     @Transactional
     List<ProductReview> getReviewByUserNameAndProductId(@Param("username") String name, @Param("productId") Long productId);
+
 }

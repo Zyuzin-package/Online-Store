@@ -1,25 +1,16 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
-import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.Category;
-import com.example.diplom.domain.Product;
-import com.example.diplom.domain.UserM;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
+import com.example.diplom.domain.*;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
-import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -288,6 +279,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             List<ProductDTO> products = getProductsByCategory(title);
             for (ProductDTO productDTO : products) {
+                productRepository.removeReviewFromProductsByProductId(productDTO.getId());
                 productRepository.deleteById(productDTO.getId());
             }
             productRepository.removeFromProductsToCategoryByCategoryName(title);
