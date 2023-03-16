@@ -12,7 +12,12 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12" th:each="order : ${orders}">
+        <div class="col" th:if="${#lists.isEmpty(orders)}">
+            <p align="center">
+                You have no orders
+            </p>
+        </div>
+        <div class="col-12" th:unless="${#lists.isEmpty(orders)}" th:each="order : ${orders}">
             <details>
                 <summary>
                     <div>
