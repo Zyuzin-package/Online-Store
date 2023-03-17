@@ -1,16 +1,13 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.DiscountDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.service.CategoryService;
 import com.example.diplom.service.DiscountService;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.UserNotificationService;
-import com.example.diplom.service.statistics.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +19,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/category")

@@ -1,9 +1,7 @@
 package com.example.diplom.mapper;
 
 import com.example.diplom.domain.Category;
-import com.example.diplom.domain.Product;
 import com.example.diplom.dto.CategoryDTO;
-import com.example.diplom.dto.ProductDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

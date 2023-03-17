@@ -1,8 +1,6 @@
 package com.example.diplom.mapper;
 
-import com.example.diplom.domain.Order;
 import com.example.diplom.domain.OrderDetails;
-import com.example.diplom.dto.OrderDTO;
 import com.example.diplom.dto.OrderDetailsDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

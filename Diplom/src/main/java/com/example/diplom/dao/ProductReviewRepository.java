@@ -1,7 +1,6 @@
 package com.example.diplom.dao;
 
 import com.example.diplom.domain.ProductReview;
-import com.example.diplom.dto.ProductReviewDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

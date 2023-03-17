@@ -1,7 +1,10 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
-import com.example.diplom.domain.*;
+import com.example.diplom.domain.Bucket;
+import com.example.diplom.domain.Category;
+import com.example.diplom.domain.Product;
+import com.example.diplom.domain.UserM;
 import com.example.diplom.dto.CategoryDTO;
 import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.UserNotificationDTO;

@@ -9,7 +9,6 @@ import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.service.DiscountService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,14 +1,11 @@
 package com.example.diplom.dto.statistics;
 
-import com.example.diplom.domain.Product;
 import com.example.diplom.domain.statistics.BuyStats;
 import com.example.diplom.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor

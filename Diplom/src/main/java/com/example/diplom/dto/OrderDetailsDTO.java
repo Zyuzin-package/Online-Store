@@ -1,12 +1,8 @@
 package com.example.diplom.dto;
 
-import com.example.diplom.domain.OrderDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor

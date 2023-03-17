@@ -1,6 +1,5 @@
 package com.example.diplom.serviceImp;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,9 +1,7 @@
 package com.example.diplom.service;
 
-import com.example.diplom.dto.BucketDetailDTO;
 import com.example.diplom.dto.OrderDTO;
 import com.example.diplom.dto.OrderDetailsDTO;
-import com.example.diplom.dto.ProductDTO;
 
 import java.util.List;
 

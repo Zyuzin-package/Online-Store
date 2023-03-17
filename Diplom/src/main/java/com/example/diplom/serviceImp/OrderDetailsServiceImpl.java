@@ -1,19 +1,12 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.OrderDetailsRepository;
-import com.example.diplom.dao.ProductRepository;
-import com.example.diplom.domain.Order;
 import com.example.diplom.domain.OrderDetails;
-import com.example.diplom.domain.Product;
-import com.example.diplom.dto.BucketDetailDTO;
-import com.example.diplom.dto.OrderDTO;
 import com.example.diplom.dto.OrderDetailsDTO;
 import com.example.diplom.mapper.OrderDetailsMapper;
-import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.OrderDetailsService;
 import com.example.diplom.service.ProductService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 

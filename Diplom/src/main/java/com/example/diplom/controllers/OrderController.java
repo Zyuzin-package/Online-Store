@@ -1,17 +1,17 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.dto.*;
+import com.example.diplom.dto.BucketDTO;
+import com.example.diplom.dto.OrderDTO;
+import com.example.diplom.dto.UserNotificationDTO;
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/order/")

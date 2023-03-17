@@ -4,7 +4,6 @@ import com.example.diplom.domain.Product;
 import com.example.diplom.dto.ProductDTO;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 public interface ProductService {
