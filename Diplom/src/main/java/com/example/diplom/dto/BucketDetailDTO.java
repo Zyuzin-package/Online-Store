@@ -19,7 +19,6 @@ public class BucketDetailDTO {
     private Long productId;
     private String image;
     private double discountPrice;
-
     private String description;
     private List<String> category;
 

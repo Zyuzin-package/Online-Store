@@ -20,9 +20,6 @@ public class VisitStats {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
 
-    //    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
-//    public Product product;
     private Long product_id;
 
     private LocalDateTime created;

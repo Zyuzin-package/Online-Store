@@ -20,10 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     List<Product> findProductIdByCategoriesId(Long categories_id);
 
-
-    @Transactional
-    void deleteProductIdById(Long productId);
-
     @Modifying
     @Query(value = "insert into products_categories (category_id,product_id) VALUES (:category_id,:product_id)", nativeQuery = true)
     @Transactional
@@ -35,29 +31,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     void removeCategoryByProduct(@Param("product_id") Long product_id);
 
     @Modifying
-    @Query(value = "delete from products_categories where category_id = :id", nativeQuery = true)
-    @Transactional
-    void removeProductByCategory(@Param("id") Long category_id);
-
-    @Modifying
     @Query(value = "select product_id from buckets_product where bucket_id=:id", nativeQuery = true)
     @Transactional
     List<Long> getProductIdsByBucketId(@Param("id")Long id);
-    @Modifying
-    @Query(value = "select product_id from buckets_product where bucket_id = (select bucket_id from buckets where user_id=:id)", nativeQuery = true)
-    @Transactional
-    List<Long> getProductIdsByUserId(@Param("id")Long id);
 
     @Modifying
     @Query(value = "select * from products where products.id IN (select orders_details.product_id from orders_details where orders_details.order_details_id=:id)", nativeQuery = true)
     @Transactional
     List<Product> getProductsByUserIds(@Param("id")Long id);
 
-    @Modifying
-    @Query(value = "DELETE from products where products.id=(Select products_categories.product_id from products_categories where products_categories.category_id= (Select categories.id from categories where categories.title=:name))", nativeQuery = true)
-    @Cascade(value = CascadeType.ALL)
-    @Transactional
-    void removeProductsByCategoryName(@Param("name")String name);
     @Modifying
     @Query(value = "DELETE from products_categories where category_id=(Select id from categories where title=:name)", nativeQuery = true)
     @Transactional

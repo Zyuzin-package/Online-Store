@@ -15,22 +15,18 @@ import java.util.List;
 @Table(name = "buckets", schema = "public")
 public class Bucket {
     private static final String SEQ_NAME = "bucket_seq";
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     UserM user;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "buckets_product",
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
-
 
     public Long getId() {
         return id;

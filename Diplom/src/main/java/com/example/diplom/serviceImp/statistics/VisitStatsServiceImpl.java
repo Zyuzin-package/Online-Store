@@ -63,33 +63,6 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStat
         return null;
     }
 
-
-
-    @Override
-    public Map<LocalDateTime, Integer> calculateStatsByProductName(String title) {
-        List<VisitStatsDTO> visitStatsDTOS = getAllBuyProductName(title);
-        if (visitStatsDTOS.isEmpty() || visitStatsDTOS == null) {
-            return null;
-        }
-
-        visitStatsDTOS.sort(Comparator.comparing(VisitStatsDTO::getCreated));
-        LocalDateTime temp = visitStatsDTOS.get(0).getCreated();
-        SortedMap<LocalDateTime, Integer> resultMap = new TreeMap<>();
-
-        int amount = 0;
-        for (VisitStatsDTO v : visitStatsDTOS) {
-            if (temp.getDayOfYear() == (v.getCreated().getDayOfYear())) {
-                amount += 1;
-            } else {
-                amount = 1;
-                temp = v.getCreated();
-            }
-            resultMap.put(v.getCreated(), amount);
-        }
-        resultMap.put(temp, amount);
-        return resultMap;
-
-    }
     @Override
     public Map<LocalDateTime, List<Integer>> collectStats() {
         List<ProductDTO> productList = productService.getAll();

@@ -253,21 +253,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductsByBucketId(Long bucketId) {
-        List<Long> productsIds = productRepository.getProductIdsByBucketId(bucketId);
-        List<Product> products = new ArrayList<>();
-        for (Long l : productsIds) {
-            products.add(findProductById(l));
-        }
-        return mapper.fromProductList(products);
-    }
-
-    @Override
-    public List<ProductDTO> getProductsByUserIds(Long id) {
-        return mapper.fromProductList(productRepository.getProductsByUserIds(id));
-    }
-
-    @Override
     public boolean removeProductsByCategoryName(String title) {
         try {
             List<ProductDTO> products = getProductsByCategory(title);

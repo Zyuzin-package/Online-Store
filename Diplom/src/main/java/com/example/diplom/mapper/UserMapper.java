@@ -11,13 +11,9 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
-
     UserM toProduct(UserDTO dto);
-
     @InheritInverseConfiguration
     UserDTO fromProduct(UserM product);
-
     List<UserM> toProductList(List<UserDTO> productDTOList);
-
     List<UserDTO> fromProductList(List<UserM> products);
 }

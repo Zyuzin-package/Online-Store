@@ -17,25 +17,20 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     private static final String SEQ_NAME = "order_seq";
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-
     @CreationTimestamp
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserM user;
-
     @OneToMany
     @JoinColumn(name="order_details_id")
     private List<OrderDetails> orderDetailsList;
-
     private double sum;
     private String address;
 

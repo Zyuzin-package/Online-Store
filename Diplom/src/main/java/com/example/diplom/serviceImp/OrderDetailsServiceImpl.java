@@ -15,11 +15,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
     private final OrderDetailsMapper mapper = OrderDetailsMapper.MAPPER;
     private final OrderDetailsRepository orderDetailsRepository;
-    private final ProductService productService;
 
-    public OrderDetailsServiceImpl(OrderDetailsRepository orderDetailsRepository, ProductService productService) {
+    public OrderDetailsServiceImpl(OrderDetailsRepository orderDetailsRepository) {
         this.orderDetailsRepository = orderDetailsRepository;
-        this.productService = productService;
     }
 
     @Override

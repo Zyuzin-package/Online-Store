@@ -11,13 +11,9 @@ import java.util.List;
 @Mapper
 public interface CategoryMapper {
     CategoryMapper MAPPER = Mappers.getMapper(CategoryMapper.class);
-
     Category toCategory(CategoryDTO dto);
-
     @InheritInverseConfiguration
     CategoryDTO fromCategory(Category category);
-
     List<Category> toCategoryList(List<CategoryDTO> categoryDTOS);
-
     List<CategoryDTO> fromCategoryList(List<Category> categories);
 }

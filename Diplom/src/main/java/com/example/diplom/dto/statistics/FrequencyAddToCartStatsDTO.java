@@ -18,11 +18,6 @@ public class FrequencyAddToCartStatsDTO {
     private Product product;
     private LocalDateTime created;
 
-    public FrequencyAddToCartStatsDTO(FrequencyAddToCartStats frequencyAddToCartStats) {
-        this.id = frequencyAddToCartStats.getId();
-        this.created = frequencyAddToCartStats.getCreated();
-    }
-
     public Long getId() {
         return id;
     }

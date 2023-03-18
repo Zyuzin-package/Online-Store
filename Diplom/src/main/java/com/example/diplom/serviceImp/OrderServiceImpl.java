@@ -43,11 +43,6 @@ public class OrderServiceImpl implements OrderService {
         return mapper.fromOrderList(orderRepository.findAll());
     }
 
-    @Override
-    public List<OrderDetailsDTO> getAllDetails() {
-        return orderDetailsService.getAllDetails();
-    }
-
     public boolean save(OrderDTO orderDTO) {
         UserM userM = userService.findById(orderDTO.getUserId());
         Order order = Order.builder()
@@ -129,12 +124,6 @@ public class OrderServiceImpl implements OrderService {
         OrderDTO dto = mapper.fromOrder(order);
         dto.setUserId(order.getUser().getId());
         return dto;
-    }
-
-    @Override
-    public List<OrderDetailsDTO> getDetailsByOrderId(Long id) {
-        List<OrderDetailsDTO> dtos  =orderDetailsService.findOrdersDetailsByOrderId(id);
-        return dtos;
     }
 
     @Override

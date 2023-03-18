@@ -13,5 +13,4 @@ public interface CategoryService {
 
     CategoryDTO getCategoryByName(String title);
 
-    CategoryDTO getCategoryByProductName(String title);
 }

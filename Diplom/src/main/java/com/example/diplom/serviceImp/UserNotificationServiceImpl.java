@@ -29,16 +29,6 @@ public class UserNotificationServiceImpl implements UserNotificationService {
     }
 
     @Override
-    public List<UserNotificationDTO> getNotificationsByUserId(Long id) {
-        List<UserNotification> list = userNotificationRepository.findNotificationByUserId(id);
-        List<UserNotificationDTO> dtos = new ArrayList<>();
-        for (UserNotification u : list) {
-            dtos.add(new UserNotificationDTO(u));
-        }
-        return dtos;
-    }
-
-    @Override
     public List<UserNotificationDTO> getNotificationsByUserName(String name) {
         List<UserNotification> list = userNotificationRepository.findNotificationByUserName(name);
         List<UserNotificationDTO> dtos = new ArrayList<>();
@@ -74,15 +64,4 @@ public class UserNotificationServiceImpl implements UserNotificationService {
         userNotificationRepository.save(userNotification);
     }
 
-    @Override
-    public void updateNotification(Long notificationId, Long userId,UserNotificationDTO userNotificationDTO){
-        UserNotification userNotification = UserNotification.builder()
-                .id(notificationId)
-                .message(userNotificationDTO.getMessage())
-                .url(userNotificationDTO.getUrl())
-                .urlText(userNotificationDTO.getUrlText())
-                .userM(userService.findById(userId))
-                .build();
-        userNotificationRepository.save(userNotification);
-    }
 }

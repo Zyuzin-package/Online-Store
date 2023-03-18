@@ -60,29 +60,6 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
     }
 
     @Override
-    public Map<LocalDateTime, Integer> calculateStatsByProductName(String title) {
-        List<FrequencyAddToCartStatsDTO> frequencyAddToCartStatsDTOS = getAllBuyProductName(title);
-
-        frequencyAddToCartStatsDTOS.sort(Comparator.comparing(FrequencyAddToCartStatsDTO::getCreated));
-
-        LocalDateTime temp = frequencyAddToCartStatsDTOS.get(0).getCreated();
-        SortedMap<LocalDateTime, Integer> resultMap = new TreeMap<>();
-
-        int amount = 0;
-        for (FrequencyAddToCartStatsDTO v : frequencyAddToCartStatsDTOS) {
-            if (temp.getDayOfYear() == (v.getCreated().getDayOfYear())) {
-                amount+=1;
-            } else {
-                amount=1;
-                temp=v.getCreated();
-            }
-            resultMap.put(v.getCreated(), amount);
-        }
-        resultMap.put(temp, amount);
-        return resultMap;
-    }
-
-    @Override
     public List<String> getUniqueDates() {
         return repository.getUniqueDates();
     }

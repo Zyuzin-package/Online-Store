@@ -12,16 +12,13 @@ import javax.persistence.*;
 @Table(name = "orders_details")
 public class OrderDetails {
     private static final String SEQ_NAME = "order_details_seq";
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
-
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
     private int amount;
     private double price;
 

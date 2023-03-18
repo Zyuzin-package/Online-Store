@@ -11,15 +11,10 @@ import java.util.List;
 
 public interface ProductReviewRepository extends JpaRepository<ProductReview, Long> {
 
-    ProductReview getProductReviewById(Long id);
     @Modifying
     @Query(value = "Select * from product_review where product_id=(Select id from  products where products.title=:title)", nativeQuery = true)
     @Transactional
     List<ProductReview> getReviewsByProductTitle(@Param("title") String title);
-    @Modifying
-    @Query(value = "select p from product_review p where p.user_id = (select users.id from users where name=:username)", nativeQuery = true)
-    @Transactional
-    List<Long> getReviewByUserName(@Param("username") String name);
     @Modifying
     @Query(value = "select * from product_review where product_review.user_id = (select users.id from users where name=:username) " +
             "and product_review.product_id=:productId", nativeQuery = true)

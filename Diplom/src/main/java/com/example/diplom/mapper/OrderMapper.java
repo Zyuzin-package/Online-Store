@@ -11,13 +11,9 @@ import java.util.List;
 @Mapper
 public interface OrderMapper {
     OrderMapper MAPPER = Mappers.getMapper(OrderMapper.class);
-
     Order toOrder(OrderDTO dto);
-
     @InheritInverseConfiguration
     OrderDTO fromOrder(Order order);
-
     List<Order> toOrderList(List<OrderDTO> orderDTOList);
-
     List<OrderDTO> fromOrderList(List<Order> products);
 }

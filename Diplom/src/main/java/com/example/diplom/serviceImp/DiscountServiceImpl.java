@@ -61,11 +61,6 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public Discount findDiscountById(Long discountId) {
-        return discountRepository.findFirstById(discountId);
-    }
-
-    @Override
     public DiscountDTO findDiscountByProductId(Long productId) {
         Discount discount = discountRepository.findFirstByProductId(productId);
         if (discount != null) {

@@ -16,10 +16,6 @@ public interface VisitStatsRepository extends JpaRepository<VisitStats,Long> {
     @Transactional
     List<VisitStats> getAllBuyProductName(@Param("title") String title);
     @Modifying
-    @Query(value = "Select * from visit_stats where created=:date", nativeQuery = true)
-    @Transactional
-    List<VisitStats> getAllByDate(@Param("date") LocalDateTime localDateTime);
-    @Modifying
     @Query(value = "Select distinct created from visit_stats", nativeQuery = true)
     @Transactional
     List<String> getUniqueDates();

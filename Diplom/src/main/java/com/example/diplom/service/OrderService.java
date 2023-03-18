@@ -7,11 +7,8 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderDTO> getAll();
-    List<OrderDetailsDTO> getAllDetails();
     boolean save(OrderDTO orderDTO);
     OrderDTO findOrderById(Long id);
-
-    List<OrderDetailsDTO> getDetailsByOrderId(Long id);
 
     void updateOrderStatus(String status, Long orderId);
 

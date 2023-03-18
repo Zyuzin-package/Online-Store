@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "user_notification", schema = "public")
 public class UserNotification {
     private static final String SEQ_NAME = "user_notification_seq";
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
@@ -24,7 +23,6 @@ public class UserNotification {
     @ManyToOne
     @JoinColumn(name = "user_id")
     UserM userM;
-
 
     public Long getId() {
         return id;

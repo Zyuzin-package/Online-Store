@@ -13,8 +13,6 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper mapper = CategoryMapper.MAPPER;
     private final CategoryRepository categoryRepository;
-
-
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
@@ -53,12 +51,5 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findByTitle(title);
         return mapper.fromCategory(category);
     }
-
-    @Override
-    public CategoryDTO getCategoryByProductName(String title) {
-        Category category = categoryRepository.getCategoryByProductName(title);
-        return mapper.fromCategory(category);
-    }
-
 
 }

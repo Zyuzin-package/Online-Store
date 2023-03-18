@@ -11,12 +11,9 @@ import java.util.List;
 @Mapper
 public interface UserNotificationMapper {
     UserNotificationMapper MAPPER = Mappers.getMapper(UserNotificationMapper.class);
-
     UserNotification toUserNotification(UserNotificationDTO dto);
-
     @InheritInverseConfiguration
     UserNotificationDTO fromUserNotification(UserNotification userNotification);
-
     List<UserNotification> toUserNotificationList(List<UserNotificationDTO> userNotificationDTOList);
     @InheritInverseConfiguration
     List<UserNotificationDTO> fromUserNotificationList(List<UserNotification> userNotifications);

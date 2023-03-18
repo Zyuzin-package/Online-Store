@@ -10,7 +10,6 @@ public interface DiscountService {
     List<DiscountDTO> getAll();
     boolean save(double discount,Long productId);
     void remove(Long discount);
-    Discount findDiscountById(Long discountId);
     DiscountDTO findDiscountByProductId(Long productId);
     List<DiscountDTO> findDiscountsByProducts(List<ProductDTO> productDTOList);
 }
