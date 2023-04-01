@@ -12,6 +12,7 @@ import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.dto.statistics.VisitStatsDTO;
 import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;
+import io.swagger.annotations.Api;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/admin")
+// http://127.0.0.1:8080/swagger-ui/#/
 public class AdminController {
     private final ProductService productService;
     private final UserNotificationService userNotificationService;

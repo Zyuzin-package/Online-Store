@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(savedUser);
         }
     }
-    
+
     @Override
     public void updateRole(String username, String role) {
         userRepository.updateRole(role, findByName(username).getId());

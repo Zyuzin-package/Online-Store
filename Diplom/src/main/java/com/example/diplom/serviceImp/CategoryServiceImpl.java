@@ -51,5 +51,4 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findByTitle(title);
         return mapper.fromCategory(category);
     }
-
 }
