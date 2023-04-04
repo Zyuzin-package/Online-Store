@@ -1,0 +1,14 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:11'
+    container_name: 'pgdb'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_PASSWORD=root'
+  myapp:
+    build: .
+    container_name: 'diplom'
+    ports:
+      - '8080:8080'
