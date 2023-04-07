@@ -11,8 +11,8 @@ spring:
           auto: create
     generate-ddl: false
   datasource:
-#    url: jdbc:postgresql://localhost:5432/postgres
-    url: jdbc:postgresql://postgres:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+#    url: jdbc:postgresql://postgres:5432/postgres
     username: postgres
     password: root
 #    password: postgres
@@ -24,8 +24,8 @@ spring:
     baseline-on-migrate: true
     baselineVersion: 0
     enabled: true
-#    url: jdbc:postgresql://localhost:5432/postgres
-    url: jdbc:postgresql://postgres:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+#    url: jdbc:postgresql://postgres:5432/postgres
     user: postgres
     password: root
 #    password: postgres

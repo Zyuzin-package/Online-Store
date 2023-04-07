@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableJpaRepositories
+// http://127.0.0.1:8080/swagger-ui/#/
 public class DiplomApplication {
 
     public static void main(String[] args) {
