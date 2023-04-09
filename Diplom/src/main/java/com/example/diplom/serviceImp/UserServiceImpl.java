@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchPassword())) {
             throw new RuntimeException("Password is no equals");
         }
+
+        if(userRepository.findFirstByName(userDTO.getUsername())!=null){
+            return false;
+        }
+
         UserM user = UserM.builder()
                 .name(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))

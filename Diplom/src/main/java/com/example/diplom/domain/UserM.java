@@ -82,4 +82,17 @@ public class UserM {
     public void setBucket(Bucket bucket) {
         this.bucket = bucket;
     }
+
+    @Override
+    public String toString() {
+        return "UserM{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", activationCode='" + activationCode + '\'' +
+                ", role=" + role +
+                ", bucket=" + bucket +
+                '}';
+    }
 }
