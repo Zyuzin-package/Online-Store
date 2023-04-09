@@ -26,9 +26,8 @@ class CategoryServiceImplTest {
         CategoryDTO category = new CategoryDTO();
         category.setTitle("korka");
         categoryService.saveCategory(category);
-        CategoryDTO category1 = categoryService.getCategoryByName("korka");
 
-        assertEquals("korka",category1.getTitle());
+        assertEquals("korka",categoryService.getCategoryByName("korka").getTitle());
     }
 
     @Test

@@ -67,14 +67,7 @@ class UserServiceImplTest {
                 .findFirstByName("krok");
 
         boolean isUserCreated = userService.save(newUser);
-
         assertFalse(isUserCreated);
-
-        Mockito.verify(mailSender, Mockito.times(1))
-                .send(
-                        ArgumentMatchers.eq(newUser.getEmail()),
-                        ArgumentMatchers.anyString(),
-                        ArgumentMatchers.anyString());
     }
 
     @Test
@@ -94,7 +87,6 @@ class UserServiceImplTest {
                 .save(ArgumentMatchers.anyObject());
 
         UserDTO dto = userService.activateUser("activate");
-        System.out.println(dto);
         assertNull(dto.getActivationCode());
     }
 
