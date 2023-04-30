@@ -62,16 +62,19 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow" style="background-color: transparent">
                 <img class="mx-auto card-img-top" style="height: 50%; width: 50%; display: block;"
                      data-holder-rendered="true" th:src="@{${product.image}}">
-                <div class="card-body">
-                    <a class="card-text" th:href="@{/product/{title}(title=${product.title})}"><b
-                            th:text="${product.title}">Title</b></a><br>
-                    <p class="card-text" th:text="${product.description}">price2</p>
+                <div class="card-body" style="color: white">
+                    <a class="card-text"  style="color: white"  th:href="@{/product/{title}(title=${product.title})}"><b
+                            th:text="${product.title}">Название</b></a><br>
+                    <p class="card-text" style="color: white" th:text="${product.description}">price2</p>
                     <br>
                     <p class="card-text" th:if="${discount.discount_price > 0.0}">
                         <s class="price-without-sale">[[${product.price}]] $</s>
@@ -81,17 +84,17 @@
                         [[${product.price}]] $</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm  btn-outline-success"
+                            <button type="button" class="btn btn-sm  btn-success"
                                     th:href="@{/product/{id}/bucket(id=${product.id})}"
                                     sec:authorize="isAuthenticated()">
-                                <a th:href="@{/product/{id}/bucket(id=${product.id})}">
-                                    Add to bucket
+                                <a th:href="@{/product/{id}/bucket(id=${product.id})}" style="color: white">
+                                    Добавить в корзину
                                 </a>
                             </button>
 
-                            <button type="button" class="btn btn-outline-warning btn-sm"
+                            <button type="button" class="btn btn-warning btn-sm"
                                     sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-                                <a th:href="@{/admin/product/edit/{name}(name=${product.title})}">Edit</a>
+                                <a th:href="@{/admin/product/edit/{name}(name=${product.title})}" style="color: white">Изменить</a>
                             </button>
                         </div>
                     </div>

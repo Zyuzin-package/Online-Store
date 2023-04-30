@@ -9,12 +9,15 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <form th:action="@{/admin/users/edit}" th:object="${users}" method="post">
     <table border="1" align="center">
         <tr>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Role</td>
+            <td>Имя пользователя</td>
+            <td>Электронный адрес</td>
+            <td>Роль пользователя</td>
             <td></td>
         </tr>
         <tr th:each="user : ${users}">
@@ -22,7 +25,7 @@
             <td th:text="${user.email}">TestEmail</td>
             <td th:text="${user.role}">TestRole</td>
             <td>
-                <a th:href="@{/admin/users/{name}/edit(name=${user.username})}">Edit</a>
+                <a th:href="@{/admin/users/{name}/edit(name=${user.username})}">Изменить</a>
             </td>
         </tr>
     </table>

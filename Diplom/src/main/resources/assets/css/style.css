@@ -1,9 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
 body {
-  font-family: "Inter", sans-serif;
+    font-family: "Inter", sans-serif;
+    background-color: black;
 }
-
-
+h1,h2,h3,h4,h5,h6{
+    color: white;
+}
+td{
+    color: white;
+}
 #element {
     overflow-y: scroll;
     background-color: #ffffff;
@@ -43,21 +49,25 @@ body {
     padding: 4px;
     color: white;
 }
-.notification{.
-    border: 4px;
+
+.notification {
+. border: 4 px;
     border-radius: 12px;
     width: 300px;
     background: white;
     box-shadow: 0 0 10px -3px rgba(0, 0, 0, .5);
 }
-.close-notification-button{
+
+.close-notification-button {
 
     color: black;
 }
+
 .close-notification-button:hover {
     color: #CE242B;
     text-decoration: underline;
 }
+
 .price-without-sale {
     border: 4px;
     background: #6c757d;

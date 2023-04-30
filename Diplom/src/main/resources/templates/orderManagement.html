@@ -10,15 +10,17 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/orderStatus :: #status-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
     <table border="1" align="center">
         <tr>
-            <td>Number</td>
-            <td>Address</td>
-            <td>Created</td>
-            <td>Updated</td>
-            <td>Status</td>
-            <td>Sum</td>
+            <td>Номер</td>
+            <td>Адрес</td>
+            <td>Дата создания</td>
+            <td>Дата обновления</td>
+            <td>Статус</td>
+            <td>Сумма</td>
             <td></td>
         </tr>
         <tr th:each="order : ${orders}">

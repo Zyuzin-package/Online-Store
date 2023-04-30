@@ -9,8 +9,11 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<h3 class="ml-3">You Bucket</h3>
-<h2 class="ml-3">All sum: <b th:text="${bucket.sum}">0</b></h2>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<h3 class="ml-3">Корзина</h3>
+<h2 class="ml-3">Сумма: <b th:text="${bucket.sum}">0</b></h2>
 
 <div class="container">
     <div class="row">
@@ -36,7 +39,7 @@
                         <span>
                             <p style=" align-items: flex-end;">[[${detail.sum}]] $
                                 <a class="ml-5 ml-5"
-                                   th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Remove</a>
+                                   th:href="@{/my/bucket/{id}/remove(id=${detail.productId})}">Удалить</a>
                             </p>
                             </span>
                     </div>
@@ -60,10 +63,10 @@
             </details>
             <div align="center" class="mt-2">
                 <a th:href="@{/my/bucket/clear}">
-                    <button class="btn btn-sm  btn-warning">Clear bucket</button>
+                    <button class="btn btn-sm  btn-warning">Очистить корзину</button>
                 </a>
                 <a th:href="@{/order/new}">
-                    <button class="btn btn-sm  btn-success">Create an order</button>
+                    <button class="btn btn-sm  btn-success">Заказать</button>
                 </a>
             </div>
         </div>

@@ -12,13 +12,13 @@
 
 <div  id="category-menu" align="center">
         <div th:each="category : ${categories}" style="display:inline-block;">
-            <a style="display:block;" class="btn btn-sm btn-outline-primary" th:href="@{/category/{category}(category=${category.title})}"
+            <a style="display:block;" class="btn btn-sm btn-outline-light" th:href="@{/category/{category}(category=${category.title})}"
                th:text="${category.title}">Title Example</a>
             <a style="display:block;" class="text-danger" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"
                th:href="@{/admin/category/{title}/remove(title = ${category.title})}">X</a>
         </div>
         <div class="col mx-auto px-0" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" style="display:block;">
-            <a class="btn btn-sm  btn-success my-2 text-light" th:href="@{/admin/category/new}">Create new category</a>
+            <a class="btn btn-sm  btn-success my-2 text-light" th:href="@{/admin/category/new}">Создать категорию</a>
         </div>
 </div>
 

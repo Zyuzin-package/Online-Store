@@ -20,26 +20,28 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <form th:action="@{/registration}" th:object ="${user}" method="post" class="form-signin">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="userName" class="sr-only">User name</label>
+    <h1 class="h3 mb-3 font-weight-normal">Укажите данные</h1>
+    <label for="userName" class="sr-only">Имя пользователя</label>
     <input type="text" th:field="*{username}" id="userName" class="form-control" placeholder="User name" required=""
            autofocus="">
 
-    <label for="email" class="sr-only">Email</label>
+    <label for="email" class="sr-only">Электронный адрес</label>
     <input type="email"  th:field="*{email}" id="email" class="form-control" placeholder="Email" required=""
            autofocus="">
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input  type="password"  th:field="*{password}"id="inputPassword" class="form-control" placeholder="Password"
+    <label for="inputPassword" class="sr-only">Пароль</label>
+    <input  type="password"  th:field="*{password}" id="inputPassword" class="form-control" placeholder="Password"
            required="">
-    <label for="confirmPassword" class="sr-only">Confirm password</label>
+    <label for="confirmPassword" class="sr-only">Подтверждение пароля</label>
     <input  type="password"  th:field="*{matchPassword}" id="confirmPassword" class="form-control" placeholder="Confirm password"
            required="">
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-    <a th:href="@{/registration}">Login</a>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Регистрация</button>
+    <a th:href="@{/registration}">Авторизация</a>
 </form>
 </body>
 </html>

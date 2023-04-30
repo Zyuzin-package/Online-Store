@@ -9,7 +9,9 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 
 <form th:action="@{/my/main}" th:object="${user}" method="post">
 
@@ -17,23 +19,23 @@
         <div class="row" align="">
             <div class="card  mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
-                    <h1 th:text="*{username}" align="center">User name</h1>
+                    <h1 th:text="*{username}" align="center">Имя пользователя</h1>
                     <table align="center">
                         <tr>
-                            <td>Email</td>
+                            <td>Электронная почта</td>
                             <td><input type="email" th:field="*{email}"></td>
                         </tr>
                         <tr>
-                            <td>Password</td>
+                            <td>Пароль</td>
                             <td><input type="password" th:field="*{password}"></td>
                         </tr>
                         <tr>
-                            <td>Matching password</td>
+                            <td>Подтверждения пароля</td>
                             <td><input type="password" th:field="*{matchPassword}"></td>
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
-                                <button class="btn btn-outline-success" type="submit">Save</button>
+                                <button class="btn btn-outline-success" type="submit">Сохранить</button>
                             </td>
                         </tr>
                     </table>

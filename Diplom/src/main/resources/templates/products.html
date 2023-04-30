@@ -10,6 +10,9 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div th:insert="~{fragments/categories :: #category-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <table th:unless="${message != null}">
     <tr>
         <td th:text="${message}">
@@ -17,15 +20,15 @@
     </tr>
 </table>
 
-<div class="container">
+<div class="container mt-4">
 
     <div class="row">
         <div class="col-md-4" th:unless="${#lists.isEmpty(products)}" th:each="p,itemStat : ${products}">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow" style="background-color: transparent">
                 <img class="mx-auto card-img-top" style="height: 100%; width: 100%; display: block;"
                      data-holder-rendered="true" th:src="@{${p.image}}">
                 <div class="card-body">
-                    <a class="card-text" th:href="@{/product/{title}(title=${p.title})}"><b
+                    <a class="" style="color: white" th:href="@{/product/{title}(title=${p.title})}"><b
                             th:text="${p.title}">Title</b></a><br>
                     <div class="card-text" th:if="${discounts[__${itemStat.index}__].discount_price > 0.0}">
                         <p class="price-without-sale"><s>[[${p.price}]]</s></p>
@@ -37,7 +40,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a th:href="@{/product/{id}/bucket(id=${p.id})}">
-                                <button type="button" class="btn btn-sm  btn-outline-success"
+                                <button type="button" class="btn btn-sm  btn-success"
                                         th:href="@{/product/{id}/bucket(id=${p.id})}"
                                         sec:authorize="isAuthenticated()">
                                     Add to bucket
@@ -45,7 +48,7 @@
                             </a>
 
                             <a class="ml-2" th:href="@{/admin/product/{id}/remove(id=${p.id})}">
-                                <button class="btn btn-sm  btn-outline-danger"
+                                <button class="btn btn-sm  btn-danger"
                                         sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
                                     Remove
                                 </button>
@@ -58,7 +61,7 @@
     </div>
     <div class="row align-center" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
         <div class="col-12 w-50 mx-auto align-center">
-            <button class="  btn btn-success"><a class="text-light" th:href="@{/admin/product/new}">Add new product</a>
+            <button class="  btn btn-success"><a class="text-light" th:href="@{/admin/product/new}">Добавить новый продукт</a>
             </button>
         </div>
     </div>

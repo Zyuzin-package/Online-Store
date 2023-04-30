@@ -10,11 +10,14 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <form th:action="@{/order/new}" th:object="${order}" method="post">
     <table align="center">
         <tr>
             <td>
-                Enter address, and check the ordered products
+               Введите адрес доставки
             </td>
         </tr>
         <tr>
@@ -24,7 +27,7 @@
         </tr>
         <tr>
             <td class="my-2" align="center">
-                <a th:href="@{/order/new}"><button class="btn btn-sm btn-success">Create an order</button></a>
+                <a th:href="@{/order/new}"><button class="btn btn-sm btn-success">Заказать</button></a>
             </td>
         </tr>
     </table>

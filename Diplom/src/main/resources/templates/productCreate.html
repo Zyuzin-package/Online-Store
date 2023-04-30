@@ -9,7 +9,9 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <form th:action="@{/admin/product/new}" th:object="${product}" enctype="multipart/form-data" method="post">
     <table th:if="${message != null}">
         <tr>
@@ -18,21 +20,21 @@
         </tr>
     </table>
 
-    <table border='1'>
+    <table border='1' align="center">
         <tr>
-            <td>Name</td>
+            <td>Название</td>
             <td>
                 <input type="text" th:field="*{title}">
             </td>
         </tr>
         <tr>
-            <td>Price</td>
+            <td>Цена</td>
             <td>
                 <input type="text" th:field="*{price}">
             </td>
         </tr>
         <tr>
-            <td>Image</td>
+            <td>Изображение</td>
             <td th:if="${product.image != null}">
                 <img th:src="@{${product.image}}">
             </td>
@@ -41,13 +43,13 @@
             </td>
         </tr>
         <tr>
-            <td>Description</td>
+            <td>Описание</td>
             <td>
                 <input type="text" th:field="*{description}">
             </td>
         </tr>
         <tr>
-            <td>Category</td>
+            <td>Категория</td>
             <td>
                 <select th:name="categories" id="categories" name="categories">
                     <option th:each="category : ${categories}"
@@ -58,14 +60,19 @@
             </td>
         </tr>
         <tr>
-            <td>Discount price</td>
+            <td>Цена со скидкой</td>
             <td>
                 <input type="text" value="0" th:value="${discount.discount_price}" th:name="discount" id="discount"
                        name="discount">
             </td>
         </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <button type="submit">Сохранить</button>
+            </td>
+        </tr>
     </table>
-    <button type="submit">Save</button>
+
 </form>
 </body>
 </html>

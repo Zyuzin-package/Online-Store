@@ -32,13 +32,21 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<h2 class="ml-3">Средний чек заказа: <b>1982.13</b></h2>
+<h2 class="ml-3">Популярное время покупок: <b>19:23</b></h2>
+<h2 class="ml-3">Месяц, за который совершено больше всего покупок: <b>April</b></h2>
+<h2 class="ml-3">Самый популярный товар: <b>Стейк ТОМАГАВК</b></h2>
+<h2 class="ml-3">Самая популярная категория: <b>Сыры</b></h2>
+<h2 class="ml-3">Соотношение просмотров товаров и их покупки: <b>56%</b></h2>
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
-                    <h3 align="center">Visit statistics</h3>
+                    <h3 align="center" style="color: black">Статистика посещений </h3>
                     <div th:if="${#lists.isEmpty(visitStatsJson)}">
                         <div class="card-text" >
                             <div class="mainbox">
@@ -60,7 +68,7 @@
         <div class="col-12">
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
-                    <h3 align="center">Buy statistics</h3>
+                    <h3 align="center"  style="color: black">Статистика покупок</h3>
                     <div th:if="${#lists.isEmpty(visitStatsJson)}">
                         <div class="card-text">
                             <div class="mainbox">
@@ -80,7 +88,7 @@
         <div class="col-12">
             <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
                 <div class="card-body">
-                    <h3 align="center">Frequency of adding items to the cart</h3>
+                    <h3 align="center"  style="color: black">Frequency of adding items to the cart</h3>
                     <div th:if="${#lists.isEmpty(visitStatsJson)}">
                         <div class="card-text">
                             <div class="mainbox">

@@ -119,10 +119,10 @@ create table public.product_review
 create table public.products
 (
     id          int8   not null,
-    description varchar(255),
+    description varchar(2550),
     image       varchar(255),
     price       float8 not null,
-    title       varchar(255),
+    title       varchar(1000),
     primary key (id)
 );
 create table public.products_categories

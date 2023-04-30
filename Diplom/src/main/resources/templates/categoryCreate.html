@@ -10,17 +10,24 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 <form th:action="@{/admin/category/new}" th:object ="${category}" method="post">
     <table border ='1'align="center">
         <tr>
-            <td>Category name</td>
+            <td>Название категории</td>
             <td>
                 <input type="text" th:field="*{title}">
             </td>
         </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Добавить категорию</button>
+            </td>
+        </tr>
     </table>
-    <button type="submit">Add category</button>
+
 </form>
 
 </body>

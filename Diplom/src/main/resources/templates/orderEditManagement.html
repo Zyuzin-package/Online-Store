@@ -9,17 +9,19 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
 
 <form th:action="@{/admin/users/orders}" th:object="${orderDTO}" method="post">
     <table border="1" align="center">
         <tr>
-            <td>Number</td>
-            <td>Address</td>
-            <td>Created</td>
-            <td>Updated</td>
-            <td>Status</td>
-            <td>Sum</td>
+            <td>Номер</td>
+            <td>Адрес</td>
+            <td>Дата создания</td>
+            <td>Дата обновления</td>
+            <td>Статус</td>
+            <td>Сумма</td>
         </tr>
         <tr>
             <td th:text="*{id}"></td>
@@ -40,7 +42,7 @@
         </tr>
         <tr>
             <td colspan="6" align="center">
-                <button type="submit">Save</button>
+                <button type="submit">Сохранить</button>
             </td>
         </tr>
     </table>
