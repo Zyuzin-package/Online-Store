@@ -5,10 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+// http://127.0.0.1:8080/swagger-ui/#/
 @SpringBootApplication
 @EnableJpaRepositories
-// http://127.0.0.1:8080/swagger-ui/#/
 public class DiplomApplication {
 
     public static void main(String[] args) {

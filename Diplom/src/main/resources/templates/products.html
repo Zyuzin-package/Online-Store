@@ -43,14 +43,14 @@
                                 <button type="button" class="btn btn-sm  btn-success"
                                         th:href="@{/product/{id}/bucket(id=${p.id})}"
                                         sec:authorize="isAuthenticated()">
-                                    Add to bucket
+                                    Добавить в корзину
                                 </button>
                             </a>
 
                             <a class="ml-2" th:href="@{/admin/product/{id}/remove(id=${p.id})}">
                                 <button class="btn btn-sm  btn-danger"
                                         sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
-                                    Remove
+                                    Удалить
                                 </button>
                             </a>
                         </div>

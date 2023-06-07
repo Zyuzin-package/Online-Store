@@ -24,10 +24,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+// http://127.0.0.1:8080/swagger-ui/#/
 
 @Controller
 @RequestMapping("/admin")
-// http://127.0.0.1:8080/swagger-ui/#/
 public class AdminController {
     private final ProductService productService;
     private final UserNotificationService userNotificationService;
@@ -57,16 +57,6 @@ public class AdminController {
         this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
     }
 
-    /**
-     * Product
-     *
-     * @param model
-     * @param productDTO
-     * @param category
-     * @param principal
-     * @param request
-     * @return
-     */
     @PostMapping("/product/new")
     public String createNewProduct(
             Model model,
@@ -182,13 +172,6 @@ public class AdminController {
         return "productCreate";
     }
 
-    /**
-     * Category
-     *
-     * @param model
-     * @param principal
-     * @return
-     */
     @GetMapping("/category/new")
     public String newCategoryPage(Model model, Principal principal) {
         if (principal != null) {
@@ -223,13 +206,6 @@ public class AdminController {
         }
     }
 
-    /**
-     * User
-     *
-     * @param model
-     * @param principal
-     * @return
-     */
     @GetMapping("/users")
     public String userList(Model model, Principal principal) {
         if (principal != null) {
