@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: black;
+}
+h1,h2,h3,h4,h5,h6{
+    color: white;
+}
+td{
+    color: white;
+}
+#element {
+    overflow-y: scroll;
+    background-color: #ffffff;
+    width: 200px;
+    height: 200px;
+}
+
+.overflow {
+    min-height: 400px;
+}
+
+#element::-webkit-scrollbar {
+    width: 10px;
+}
+
+#element::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+    border-radius: 10px;
+}
+
+#element::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #00c6fb, #005bea);
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.price-sale {
+    border: 4px;
+    background: #28a745;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 4px;
+    color: white;
+}
+
+.notification {
+. border: 4 px;
+    border-radius: 12px;
+    width: 300px;
+    background: white;
+    box-shadow: 0 0 10px -3px rgba(0, 0, 0, .5);
+}
+
+.close-notification-button {
+
+    color: black;
+}
+
+.close-notification-button:hover {
+    color: #CE242B;
+    text-decoration: underline;
+}
+
+.price-without-sale {
+    border: 4px;
+    background: #6c757d;
+    border-radius: 12px;
+    display: inline-block;
+    padding: 4px;
+    color: white;
+}
+
+
+section {
+    width: 90%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+section section {
+    margin-top: 2.5em;
+}
+
+h1 {
+    font-weight: 700;
+    line-height: 1.125;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+
+h2 {
+    margin-top: .25em;
+    color: #999;
+    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+
+}
+
+h2 + * {
+    margin-top: 1.5em;
+}
+
+summary {
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+    padding: 1em .5em;
+    list-style: none;
+
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary:hover {
+    background-color: #f2f5f9;
+}
+
+summary div {
+    display: flex;
+    align-items: center;
+}
+
+summary h3 {
+    display: flex;
+    flex-direction: column;
+}
+
+summary small {
+    color: #999;
+    font-size: .875em;
+}
+
+summary strong {
+    font-weight: 700;
+}
+
+summary span:first-child {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 10px;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.05em;
+}
+
+summary img {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+span:last-child {
+    font-weight: 700;
+    margin-left: auto;
+}
+
+span:last-child :focus {
+    outline: none;
+}

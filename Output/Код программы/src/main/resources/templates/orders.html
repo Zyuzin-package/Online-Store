@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<div class="container">
+    <div class="row">
+        <div class="col" th:if="${#lists.isEmpty(orders)}">
+            <p align="center">
+                У вас нет заказов
+            </p>
+        </div>
+        <div class="col-12" th:unless="${#lists.isEmpty(orders)}" th:each="order : ${orders}">
+            <details>
+                <summary>
+                    <div>
+			            <span>
+                            <strong th:text="${order.id}">Номер</strong>
+			            </span>
+                        <h3>
+                            <span>
+                            <p align="center" class="price-sale mt-3" th:text="${order.status}">Статус</p>
+                        </span>
+                        </h3>
+                        <span style=" align-items: center;">
+                            <h4 class="ml-2" th:text="${order.address}">Адрес</h4>
+                             <span style=" align-items: center;">
+                                <p class="ml-2 mt-2">Total sum: [[${order.sum}]] $</p>
+                            </span>
+                        </span>
+                        <span style=" align-items: flex-end;">
+                                <p>Создано: [[${#temporals.format(order.created, 'dd-MM-yyyy')}]] </p>
+                                <p>Обновлено: [[${#temporals.format(order.updated, 'dd-MM-yyyy')}]] </p>
+                        </span>
+                    </div>
+
+                </summary>
+                <div>
+                    <dl>
+                        <div class="container bg-light">
+                            <div class="row mt-2" style="overflow-x: hidden; overflow-y: scroll;height: 50vh">
+                                <div class="col-md-4" th:each="detail : ${order.orderDetailsDTOList}">
+                                    <div class="card mb-4 box-shadow">
+                                        <div class="card-body">
+                                            <img class="card-img-top"
+                                                 style="height: 225px; width: 100%; display: block;"
+                                                 data-holder-rendered="true" th:src="@{${detail.image}}">
+                                            <div class="card-text">
+                                                <a th:href="@{/product/{title}/(title=${detail.productName})}"
+                                                   th:text="${detail.productName}">Название</a>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p>Количество: [[${detail.amount}]]</p>
+                                                <p>Сумма: [[${detail.price}]]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dl>
+                </div>
+            </details>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>Order status</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<table id="status-menu" border="1" align="center">
+    <tr>
+        <td th:each="stats : ${status}">
+            <a th:href="@{/admin/users/orders/{st}(st=${stats})}">
+                <b th:text="${stats}"></b>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

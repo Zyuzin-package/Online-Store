@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Order management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/orderStatus :: #status-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+    <table border="1" align="center">
+        <tr>
+            <td>Номер</td>
+            <td>Адрес</td>
+            <td>Дата создания</td>
+            <td>Дата обновления</td>
+            <td>Статус</td>
+            <td>Сумма</td>
+            <td></td>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.address}"></td>
+            <td th:text="${order.created}"></td>
+            <td th:text="${order.updated}"></td>
+            <td th:text="${order.status}"></td>
+            <td th:text="${order.sum}"></td>
+            <td> <a th:href="@{/admin/users/orders/edit/{id}(id=${order.id})}">Edit</a></td>
+        </tr>
+    </table>
+</body>
+</html>

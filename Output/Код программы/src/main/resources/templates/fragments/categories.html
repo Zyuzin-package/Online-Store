@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced product list</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<div  id="category-menu" align="center">
+        <div th:each="category : ${categories}" style="display:inline-block;">
+            <a style="display:block;" class="btn btn-sm btn-outline-light" th:href="@{/category/{category}(category=${category.title})}"
+               th:text="${category.title}">Title Example</a>
+            <a style="display:block;" class="text-danger" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"
+               th:href="@{/admin/category/{title}/remove(title = ${category.title})}">X</a>
+        </div>
+        <div class="col mx-auto px-0" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" style="display:block;">
+            <a class="btn btn-sm  btn-success my-2 text-light" th:href="@{/admin/category/new}">Создать категорию</a>
+        </div>
+</div>
+
+</body>
+</html>

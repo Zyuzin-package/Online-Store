@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User list</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<form th:action="@{/admin/users/edit}" th:object="${users}" method="post">
+    <table border="1" align="center">
+        <tr>
+            <td>Имя пользователя</td>
+            <td>Электронный адрес</td>
+            <td>Роль пользователя</td>
+            <td></td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}">TestName</td>
+            <td th:text="${user.email}">TestEmail</td>
+            <td th:text="${user.role}">TestRole</td>
+            <td>
+                <a th:href="@{/admin/users/{name}/edit(name=${user.username})}">Изменить</a>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

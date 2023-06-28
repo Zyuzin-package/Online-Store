@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create category</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<form th:action="@{/admin/category/new}" th:object ="${category}" method="post">
+    <table border ='1'align="center">
+        <tr>
+            <td>Название категории</td>
+            <td>
+                <input type="text" th:field="*{title}">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Добавить категорию</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

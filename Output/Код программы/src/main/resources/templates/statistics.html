@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+    <style>
+        .mainbox {
+            margin: auto;
+            height: 500px;
+            width: 100%;
+        }
+        .far {
+            font-size: 8.5rem;
+            color: #000000;
+        }
+        .err {
+            color: #000000;
+            font-size: 9rem;
+        }
+        .msg {
+            text-align: center;
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<h2 class="ml-3">Средний чек заказа: <b>1982.13</b></h2>
+<h2 class="ml-3">Популярное время покупок: <b>19:23</b></h2>
+<h2 class="ml-3">Месяц, за который совершено больше всего покупок: <b>April</b></h2>
+<h2 class="ml-3">Самый популярный товар: <b>Стейк ТОМАГАВК</b></h2>
+<h2 class="ml-3">Самая популярная категория: <b>Сыры</b></h2>
+<h2 class="ml-3">Соотношение просмотров товаров и их покупки: <b>56%</b></h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center" style="color: black">Статистика посещений </h3>
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text" >
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        <div id="linechart_material1" ></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center"  style="color: black">Статистика покупок</h3>
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text">
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        <div id="linechart_material2" ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card mt-2 mx-auto px-auto mb-4 box-shadow">
+                <div class="card-body">
+                    <h3 align="center"  style="color: black">Frequency of adding items to the cart</h3>
+                    <div th:if="${#lists.isEmpty(visitStatsJson)}">
+                        <div class="card-text">
+                            <div class="mainbox">
+                                <div class="err" align="center">Err<i class="far fa-question-circle fa-spin"></i>r</div>
+                                <div class="msg">
+                                    No data, please wait a bit or refresh the page
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(visitStatsJson)}">
+                        <div id="linechart_material3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['line']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        let visitStatsJson = "[[${visitStatsJson}]]";
+        if (!isEmpty(visitStatsJson)) {
+            let visitStatsData = getData(visitStatsJson);
+            let visitStatsOption = {
+                height: 500,
+                colors: "blue"
+            };
+            let chart1 = new google.charts.Line(document.getElementById('linechart_material1'));
+            chart1.draw(visitStatsData, google.charts.Line.convertOptions(visitStatsOption));
+            document.getElementById('linechart_material1').style.width="900px";
+            document.getElementById('linechart_material1').style.width="500px";
+        }
+
+        let buyStatsJson = "[[${buyStatsJson}]]";
+        if (!isEmpty(buyStatsJson)) {
+            let buyStatsData = getData(buyStatsJson);
+            let buyStatsOption = {
+                height: 500,
+                colors: "blue"
+            };
+            let chart2 = new google.charts.Line(document.getElementById('linechart_material2'));
+            chart2.draw(buyStatsData, google.charts.Line.convertOptions(buyStatsOption));
+            document.getElementById('linechart_material2').style.width="900px";
+            document.getElementById('linechart_material2').style.width="500px";
+        }
+
+        let frequencyStatsJson = "[[${frequencyStatsJson}]]";
+        if (!isEmpty(frequencyStatsJson)) {
+            let frequencyStatsData = getData(frequencyStatsJson);
+            let frequencyStatsOption = {
+                height: 500,
+                colors: "blue"
+            };
+
+            let chart3 = new google.charts.Line(document.getElementById('linechart_material3'));
+            chart3.draw(frequencyStatsData, google.charts.Line.convertOptions(frequencyStatsOption));
+            document.getElementById('linechart_material3').style.width="900px";
+            document.getElementById('linechart_material3').style.width="500px";
+        }
+
+    }
+
+    function getData(json) {
+        var temp2 = JSON.parse(json.replace(/&quot;/g, '"'));
+        var data1 = new google.visualization.DataTable();
+
+        let productJson = "[[${productsTitle}]]";
+        var products = JSON.parse(productJson.replace(/&quot;/g, '"'));
+        data1.addColumn('string', 'Date');
+
+        for (let p in products) {
+            data1.addColumn('number', products[p]);
+        }
+        let korka = []
+        for (var k in temp2) {
+            let arr = [];
+            arr.push(k);
+            for (var t in temp2[k]) {
+                arr.push(temp2[k][t])
+            }
+            korka.push(arr);
+            data1.addRows(korka);
+        }
+        return data1;
+    }
+
+    function isEmpty(str) {
+        if (str.trim() == "{}")
+            return true;
+
+        return false;
+    }
+</script>
+</html>

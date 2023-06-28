@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <style>
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+    </style>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+
+<form  th:action="@{/authentication}" method="post" class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal" style="color: white;">Пожалуйста введите логин и пароль</h1>
+    <p th:if="${loginError}" class="error text-danger" style="color: white;">Wrong user or password</p>
+    <label for="userName" class="sr-only" style="color: white;">Имя пользователя</label>
+    <input th:name="username" type="text" id="userName" class="form-control" placeholder="User name" required=""
+           autofocus="">
+
+    <label for="inputPassword" class="sr-only" style="color: white;">Пароль</label>
+    <input th:name="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+           required="">
+
+    <div class="checkbox mb-3">
+        <label style="color: white;">
+            <input type="checkbox" value="remember-me" style="color: white;">  Запомнить меня
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" style="color: white;">Авторизироваться</button>
+    <a th:href="@{/registration}" style="color: white;"я>Регистрация</a>
+</form>
+</body>
+</html>

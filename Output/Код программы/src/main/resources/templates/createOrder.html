@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New order</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<form th:action="@{/order/new}" th:object="${order}" method="post">
+    <table align="center">
+        <tr>
+            <td>
+               Введите адрес доставки
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <input type="text" th:field="*{address}"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="my-2" align="center">
+                <a th:href="@{/order/new}"><button class="btn btn-sm btn-success">Заказать</button></a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <details th:each="detail : ${bucket.bucketDetails}">
+                    <summary>
+                        <div>
+			            <span>
+                            <img th:src="@{${detail.image}}">
+			            </span>
+                            <h3>
+                                <strong th:text="${detail.title}">Title</strong>
+                                <small th:each="c : ${detail.category}" th:text="${c}"></small>
+                            </h3>
+                            <h2>
+                                <b  class="ml-5 ml-5" style=" align-items: center;" th:text="${detail.amount}">0</b>
+                            </h2>
+                            <span>
+                            <p style=" align-items: flex-end;">[[${detail.sum}]] $</p><br>
+                        </span>
+                        </div>
+                    </summary>
+                    <div>
+                        <dl>
+                            <div>
+                                <p th:text="${detail.description}">Description</p>
+                            </div>
+                            <div>
+                                <p th:if="${detail.discountPrice > 0.0}">
+                        <span>
+                           <s>[[${detail.price}]] $</s><br>
+                            [[${detail.discountPrice}]] $
+                        </span><br>
+                                </p>
+                                <p th:unless="${detail.discountPrice > 0.0}">[[${detail.price}]] $</p>
+                            </div>
+                        </dl>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>

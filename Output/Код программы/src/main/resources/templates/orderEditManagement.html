@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit users order</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+
+<form th:action="@{/admin/users/orders}" th:object="${orderDTO}" method="post">
+    <table border="1" align="center">
+        <tr>
+            <td>Номер</td>
+            <td>Адрес</td>
+            <td>Дата создания</td>
+            <td>Дата обновления</td>
+            <td>Статус</td>
+            <td>Сумма</td>
+        </tr>
+        <tr>
+            <td th:text="*{id}"></td>
+            <td th:text="*{address}"></td>
+            <td th:text="*{created}"></td>
+            <td th:text="*{updated}"></td>
+            <td>
+                <select  th:name="status" id="status" name="status">
+                    <option th:each="stat : ${status}"
+                            th:text="${stat}"
+                            th:value="${stat}"
+                            th:selected="${stat==orderDTO.status}"
+                    >
+                    </option>
+                </select>
+            </td>
+            <td th:text="*{sum}"></td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">
+                <button type="submit">Сохранить</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

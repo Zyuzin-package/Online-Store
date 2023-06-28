@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Product details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{../assets/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: left;
+        }
+
+        .rating > input {
+            display: none;
+        }
+
+        .rating > label {
+            position: relative;
+            width: 1em;
+            font-size: 2vw;
+            color: #FFD600;
+            cursor: pointer;
+        }
+
+        .rating > label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0;
+        }
+
+        .rating > label:hover:before,
+        .rating > label:hover ~ label:before {
+            opacity: 1 !important;
+        }
+
+
+        .rating > input:checked ~ label:before {
+            opacity: 1;
+        }
+
+        .rating:hover > input:checked ~ label:before {
+            opacity: 0.4;
+        }
+
+        .review {
+            position: relative;
+            width: 1em;
+            font-size: 2vw;
+            color: #FFD600;
+        }
+        .korka{
+            display:inline-block;
+        }
+        .korka p{
+            display:block;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<video autoplay muted loop id="myVideo" class="fixed-top" style="z-index: -99;  opacity: .45;">
+    <source src="/img/bg.MP4" type="video/mp4">
+</video>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card mb-4 box-shadow" style="background-color: transparent">
+                <img class="mx-auto card-img-top" style="height: 50%; width: 50%; display: block;"
+                     data-holder-rendered="true" th:src="@{${product.image}}">
+                <div class="card-body" style="color: white">
+                    <a class="card-text"  style="color: white"  th:href="@{/product/{title}(title=${product.title})}"><b
+                            th:text="${product.title}">Название</b></a><br>
+                    <p class="card-text" style="color: white" th:text="${product.description}">price2</p>
+                    <br>
+                    <p class="card-text" th:if="${discount.discount_price > 0.0}">
+                        <s class="price-without-sale">[[${product.price}]] $</s>
+                        <span class="price-sale">[[${discount.discount_price}]] $</span>
+                    </p>
+                    <p class="price-without-sale" th:unless="${discount.discount_price > 0.0}">
+                        [[${product.price}]] $</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm  btn-success"
+                                    th:href="@{/product/{id}/bucket(id=${product.id})}"
+                                    sec:authorize="isAuthenticated()">
+                                <a th:href="@{/product/{id}/bucket(id=${product.id})}" style="color: white">
+                                    Добавить в корзину
+                                </a>
+                            </button>
+
+                            <button type="button" class="btn btn-warning btn-sm"
+                                    sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
+                                <a th:href="@{/admin/product/edit/{name}(name=${product.title})}" style="color: white">Изменить</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-4 mb-5 px-5 box-shadow" th:each="review : ${reviews}">
+            <div class="card-body">
+                <h2 class="card-text" th:text="${review.userName}">Admin</h2>
+                <p class="card-text" th:text="${review.review}">Good product</p>
+                <p class="card-text">
+                <p>
+                    <div class="review korka" th:if="${review.stars}<5"
+                         th:each="i: ${#numbers.sequence(0, review.stars - 1)}">
+                        <p>★</p>
+                    </div>
+                    <div class="review korka" th:if="${review.stars}<5"
+                         th:each="j: ${#numbers.sequence(0, 4 - review.stars)}">
+                        <p>☆</p>
+                    </div>
+                    <div class="review korka" th:unless="${review.stars}<5"
+                         th:each="k: ${#numbers.sequence(0, review.stars - 1)}">
+                        <p>★</p>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pb-5" th:if="${isReviewCreated} == false">
+        <div class="m-2 col-12">
+            <form sec:authorize="isAuthenticated()"
+                  th:action="@{/review/new/{id}(id=${product.id})}"
+                  th:object="${review}" method="get">
+                <h1>Leave review</h1>
+                <textarea rows="5" cols="45" placeholder="Review" type="text" th:field="*{review}"></textarea><br>
+                <!--                <input placeholder="Stars" type="number" max="5" th:field="*{stars}"><br>-->
+
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" th:field="*{stars}" id="5"><label for="5">☆</label>
+                    <input type="radio" name="rating" value="4" th:field="*{stars}" id="4"><label for="4">☆</label>
+                    <input type="radio" name="rating" value="3" th:field="*{stars}" id="3"><label for="3">☆</label>
+                    <input type="radio" name="rating" value="2" th:field="*{stars}" id="2"><label for="2">☆</label>
+                    <input type="radio" name="rating" value="1" th:field="*{stars}" id="1"><label for="1">☆</label>
+                </div>
+
+                <button class="mt-2 btn btn-sm  btn-outline-success" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
