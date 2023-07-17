@@ -47,4 +47,13 @@ public class VisitStats {
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
+
+    @Override
+    public String toString() {
+        return "VisitStats:{" +
+                "id:" + id +
+                ", product_id:" + product_id +
+                ", created:" + created +
+                '}';
+    }
 }

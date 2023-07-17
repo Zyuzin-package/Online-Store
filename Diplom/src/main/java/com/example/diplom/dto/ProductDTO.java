@@ -65,12 +65,12 @@ public class ProductDTO {
 
    @Override
    public String toString() {
-      return "ProductDTO{" +
-              "id=" + id +
-              ", title='" + title + '\'' +
-              ", price=" + price +
-              ", image='" + image + '\'' +
-              ", description='" + description + '\'' +
+      return "ProductDTO:{" +
+              "id:" + id +
+              ", title:'" + title + '\'' +
+              ", price:" + price +
+              ", image:'" + image + '\'' +
+              ", description:'" + description + '\'' +
               '}';
    }
 }

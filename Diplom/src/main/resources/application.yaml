@@ -1,4 +1,11 @@
 spring:
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            trusted:
+              package: "*"
 
   jpa:
     hibernate:
@@ -45,6 +52,7 @@ spring:
             "mail.transport.protocol": smtp
             "mail.smtp.auth": true
             "mail.smtp.starttls.enable": true
+
 #
 #logging:
 #  level:

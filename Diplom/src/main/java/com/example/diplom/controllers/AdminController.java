@@ -10,6 +10,7 @@ import com.example.diplom.dto.*;
 import com.example.diplom.dto.statistics.BuyStatsDTO;
 import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.diplom.dto.statistics.VisitStatsDTO;
+import com.example.diplom.exception.MicroserviceError;
 import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;
 import io.swagger.annotations.Api;
@@ -322,7 +323,7 @@ public class AdminController {
      * Statistics
      */
     @GetMapping("/stats")
-    public String statisticsPage(Model model, Principal principal) {
+    public String statisticsPage(Model model, Principal principal) throws MicroserviceError {
         if (principal != null) {
             List<UserNotificationDTO> dtos = userNotificationService.getNotificationsByUserName(principal.getName());
             model.addAttribute("notifications", dtos);

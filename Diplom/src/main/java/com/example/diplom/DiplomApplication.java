@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 @EnableJpaRepositories
 public class DiplomApplication {
-
     public static void main(String[] args) {
         ConfigurableApplicationContext context =  SpringApplication.run(DiplomApplication.class, args);
         PasswordEncoder encoder = context.getBean(PasswordEncoder.class);

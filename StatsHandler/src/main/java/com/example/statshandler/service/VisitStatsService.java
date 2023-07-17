@@ -1,7 +1,9 @@
 package com.example.statshandler.service;
 
-import com.example.statshandler.domain.statistics.VisitStats;
-import com.example.statshandler.dto.ProductDTO;
+
+
+import com.example.models.domain.statistics.VisitStats;
+import com.example.models.dto.ProductDTO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +11,7 @@ import java.util.*;
 
 public class VisitStatsService {
 
-    public Map<LocalDateTime, List<Integer>> collectStats(List<VisitStats> visitStats,List<ProductDTO> productDTOList) {
+    public Map<LocalDateTime, List<Integer>> collectStats(List<VisitStats> visitStats, List<ProductDTO> productDTOList) {
 
 
 

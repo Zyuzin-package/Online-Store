@@ -1,0 +1,7 @@
+spring:
+  kafka:
+    properties:
+      spring:
+        json:
+          trusted:
+            package: "com.example.statshandler"

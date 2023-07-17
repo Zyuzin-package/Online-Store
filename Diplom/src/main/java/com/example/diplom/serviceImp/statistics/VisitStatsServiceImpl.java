@@ -2,21 +2,25 @@ package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.VisitStatsRepository;
 import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.ProductDTO;
 import com.example.diplom.dto.statistics.VisitStatsDTO;
+import com.example.diplom.exception.MicroserviceError;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
+import com.example.diplom.serviceHandler.MessageHandler;
+import org.json.simple.parser.ParseException;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 @Service
 public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStatsDTO> {
     private final VisitStatsRepository visitStatsRepository;
     private final ProductService productService;
+
     private final ProductMapper mapper = ProductMapper.MAPPER;
 
     public VisitStatsServiceImpl(VisitStatsRepository visitStatsRepository, ProductService productService) {
@@ -63,32 +67,38 @@ public class VisitStatsServiceImpl implements StatsService<VisitStats, VisitStat
         return null;
     }
 
+
+
+
     @Override
-    public Map<LocalDateTime, List<Integer>> collectStats() {
-        List<ProductDTO> productList = productService.getAll();
-        productList.sort(Comparator.comparing(ProductDTO::getId));
-        List<LocalDateTime> localDateTimes = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        for (String s : getUniqueDates()) {
-            LocalDateTime localDateTime = LocalDateTime.parse(s.substring(0, s.indexOf(".") - 3), formatter);
-            localDateTimes.add(localDateTime);
-        }
-        Map<LocalDateTime, List<Integer>> temp = new HashMap<>();
-        for (LocalDateTime l : localDateTimes) {
-            List<Integer> counts = new ArrayList<>();
-            for (ProductDTO p : productList) {
-                counts.add(getCountByDateAndProductId(l, p.getId()));
-            }
-            temp.put(l, counts);
-        }
-        return temp;
+    public Map<LocalDateTime, List<Integer>> collectStats() throws MicroserviceError {
+
+        return null;
+//        productList.sort(Comparator.comparing(ProductDTO::getId));
+//        List<LocalDateTime> localDateTimes = new ArrayList<>();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        for (String s : getUniqueDates()) {
+//            LocalDateTime localDateTime = LocalDateTime.parse(s.substring(0, s.indexOf(".") - 3), formatter);
+//            localDateTimes.add(localDateTime);
+//        }
+//        Map<LocalDateTime, List<Integer>> temp = new HashMap<>();
+//        for (LocalDateTime l : localDateTimes) {
+//            List<Integer> counts = new ArrayList<>();
+//            for (ProductDTO p : productList) {
+//                counts.add(getCountByDateAndProductId(l, p.getId()));
+//            }
+//            temp.put(l, counts);
+//        }
+//        return temp;
     }
+
     @Override
-    public List<String> getUniqueDates(){
+    public List<String> getUniqueDates() {
         return visitStatsRepository.getUniqueDates();
     }
+
     @Override
-    public Integer getCountByDateAndProductId(LocalDateTime l, Long id){
+    public Integer getCountByDateAndProductId(LocalDateTime l, Long id) {
         var count = visitStatsRepository.getVisitCountByDateAndProductId(l, id);
         if (count == null) {
             return 0;
