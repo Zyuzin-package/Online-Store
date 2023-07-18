@@ -1,8 +1,12 @@
 package com.example.diplom.dao;
 
-import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.Product;
-import com.example.diplom.domain.UserM;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

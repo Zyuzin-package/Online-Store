@@ -1,9 +1,13 @@
 package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.FrequencyAddToCartStatsRepository;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;

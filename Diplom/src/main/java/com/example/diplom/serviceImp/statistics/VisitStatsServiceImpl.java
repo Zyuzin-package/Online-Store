@@ -1,8 +1,13 @@
 package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.VisitStatsRepository;
-import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.statistics.VisitStatsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.exception.MicroserviceError;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;

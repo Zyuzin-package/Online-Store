@@ -1,16 +1,24 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.statistics.BuyStats;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
-import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.statistics.BuyStatsDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
-import com.example.diplom.dto.statistics.VisitStatsDTO;
+
 import com.example.diplom.exception.MicroserviceError;
 import com.example.diplom.kafka.service.SyncKafkaService;
 import com.example.diplom.service.ProductService;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.statistics.StatsService;
+import com.example.models.domain.statistics.BuyStats;
+import com.example.models.domain.statistics.FrequencyAddToCartStats;
+import com.example.models.domain.statistics.VisitStats;
+import com.example.models.dto.ProductDTO;
+import com.example.models.dto.statistics.BuyStatsDTO;
+import com.example.models.dto.statistics.FrequencyAddToCartStatsDTO;
+import com.example.models.dto.statistics.VisitStatsDTO;
 import org.json.simple.JSONValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

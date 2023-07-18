@@ -1,9 +1,10 @@
 package com.example.diplom.serviceHandler;
 
 
-import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.ProductDTO;
+
 import com.example.models.domain.Product;
+import com.example.models.domain.statistics.VisitStats;
+import com.example.models.dto.ProductDTO;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class MessageHandler {
         this.template = template;
     }
 
-    public boolean sendDataToStatsMicroService(List<VisitStats> visitStats,List<ProductDTO> productDTOList){
+    public boolean sendDataToStatsMicroService(List<VisitStats> visitStats, List<ProductDTO> productDTOList){
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("visitStats",visitStats);

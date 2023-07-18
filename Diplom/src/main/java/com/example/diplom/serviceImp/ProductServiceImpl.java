@@ -1,13 +1,13 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
-import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.Category;
-import com.example.diplom.domain.Product;
-import com.example.diplom.domain.UserM;
-import com.example.diplom.dto.CategoryDTO;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.UserNotificationDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Service;

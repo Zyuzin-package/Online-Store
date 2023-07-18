@@ -1,7 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.Role;
-import com.example.diplom.dto.UserDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

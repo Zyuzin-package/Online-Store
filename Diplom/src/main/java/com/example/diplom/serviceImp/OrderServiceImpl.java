@@ -1,10 +1,13 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.OrderRepository;
-import com.example.diplom.domain.*;
-import com.example.diplom.domain.statistics.BuyStats;
-import com.example.diplom.dto.*;
-import com.example.diplom.dto.statistics.BuyStatsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.OrderMapper;
 import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;

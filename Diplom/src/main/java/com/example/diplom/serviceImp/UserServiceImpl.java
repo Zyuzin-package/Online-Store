@@ -1,10 +1,13 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.UserRepository;
-import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.Role;
-import com.example.diplom.domain.UserM;
-import com.example.diplom.dto.UserDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.UserMapper;
 import com.example.diplom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,13 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.CategoryRepository;
-import com.example.diplom.domain.Category;
-import com.example.diplom.dto.CategoryDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.CategoryMapper;
 import com.example.diplom.service.CategoryService;
 import org.springframework.stereotype.Service;

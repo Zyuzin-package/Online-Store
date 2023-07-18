@@ -1,9 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.dto.CategoryDTO;
-import com.example.diplom.dto.DiscountDTO;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.UserNotificationDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.CategoryService;
 import com.example.diplom.service.DiscountService;
 import com.example.diplom.service.ProductService;

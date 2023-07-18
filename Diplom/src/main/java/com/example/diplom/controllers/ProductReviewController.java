@@ -1,6 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.dto.ProductReviewDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.ProductReviewService;
 import com.example.diplom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
