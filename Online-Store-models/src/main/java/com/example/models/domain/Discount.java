@@ -1,15 +1,15 @@
 package com.example.models.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 @Entity
 @Table(name = "discount")
 public class Discount {

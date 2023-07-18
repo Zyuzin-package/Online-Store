@@ -1,13 +1,13 @@
 package com.example.models.dto;
 
 import com.example.models.domain.UserNotification;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class UserNotificationDTO {
     private Long id;
     private String message;

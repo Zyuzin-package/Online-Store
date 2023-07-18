@@ -1,7 +1,8 @@
 package com.example.diplom.config;
 
-import com.example.diplom.kafka.model.KafkaMessage;
+
 import com.example.diplom.service.UserService;
+import com.example.models.kafka.model.KafkaMessage;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -17,6 +18,7 @@ import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,13 +38,18 @@ public class KafkaConfig {
     public ConsumerFactory<String, KafkaMessage<String>> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
 
-        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
+        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, true);
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "myId1");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer","org.springframework.kafka.support.serializer.JsonDeserializer");
+        props.put("enable.auto.commit", false);
+       // props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, JsonDeserializer.class);
 
-        return new DefaultKafkaConsumerFactory<>(props,new StringDeserializer(), new JsonDeserializer<>(KafkaMessage.class));
+         return new DefaultKafkaConsumerFactory<>(props,new StringDeserializer(), new JsonDeserializer<>(KafkaMessage.class));
+        //return new DefaultKafkaConsumerFactory<>(props);
     }
 
     @Bean

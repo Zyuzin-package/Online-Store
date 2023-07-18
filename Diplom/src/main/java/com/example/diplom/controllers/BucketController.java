@@ -1,8 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.UserM;
-import com.example.diplom.dto.BucketDTO;
-import com.example.diplom.dto.UserNotificationDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.BucketService;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.UserNotificationService;

@@ -1,15 +1,18 @@
-package com.example.diplom.kafka.model;
+package com.example.models.kafka.model;
 
+import lombok.*;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class RequestDto {
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RequestDto implements Serializable {
+
     private UUID requestId;
     private String data;
-
-    public RequestDto(UUID requestId, String data) {
-        this.requestId = requestId;
-        this.data = data;
-    }
 
     public UUID getRequestId() {
         return requestId;
@@ -18,4 +21,5 @@ public class RequestDto {
     public String getData() {
         return data;
     }
+
 }

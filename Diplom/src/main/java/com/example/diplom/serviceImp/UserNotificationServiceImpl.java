@@ -1,8 +1,13 @@
 package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.UserNotificationRepository;
-import com.example.diplom.domain.UserNotification;
-import com.example.diplom.dto.UserNotificationDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.UserNotificationMapper;
 import com.example.diplom.service.UserNotificationService;
 import com.example.diplom.service.UserService;

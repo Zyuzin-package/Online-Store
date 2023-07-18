@@ -1,7 +1,12 @@
 package com.example.diplom.service;
 
-import com.example.diplom.dto.OrderDTO;
-import com.example.diplom.dto.OrderDetailsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 
 import java.util.List;
 

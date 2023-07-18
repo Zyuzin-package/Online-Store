@@ -1,15 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.OrderStatus;
-import com.example.diplom.domain.Role;
-import com.example.diplom.domain.UserM;
-import com.example.diplom.domain.statistics.BuyStats;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
-import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.*;
-import com.example.diplom.dto.statistics.BuyStatsDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
-import com.example.diplom.dto.statistics.VisitStatsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.exception.MicroserviceError;
 import com.example.diplom.service.*;
 import com.example.diplom.service.statistics.StatsService;

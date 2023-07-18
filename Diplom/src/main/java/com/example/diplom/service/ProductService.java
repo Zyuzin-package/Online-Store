@@ -1,7 +1,12 @@
 package com.example.diplom.service;
 
-import com.example.diplom.domain.Product;
-import com.example.diplom.dto.ProductDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

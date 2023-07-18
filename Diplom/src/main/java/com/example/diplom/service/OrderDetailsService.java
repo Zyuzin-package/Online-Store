@@ -1,7 +1,12 @@
 package com.example.diplom.service;
 
-import com.example.diplom.domain.OrderDetails;
-import com.example.diplom.dto.OrderDetailsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

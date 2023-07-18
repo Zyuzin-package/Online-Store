@@ -1,14 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.domain.Product;
-import com.example.diplom.domain.statistics.FrequencyAddToCartStats;
-import com.example.diplom.domain.statistics.VisitStats;
-import com.example.diplom.dto.DiscountDTO;
-import com.example.diplom.dto.ProductDTO;
-import com.example.diplom.dto.ProductReviewDTO;
-import com.example.diplom.dto.UserNotificationDTO;
-import com.example.diplom.dto.statistics.FrequencyAddToCartStatsDTO;
-import com.example.diplom.dto.statistics.VisitStatsDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.DiscountService;
 import com.example.diplom.service.ProductReviewService;

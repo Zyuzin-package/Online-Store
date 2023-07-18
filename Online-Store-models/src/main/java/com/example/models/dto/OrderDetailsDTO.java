@@ -1,12 +1,12 @@
 package com.example.models.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class OrderDetailsDTO {
     private Long id;
     private Long orderId;

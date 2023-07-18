@@ -1,8 +1,9 @@
 package com.example.diplom.kafka.event;
 
-import com.example.diplom.kafka.model.KafkaMessage;
+
 import com.example.diplom.kafka.senderreceiver.SenderReceiver;
 import com.example.diplom.kafka.senderreceiver.SenderReceiverMap;
+import com.example.models.kafka.model.KafkaMessage;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
@@ -23,6 +24,7 @@ public class KafkaEvent {
 
     @KafkaListener(topics = "stats", groupId = "myId1")
     public void listenGroupFoo(ConsumerRecord<String, KafkaMessage<String>> record) {
+        System.out.println("KORKA: " + record.toString());
         UUID rqId = this.getRqId(record.headers());
         if (senderReceiverMap.containsKey(rqId)) {
             SenderReceiver<String> stringSenderReceiver = senderReceiverMap.get(rqId);

@@ -1,15 +1,13 @@
 package com.example.models.dto;
 
 import com.example.models.domain.Discount;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class DiscountDTO {
     private Long id;
     private double discount_price;

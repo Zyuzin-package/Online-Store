@@ -3,7 +3,7 @@ package com.example.statshandler.service;
 
 
 import com.example.models.domain.statistics.VisitStats;
-import com.example.models.dto.ProductDTO;
+import com.example.models.dto.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

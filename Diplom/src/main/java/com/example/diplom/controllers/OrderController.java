@@ -1,8 +1,12 @@
 package com.example.diplom.controllers;
 
-import com.example.diplom.dto.BucketDTO;
-import com.example.diplom.dto.OrderDTO;
-import com.example.diplom.dto.UserNotificationDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import com.example.diplom.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

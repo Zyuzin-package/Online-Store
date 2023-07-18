@@ -1,8 +1,12 @@
 package com.example.diplom.service;
 
-import com.example.diplom.domain.Bucket;
-import com.example.diplom.domain.UserM;
-import com.example.diplom.dto.UserDTO;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

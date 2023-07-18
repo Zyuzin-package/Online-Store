@@ -1,6 +1,12 @@
 package com.example.diplom.dao;
 
-import com.example.diplom.domain.Product;
+
+import com.example.models.domain.statistics.*;
+import com.example.models.dto.statistics.*;
+import com.example.models.dto.*;
+import com.example.models.domain.*;
+
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.data.jpa.repository.JpaRepository;
