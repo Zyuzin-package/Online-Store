@@ -1,6 +1,8 @@
 package com.example.statshandler.config;
 
-import com.example.statshandler.kafka.model.KafkaMessage;
+
+import com.example.models.kafka.model.KafkaMessage;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -20,12 +22,20 @@ public class KafkaConfig {
 
     @Bean
     public ProducerFactory<String, KafkaMessage<String>> producerFactory() {
-        Map<String, Object> producerConfigProperties = new HashMap<>();
-        producerConfigProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
-        producerConfigProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        producerConfigProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        producerConfigProperties.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.statshandler.model.KafkaMessage");
-        return new DefaultKafkaProducerFactory<>(producerConfigProperties);
+        Map<String, Object> props = new HashMap<>();
+//        producerConfigProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+//        producerConfigProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+//        producerConfigProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+//        producerConfigProperties.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.statshandler.model.KafkaMessage");
+        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, true);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "myId1");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer","org.springframework.kafka.support.serializer.JsonDeserializer");
+
+        return new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean

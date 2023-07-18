@@ -1,8 +1,9 @@
 package com.example.diplom.kafka.service;
 
 
-import com.example.diplom.kafka.model.RequestDto;
+
 import com.example.diplom.kafka.senderreceiver.SenderReceiverMap;
+import com.example.models.kafka.model.RequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
