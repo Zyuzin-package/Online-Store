@@ -3,15 +3,15 @@ package com.example.models.dto.statistics;
 
 import com.example.models.domain.statistics.BuyStats;
 import com.example.models.dto.ProductDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class BuyStatsDTO {
     private Long id;
     private ProductDTO product;

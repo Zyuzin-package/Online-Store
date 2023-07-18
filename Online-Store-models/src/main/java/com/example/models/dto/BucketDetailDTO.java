@@ -2,10 +2,7 @@ package com.example.models.dto;
 
 import com.example.models.domain.Category;
 import com.example.models.domain.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class BucketDetailDTO {
     private String title;
     private Long productId;

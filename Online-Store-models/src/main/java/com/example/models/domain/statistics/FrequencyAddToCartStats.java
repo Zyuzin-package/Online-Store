@@ -1,16 +1,16 @@
 package com.example.models.domain.statistics;
 
 import com.example.models.domain.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 @Entity
 @Table(name = "frequency_add_to_cart_stats")
 public class FrequencyAddToCartStats {

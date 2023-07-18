@@ -1,15 +1,15 @@
 package com.example.models.dto;
 
 import com.example.models.domain.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class CategoryDTO {
     private Long id;
     private String title;

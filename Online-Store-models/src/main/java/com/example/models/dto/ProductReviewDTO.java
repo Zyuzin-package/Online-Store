@@ -1,13 +1,13 @@
 package com.example.models.dto;
 
 import com.example.models.domain.ProductReview;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class ProductReviewDTO {
     private Long id;
     private Long productId;
