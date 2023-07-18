@@ -5,7 +5,15 @@ spring:
         spring:
           json:
             trusted:
-              package: "*"
+              package: "com.example.statshandler.model.KafkaMessage"
+    producer:
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+      value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
 
   jpa:
     hibernate:
