@@ -2,7 +2,9 @@ com\example\models\domain\Category.class
 com\example\models\domain\OrderDetails.class
 com\example\models\dto\BucketDTO.class
 com\example\models\domain\UserNotification.class
+com\example\models\kafka\model\RequestDto$RequestDtoBuilder.class
 com\example\models\domain\UserNotification$UserNotificationBuilder.class
+com\example\models\kafka\model\RequestDto.class
 com\example\models\domain\Product$ProductBuilder.class
 com\example\models\dto\UserNotificationDTO.class
 com\example\models\domain\statistics\FrequencyAddToCartStats.class
@@ -22,11 +24,13 @@ com\example\models\domain\statistics\BuyStats$BuyStatsBuilder.class
 com\example\models\dto\OrderDTO$OrderDTOBuilder.class
 com\example\models\dto\UserNotificationDTO$UserNotificationDTOBuilder.class
 com\example\models\dto\statistics\FrequencyAddToCartStatsDTO.class
+com\example\models\kafka\model\KafkaMessage.class
 com\example\models\domain\statistics\VisitStats$VisitStatsBuilder.class
 com\example\models\dto\DiscountDTO$DiscountDTOBuilder.class
 com\example\models\dto\ProductDTO$ProductDTOBuilder.class
 com\example\models\dto\ProductDTO.class
 com\example\models\dto\BucketDetailDTO$BucketDetailDTOBuilder.class
+com\example\models\config\EntityConfig.class
 com\example\models\domain\ProductReview.class
 com\example\models\domain\UserM.class
 com\example\models\domain\UserM$UserMBuilder.class
@@ -36,6 +40,7 @@ com\example\models\dto\statistics\BuyStatsDTO$BuyStatsDTOBuilder.class
 com\example\models\dto\statistics\FrequencyAddToCartStatsDTO$FrequencyAddToCartStatsDTOBuilder.class
 com\example\models\domain\Product.class
 com\example\models\domain\Bucket$BucketBuilder.class
+com\example\models\kafka\model\KafkaMessage$KafkaMessageBuilder.class
 com\example\models\domain\Category$CategoryBuilder.class
 com\example\models\domain\OrderStatus.class
 com\example\models\dto\UserDTO.class

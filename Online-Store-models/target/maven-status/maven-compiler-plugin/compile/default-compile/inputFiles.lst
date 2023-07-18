@@ -5,6 +5,7 @@ D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\doma
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Product.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\statistics\BuyStats.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\BucketDTO.java
+D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\kafka\model\RequestDto.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\OrderStatus.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Discount.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Bucket.java
@@ -15,9 +16,11 @@ D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\doma
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\UserM.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\OrderDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\UserDTO.java
+D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\config\EntityConfig.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\BucketDetailDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\ProductReviewDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\statistics\FrequencyAddToCartStats.java
+D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\kafka\model\KafkaMessage.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\statistics\VisitStats.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Role.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\OrderDetailsDTO.java
