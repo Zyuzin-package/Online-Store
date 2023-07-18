@@ -183,7 +183,9 @@
         <dependency>
             <groupId>models</groupId>
             <artifactId>online-store-models</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>2.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/online-store-models-2.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -216,5 +218,10 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+             <id>local-maven-repo</id>
+            <url>file:///${project.basedir}/libs</url>
+        </repository>
+    </repositories>
 </project>
