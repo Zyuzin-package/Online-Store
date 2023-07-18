@@ -1,6 +1,7 @@
 package com.example.statshandler.kafka;
 
-import com.example.statshandler.kafka.model.KafkaMessage;
+
+import com.example.models.kafka.model.KafkaMessage;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Value;
