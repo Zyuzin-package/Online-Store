@@ -13,6 +13,7 @@ import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -80,7 +81,7 @@ public class BuyStatsServiceImpl implements StatsService<BuyStats, BuyStatsDTO> 
         return count;
     }
     @Override
-    public Map<LocalDateTime, List<Integer>> collectStats() {
+    public String collectStats() {
         List<ProductDTO> productList = productService.getAll();
         productList.sort(Comparator.comparing(ProductDTO::getId));
         List<LocalDateTime> localDateTimes = new ArrayList<>();
@@ -97,7 +98,8 @@ public class BuyStatsServiceImpl implements StatsService<BuyStats, BuyStatsDTO> 
             }
             temp.put(l, counts);
         }
-        return temp;
+//        return temp;
+        return null;
     }
 
 

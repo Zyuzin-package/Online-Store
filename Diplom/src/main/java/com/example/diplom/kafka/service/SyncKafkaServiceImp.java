@@ -1,8 +1,10 @@
 package com.example.diplom.kafka.service;
 
 
-
 import com.example.diplom.kafka.senderreceiver.SenderReceiverMap;
+import com.example.models.domain.statistics.VisitStats;
+import com.example.models.dto.ProductDTO;
+import com.example.models.dto.statistics.VisitStatsDTO;
 import com.example.models.kafka.model.RequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,11 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.UUID;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 @Service
-public class SyncKafkaServiceImp implements SyncKafkaService{
+public class SyncKafkaServiceImp implements SyncKafkaService {
 
     @Autowired
     private SenderReceiverMap<UUID, String> senderReceiverMap;
@@ -29,15 +36,24 @@ public class SyncKafkaServiceImp implements SyncKafkaService{
     @Value("${timeout:0}")
     private Long timeout;
 
-    public String get(String text) throws TimeoutException {
+    public String get(List<VisitStatsDTO> visitStatsDTOS) throws TimeoutException {
         UUID requestId = UUID.randomUUID();
         while (senderReceiverMap.containsKey(requestId)) {
             requestId = UUID.randomUUID();
         }
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json;
 
-        String responseFromServer = this.sendText(requestId, text);
-        System.out.println("REST response from server: " + responseFromServer);
+        try {
 
+            json = objectMapper.writeValueAsString(visitStatsDTOS);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        String responseFromServer = this.sendText(requestId, json);
+
+        System.out.println("REST response1 from server: " + responseFromServer);
         Thread thread = senderReceiverMap.add(requestId, timeout);
         thread.start();
         try {
@@ -53,6 +69,8 @@ public class SyncKafkaServiceImp implements SyncKafkaService{
         } finally {
             senderReceiverMap.remove(requestId);
         }
+
+        System.out.println("responseKafka: " + responseKafka);
         return responseKafka;
     }
 

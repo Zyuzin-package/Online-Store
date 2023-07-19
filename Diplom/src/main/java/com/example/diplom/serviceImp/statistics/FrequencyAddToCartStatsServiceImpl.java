@@ -11,14 +11,16 @@ import com.example.models.domain.*;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
+import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-public class FrequencyAddToCartStatsServiceImpl implements StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO>{
+public class FrequencyAddToCartStatsServiceImpl implements StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> {
     private final FrequencyAddToCartStatsRepository repository;
     private final ProductService productService;
 
@@ -78,24 +80,24 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
     }
 
     @Override
-    public Map<LocalDateTime, List<Integer>> collectStats() {
-            List<ProductDTO> productList = productService.getAll();
-            productList.sort(Comparator.comparing(ProductDTO::getId));
-            List<LocalDateTime> localDateTimes = new ArrayList<>();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            for (String s : getUniqueDates()) {
-                LocalDateTime localDateTime = LocalDateTime.parse(s.substring(0, s.indexOf(".") - 3), formatter);
-                localDateTimes.add(localDateTime);
+    public String collectStats() {
+        List<ProductDTO> productList = productService.getAll();
+        productList.sort(Comparator.comparing(ProductDTO::getId));
+        List<LocalDateTime> localDateTimes = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        for (String s : getUniqueDates()) {
+            LocalDateTime localDateTime = LocalDateTime.parse(s.substring(0, s.indexOf(".") - 3), formatter);
+            localDateTimes.add(localDateTime);
+        }
+        Map<LocalDateTime, List<Integer>> temp = new HashMap<>();
+        for (LocalDateTime l : localDateTimes) {
+            List<Integer> counts = new ArrayList<>();
+            for (ProductDTO p : productList) {
+                counts.add(getCountByDateAndProductId(l, p.getId()));
             }
-            Map<LocalDateTime, List<Integer>> temp = new HashMap<>();
-            for (LocalDateTime l : localDateTimes) {
-                List<Integer> counts = new ArrayList<>();
-                for (ProductDTO p : productList) {
-                    counts.add(getCountByDateAndProductId(l, p.getId()));
-                }
-                temp.put(l, counts);
-            }
-            return temp;
-
+            temp.put(l, counts);
+        }
+            return JSONValue.toJSONString(temp);
+        //return null;
     }
 }
