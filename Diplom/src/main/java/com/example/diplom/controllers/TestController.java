@@ -74,19 +74,23 @@ public class TestController {
     }
 
     @GetMapping("/test2")
-    public ResponseEntity<String> test(String text) {
-            System.out.println("GET test2");
-            text = "Korka";
-            String result = "";
-            try {
-                result = syncKafkaService.get(text);
-                System.out.println("Result " + result);
-            } catch (TimeoutException e) {
-                System.out.println(e);
-                return new ResponseEntity<>(HttpStatus.GATEWAY_TIMEOUT);
-            }
+    public String test(Model model, Principal principal) {
+        try {
 
-            return ResponseEntity.ok(result);
+            List<ProductDTO> productDTOList = productService.getAll();
+            List<String> productsTitle = new ArrayList<>();
 
+            productsTitle.add(productService.getProductByName("Стейк ТОМАГАВК").getTitle());
+            productsTitle.add(productService.getProductByName("Стейк ЧАК АЙ РОЛЛ").getTitle());
+
+            model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
+
+            String json = visitStatsService.collectStats();
+            model.addAttribute("visitStatsJson", json.equals("{}") ? null : json);
+            return "statistics";
+        } catch (MicroserviceError e) {
+            model.addAttribute("MicroserviceError", "Server error");
+            return "error";
+        }
     }
 }
