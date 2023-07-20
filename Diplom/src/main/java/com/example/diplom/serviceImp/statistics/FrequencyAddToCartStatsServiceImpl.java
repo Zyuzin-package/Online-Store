@@ -2,6 +2,7 @@ package com.example.diplom.serviceImp.statistics;
 
 import com.example.diplom.dao.statistics.FrequencyAddToCartStatsRepository;
 
+import com.example.diplom.kafka.service.SyncKafkaService;
 import com.example.models.domain.statistics.*;
 import com.example.models.dto.statistics.*;
 import com.example.models.dto.*;
@@ -11,13 +12,19 @@ import com.example.models.domain.*;
 import com.example.diplom.mapper.ProductMapper;
 import com.example.diplom.service.ProductService;
 import com.example.diplom.service.statistics.StatsService;
+import com.example.models.kafka.model.KafkaDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class FrequencyAddToCartStatsServiceImpl implements StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> {
@@ -25,10 +32,13 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
     private final ProductService productService;
 
     private final ProductMapper mapper = ProductMapper.MAPPER;
+    private final SyncKafkaService<FrequencyAddToCartStatsDTO> syncKafkaService;
 
-    public FrequencyAddToCartStatsServiceImpl(FrequencyAddToCartStatsRepository repository, ProductService productService) {
+
+    public FrequencyAddToCartStatsServiceImpl(FrequencyAddToCartStatsRepository repository, ProductService productService, SyncKafkaService<FrequencyAddToCartStatsDTO> syncKafkaService) {
         this.repository = repository;
         this.productService = productService;
+        this.syncKafkaService = syncKafkaService;
     }
 
     @Override
@@ -46,7 +56,15 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
         List<FrequencyAddToCartStatsDTO> dtos = new ArrayList<>();
         for (FrequencyAddToCartStats frequencyAddToCartStats : repository.findAll()) {
             dtos.add(FrequencyAddToCartStatsDTO.builder()
-                    .product(frequencyAddToCartStats.getProduct())
+                    .product(
+                            ProductDTO.builder()
+                                    .id(frequencyAddToCartStats.getProduct().getId())
+                                    .description(frequencyAddToCartStats.getProduct().getDescription())
+                                    .image(frequencyAddToCartStats.getProduct().getImage())
+                                    .price(frequencyAddToCartStats.getProduct().getPrice())
+                                    .title(frequencyAddToCartStats.getProduct().getTitle())
+                                    .build()
+                    )
                     .created(frequencyAddToCartStats.getCreated())
                     .build());
         }
@@ -58,7 +76,15 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
         List<FrequencyAddToCartStatsDTO> dtos = new ArrayList<>();
         for (FrequencyAddToCartStats frequencyAddToCartStats : repository.getAllBuyProductName(productName)) {
             dtos.add(FrequencyAddToCartStatsDTO.builder()
-                    .product(frequencyAddToCartStats.getProduct())
+                    .product(
+                            ProductDTO.builder()
+                                    .id(frequencyAddToCartStats.getProduct().getId())
+                                    .description(frequencyAddToCartStats.getProduct().getDescription())
+                                    .image(frequencyAddToCartStats.getProduct().getImage())
+                                    .price(frequencyAddToCartStats.getProduct().getPrice())
+                                    .title(frequencyAddToCartStats.getProduct().getTitle())
+                                    .build()
+                    )
                     .created(frequencyAddToCartStats.getCreated())
                     .build());
         }
@@ -81,23 +107,45 @@ public class FrequencyAddToCartStatsServiceImpl implements StatsService<Frequenc
 
     @Override
     public String collectStats() {
-        List<ProductDTO> productList = productService.getAll();
-        productList.sort(Comparator.comparing(ProductDTO::getId));
-        List<LocalDateTime> localDateTimes = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        for (String s : getUniqueDates()) {
-            LocalDateTime localDateTime = LocalDateTime.parse(s.substring(0, s.indexOf(".") - 3), formatter);
-            localDateTimes.add(localDateTime);
-        }
-        Map<LocalDateTime, List<Integer>> temp = new HashMap<>();
-        for (LocalDateTime l : localDateTimes) {
-            List<Integer> counts = new ArrayList<>();
-            for (ProductDTO p : productList) {
-                counts.add(getCountByDateAndProductId(l, p.getId()));
+        try {
+            List<ProductDTO> productList = productService.getAll();
+            List<FrequencyAddToCartStats> frequencyAddToCartStats = repository.findAll();
+
+            List<FrequencyAddToCartStatsDTO> frequencyAddToCartStatsDTO = new ArrayList<>();
+            for (FrequencyAddToCartStats v : frequencyAddToCartStats) {
+                Optional<ProductDTO> product = productList.stream().filter(id -> Objects.equals(v.getProduct().getId(), id.getId())).findFirst();
+                product.ifPresent(productDTO -> frequencyAddToCartStatsDTO.add(
+                        FrequencyAddToCartStatsDTO.builder()
+                                .id(v.getId())
+                                .created(v.getCreated())
+                                .product(ProductDTO.builder()
+                                        .id(productDTO.getId())
+                                        .description(productDTO.getDescription())
+                                        .image(productDTO.getImage())
+                                        .price(productDTO.getPrice())
+                                        .title(productDTO.getTitle())
+                                        .build()
+                                )
+                                .build()
+                ));
             }
-            temp.put(l, counts);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+
+            List<KafkaDTO> kafkaDTOS = objectMapper.readValue(syncKafkaService.get(frequencyAddToCartStatsDTO), new TypeReference<>() {
+            });
+            Map<String, List<Integer>> result = new HashMap<>();
+            for (KafkaDTO k : kafkaDTOS) {
+                result.put(k.getLocalDate().toString(), k.getCounts());
+            }
+            return JSONValue.toJSONString(result);
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-            return JSONValue.toJSONString(temp);
-        //return null;
+        return null;
     }
+
 }
