@@ -26,8 +26,13 @@ public interface VisitStatsRepository extends JpaRepository<VisitStats,Long> {
     @Transactional
     List<String> getUniqueDates();
 
+    @Modifying
+    @Query(value = "Select distinct product_id from visit_stats", nativeQuery = true)
+    @Transactional
+    List<Long> getUniqueProductId();
     @Query(value = "SELECT COUNT(product_id) from visit_stats where visit_stats.created=:date and " +
             " visit_stats.product_id=:productId group by visit_stats.product_id, visit_stats.created", nativeQuery = true)
     Integer getVisitCountByDateAndProductId (@Param("date")LocalDateTime date ,@Param("productId") Long productId);
+
 
 }
