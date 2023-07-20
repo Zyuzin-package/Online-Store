@@ -19,6 +19,8 @@ import com.example.models.dto.ProductDTO;
 import com.example.models.dto.statistics.BuyStatsDTO;
 import com.example.models.dto.statistics.FrequencyAddToCartStatsDTO;
 import com.example.models.dto.statistics.VisitStatsDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +41,10 @@ public class TestController {
     private final StatsService<VisitStats, VisitStatsDTO> visitStatsService;
     private final StatsService<BuyStats, BuyStatsDTO> buyStatsService;
     private final StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService;
-    private final SyncKafkaService syncKafkaService;
+    private final SyncKafkaService<ProductDTO> syncKafkaService;
     private final ProductService productService;
 
-    public TestController(StatsService<VisitStats, VisitStatsDTO> visitStatsService, StatsService<BuyStats, BuyStatsDTO> buyStatsService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService, SyncKafkaService syncKafkaService, ProductService productService) {
+    public TestController(StatsService<VisitStats, VisitStatsDTO> visitStatsService, StatsService<BuyStats, BuyStatsDTO> buyStatsService, StatsService<FrequencyAddToCartStats, FrequencyAddToCartStatsDTO> frequencyAddToCartStatsService, SyncKafkaService<ProductDTO> syncKafkaService, ProductService productService) {
         this.visitStatsService = visitStatsService;
         this.buyStatsService = buyStatsService;
         this.frequencyAddToCartStatsService = frequencyAddToCartStatsService;
@@ -77,20 +79,37 @@ public class TestController {
     public String test(Model model, Principal principal) {
         try {
 
+//            List<ProductDTO> productDTOList = productService.getAll();
+//            List<String> productsTitle = new ArrayList<>();
+//
+//            productsTitle.add(productService.getProductByName("Стейк ТОМАГАВК").getTitle());
+//            productsTitle.add(productService.getProductByName("Стейк ЧАК АЙ РОЛЛ").getTitle());
+//
+//
+
             List<ProductDTO> productDTOList = productService.getAll();
             List<String> productsTitle = new ArrayList<>();
-
-            productsTitle.add(productService.getProductByName("Стейк ТОМАГАВК").getTitle());
-            productsTitle.add(productService.getProductByName("Стейк ЧАК АЙ РОЛЛ").getTitle());
-
+            for (ProductDTO p : productDTOList) {
+                productsTitle.add(p.getTitle());
+            }
             model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
+            syncKafkaService.get(productDTOList);
 
-            String json = visitStatsService.collectStats();
-            model.addAttribute("visitStatsJson", json.equals("{}") ? null : json);
+
+            String visitStatsServiceJson = visitStatsService.collectStats();
+            String frequencyStatsJson = frequencyAddToCartStatsService.collectStats();
+            String buyStatsJson = buyStatsService.collectStats();
+
+
+            model.addAttribute("visitStatsJson", visitStatsServiceJson.equals("{}") ? null : visitStatsServiceJson);
+            model.addAttribute("frequencyStatsJson", frequencyStatsJson.equals("{}") ? null : frequencyStatsJson);
+            model.addAttribute("buyStatsJson", buyStatsJson.equals("{}") ? null : buyStatsJson);
             return "statistics";
         } catch (MicroserviceError e) {
             model.addAttribute("MicroserviceError", "Server error");
             return "error";
+        } catch ( TimeoutException e) {
+            throw new RuntimeException(e);
         }
     }
 }
