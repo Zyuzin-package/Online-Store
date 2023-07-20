@@ -2,6 +2,7 @@ package com.example.diplom.service.statistics;
 
 
 import com.example.diplom.exception.MicroserviceError;
+import com.example.models.dto.ProductDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,4 +21,6 @@ public interface StatsService<T,D> {
     Integer getCountByDateAndProductId(LocalDateTime l, Long id);
 
     String collectStats() throws MicroserviceError;
+
+
 }
