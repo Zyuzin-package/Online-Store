@@ -2,6 +2,8 @@ package com.example.diplom.serviceImp;
 
 import com.example.diplom.dao.ProductRepository;
 
+import com.example.diplom.service.statistics.StatsService;
+import com.example.diplom.serviceImp.statistics.VisitStatsServiceImpl;
 import com.example.models.domain.statistics.*;
 import com.example.models.dto.statistics.*;
 import com.example.models.dto.*;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,7 +25,6 @@ public class ProductServiceImpl implements ProductService {
     private final UserService userService;
     private final BucketService bucketService;
     private final CategoryService categoryService;
-
     private final ProductRepository productRepository;
     private final UserNotificationService userNotificationService;
     private final DiscountService discountService;
@@ -95,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
                 productRepository.save(newProduct);
+
                 if (discount <= 0) {
                     discountService.save(0, getProductByName(productDTO.getTitle()).getId());
                 } else {
@@ -112,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
                 return false;
             }
         } else {
-            if(!bucketService.checkBucketProducts(savedProduct.getId())){
+            if (!bucketService.checkBucketProducts(savedProduct.getId())) {
                 return false;
             }
             boolean isChanged = false;
@@ -157,13 +160,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean changeName(ProductDTO productDTO, String oldName, String category, MultipartFile file,Double discount) {
+    public boolean changeName(ProductDTO productDTO, String oldName, String category, MultipartFile file, Double discount) {
         Product product = productRepository.findByTitle(oldName);
         product.setTitle(productDTO.getTitle());
 
-       if(!bucketService.checkBucketProducts(product.getId())){
-           return false;
-       }
+        if (!bucketService.checkBucketProducts(product.getId())) {
+            return false;
+        }
 
         CategoryDTO categoryDTO = categoryService.getCategoryByName(category);
 
