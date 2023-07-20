@@ -331,6 +331,7 @@ public class AdminController {
         String visitStatsJson = JSONValue.toJSONString(visitStatsService.collectStats());
         String buyStatsJson = JSONValue.toJSONString(buyStatsService.collectStats());
         String frequencyStatsJson = JSONValue.toJSONString(frequencyAddToCartStatsService.collectStats());
+        String frequencyStatsJson2 = frequencyAddToCartStatsService.collectStats();
 
         List<ProductDTO> productDTOList = productService.getAll();
         List<String> productsTitle = new ArrayList<>();
@@ -338,11 +339,14 @@ public class AdminController {
             productsTitle.add(p.getTitle());
         }
 
+        System.out.println(productsTitle);
+        System.out.println(JSONValue.toJSONString(productsTitle));
+
         model.addAttribute("productsTitle", JSONValue.toJSONString(productsTitle));
 
         model.addAttribute("visitStatsJson", visitStatsJson.equals("{}") ? null : visitStatsJson);
         model.addAttribute("buyStatsJson", buyStatsJson.equals("{}") ? null : buyStatsJson);
-        model.addAttribute("frequencyStatsJson", frequencyStatsJson.equals("{}") ? null : frequencyStatsJson);
+        model.addAttribute("frequencyStatsJson", frequencyStatsJson2.equals("{}") ? null : frequencyStatsJson2);
 
         model.addAttribute("products", productDTOList);
         return "statistics";

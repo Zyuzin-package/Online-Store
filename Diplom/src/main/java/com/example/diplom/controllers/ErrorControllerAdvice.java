@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ErrorControllerAdvice {
 
-    @ExceptionHandler(Exception.class)
+   // @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exception (Exception ex, Model model){
         String errorMessage = (ex !=null ? ex.getMessage() : "Unknown error");

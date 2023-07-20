@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // http://127.0.0.1:8080/swagger-ui/#/
 @SpringBootApplication
 @EnableJpaRepositories
-@EntityScan({"com.example.models","com.example.diplom"})
+@EntityScan({"com.example.models", "com.example.diplom"})
 public class DiplomApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context =  SpringApplication.run(DiplomApplication.class, args);
