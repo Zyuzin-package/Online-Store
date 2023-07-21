@@ -1,6 +1,7 @@
 package com.example.models.dto;
 
 import com.example.models.domain.Product;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -9,10 +10,15 @@ import lombok.*;
 @Builder
 @Getter
 public class ProductDTO {
+   @JsonProperty("id")
    private Long id;
+   @JsonProperty("title")
    private String title;
+   @JsonProperty("price")
    private double price;
+   @JsonProperty("image")
    private String image;
+   @JsonProperty("description")
    private String description;
 
    public ProductDTO(Product product) {
@@ -65,12 +71,12 @@ public class ProductDTO {
 
    @Override
    public String toString() {
-      return "ProductDTO:{" +
-              "id:" + id +
-              ", title:'" + title + '\'' +
-              ", price:" + price +
-              ", image:'" + image + '\'' +
-              ", description:'" + description + '\'' +
+      return "{" +
+              "\"id\":" + id +
+              ", \"title\":\"" + title + '\"' +
+              ", \"price\":" + price +
+              ", \"image\":\"" + image + '\"' +
+              ", \"description\":\"" + description + '\"' +
               '}';
    }
 }

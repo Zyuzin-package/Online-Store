@@ -39,6 +39,7 @@ com\example\models\domain\ProductReview$ProductReviewBuilder.class
 com\example\models\dto\statistics\BuyStatsDTO$BuyStatsDTOBuilder.class
 com\example\models\dto\statistics\FrequencyAddToCartStatsDTO$FrequencyAddToCartStatsDTOBuilder.class
 com\example\models\domain\Product.class
+com\example\models\kafka\model\KafkaDTO.class
 com\example\models\domain\Bucket$BucketBuilder.class
 com\example\models\kafka\model\KafkaMessage$KafkaMessageBuilder.class
 com\example\models\domain\Category$CategoryBuilder.class
@@ -46,6 +47,7 @@ com\example\models\domain\OrderStatus.class
 com\example\models\dto\UserDTO.class
 com\example\models\dto\OrderDetailsDTO$OrderDetailsDTOBuilder.class
 com\example\models\dto\DiscountDTO.class
+com\example\models\kafka\model\KafkaDTO$KafkaDTOBuilder.class
 com\example\models\domain\OrderDetails$OrderDetailsBuilder.class
 com\example\models\dto\CategoryDTO.class
 com\example\models\dto\ProductReviewDTO.class

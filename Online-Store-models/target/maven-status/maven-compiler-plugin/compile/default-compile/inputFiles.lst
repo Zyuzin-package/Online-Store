@@ -10,6 +10,7 @@ D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\doma
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Discount.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Bucket.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\Category.java
+D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\kafka\model\KafkaDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\statistics\VisitStatsDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\dto\statistics\BuyStatsDTO.java
 D:\Diplom\Online-Store\Online-Store-models\src\main\java\com\example\models\domain\OrderDetails.java

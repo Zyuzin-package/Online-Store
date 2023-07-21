@@ -1,6 +1,5 @@
-package com.example.models.dto.statistics;
+package com.example.statshandler.model;
 
-import com.example.models.domain.Product;
 import com.example.models.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,33 +15,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
-public class FrequencyAddToCartStatsDTO {
-
+public class StatsDTO {
     private Long id;
-
     private ProductDTO product;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime created;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setProduct(ProductDTO product) {
-        this.product = product;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
 }
